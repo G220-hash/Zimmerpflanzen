@@ -353,6 +353,13 @@
   .aw-shop a { color: var(--accent); }
   .auswahl-foot { position: sticky; bottom: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; padding: 0.9rem 1.5rem; background: rgba(250,250,250,0.96); border-top: 1px solid #e6eee4; }
   .auswahl-foot .cta { margin-top: 0; padding: 0.6rem 1.1rem; font-size: 0.9rem; border: none; cursor: pointer; font-family: inherit; }
+  .aw-banner { background: #e8f1fb; color: #0d3c61; border: 1px solid #c4dbf2; border-radius: 12px; padding: 0.75rem 1rem; margin: 0.2rem 0 1rem; font-size: 0.92rem; line-height: 1.45; }
+  .aw-banner strong { display: block; font-size: 1rem; margin-bottom: 0.15rem; }
+  .aw-banner small { display: block; margin-top: 0.3rem; color: #3d5a73; }
+  .aw-adopt { flex: 1 1 100%; border: 1px solid #cfe3cb; background: white; color: var(--green); border-radius: 8px; padding: 0.3rem 0.55rem; font: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+  .aw-adopt:hover, .aw-adopt:focus-visible { background: #eef6ec; outline: none; }
+  .aw-adopt[disabled] { cursor: default; background: #eef6ec; color: var(--muted); font-weight: 500; }
+  .auswahl-foot [hidden] { display: none !important; }
   .auswahl-foot .danger { background: white; color: #b3261e; border: 1px solid #f0c9c4; }
   .auswahl-foot .status { font-size: 0.85rem; color: var(--muted); flex: 1 1 100%; }
   .auswahl-foot .share-field { flex: 1 1 100%; font: inherit; font-size: 0.8rem; padding: 0.4rem; border: 1px solid #d5e2d2; border-radius: 8px; }
@@ -369,7 +376,7 @@
     body.auswahl-open > *:not(#auswahlModal) { display: none !important; }
     body.auswahl-open #auswahlModal { position: static; display: block; background: none; padding: 0; backdrop-filter: none; }
     body.auswahl-open #auswahlModal .modal-dialog { box-shadow: none; max-height: none; overflow: visible; width: 100%; height: auto; }
-    .modal-close, .auswahl-foot, .aw-actions, .merk-fab, .merk-toast, .merk-menu, .aw-shop summary::marker { display: none !important; }
+    .modal-close, .auswahl-foot, .aw-actions, .aw-banner small, .merk-fab, .merk-toast, .merk-menu, .aw-shop summary::marker { display: none !important; }
     .aw-shop { display: block; } .aw-shop[open] ul, .aw-shop ul { display: block; }
     .aw-room { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
     .aw-grid { grid-template-columns: repeat(4, 1fr); }
@@ -757,11 +764,13 @@
     <button type="button" class="modal-close" id="auswahlClose" aria-label="Meine Auswahl schließen">×</button>
     <div class="auswahl-head">
       <h2 id="auswahlTitle">🌿 Meine Auswahl</h2>
-      <p>Deine Zusammenstellung nach Räumen – keine Bestellung, nur eine Merkliste. Wird in diesem Browser gespeichert.</p>
+      <p id="auswahlLead">Deine Zusammenstellung nach Räumen – keine Bestellung, nur eine Merkliste. Wird in diesem Browser gespeichert.</p>
       <p class="print-only" id="auswahlPrintDate"></p>
     </div>
     <div class="auswahl-body" id="auswahlBody"></div>
     <div class="auswahl-foot" id="auswahlFoot">
+      <button type="button" class="cta" id="awAdopt" hidden>♥ In meine Auswahl übernehmen</button>
+      <button type="button" class="cta btn-secondary" id="awOwn" hidden>🌿 Meine Auswahl anzeigen</button>
       <button type="button" class="cta" id="awShare">🔗 Link teilen</button>
       <button type="button" class="cta btn-secondary" id="awPrint">🖨 Drucken / als PDF</button>
       <button type="button" class="cta danger" id="awClear">Liste leeren</button>
@@ -1104,7 +1113,7 @@ function closePlant(fromHash) {
   modal.hidden = true;
   const auswahlOffen = !document.getElementById('auswahlModal').hidden;
   if (!auswahlOffen) document.body.classList.remove('modal-open');
-  if (!fromHash && location.hash.startsWith('#pflanze-')) history.pushState(null, '', location.pathname + location.search + (auswahlOffen ? '#auswahl' : document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
+  if (!fromHash && location.hash.startsWith('#pflanze-')) history.pushState(null, '', location.pathname + location.search + (auswahlOffen ? auswahlHash() : document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
   if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
 }
 document.addEventListener('click', e => {
@@ -1158,6 +1167,7 @@ if (location.hash === '#bildnachweis') document.getElementById('creditsBox').ope
 const MERK_KEY = 'zimmerpflanzen-auswahl-v1';
 const RAUM_IDS = Object.keys(RAEUME);
 let merk = {};
+let geteilt = null; // fremde Auswahl aus einem Teilen-Link – nur Ansicht, wird nie gespeichert
 function merkLaden() {
   try { const d = JSON.parse(localStorage.getItem(MERK_KEY) || '{}'); merk = merkSauber(d); } catch (e) { merk = {}; }
 }
@@ -1276,16 +1286,28 @@ function raumLicht(r) { const cb = document.getElementById('raum-' + r); return 
 function renderAuswahl() {
   const tiere = document.querySelector('input[name="tiere"]:checked')?.value === 'ja';
   const allergiker = document.querySelector('input[name="allergie"]:checked')?.value === 'ja';
-  const raeume = RAUM_IDS.filter(r => (merk[r] || []).length);
+  const nurAnsicht = !!geteilt, quelle = geteilt || merk;
+  const raeume = RAUM_IDS.filter(r => (quelle[r] || []).length);
   const body = document.getElementById('auswahlBody');
-  document.getElementById('auswahlPrintDate').textContent = 'Stand: ' + new Date().toLocaleDateString('de-DE');
-  ['awShare', 'awPrint', 'awClear'].forEach(i => document.getElementById(i).disabled = !raeume.length);
+  const $ = id => document.getElementById(id);
+  $('auswahlPrintDate').textContent = 'Stand: ' + new Date().toLocaleDateString('de-DE');
+  $('auswahlTitle').textContent = nurAnsicht ? '🔗 Geteilte Auswahl' : '🌿 Meine Auswahl';
+  $('auswahlClose').setAttribute('aria-label', nurAnsicht ? 'Geteilte Auswahl schließen' : 'Meine Auswahl schließen');
+  $('auswahlLead').textContent = nurAnsicht ? 'Zusammenstellung nach Räumen aus einem geteilten Link – nur zum Ansehen.' : 'Deine Zusammenstellung nach Räumen – keine Bestellung, nur eine Merkliste. Wird in diesem Browser gespeichert.';
+  ['awShare', 'awClear'].forEach(i => $(i).hidden = nurAnsicht);
+  ['awAdopt', 'awOwn'].forEach(i => $(i).hidden = !nurAnsicht);
+  ['awShare', 'awPrint', 'awClear'].forEach(i => $(i).disabled = !raeume.length);
+  const fehlend = nurAnsicht ? RAUM_IDS.reduce((s, r) => s + (geteilt[r] || []).filter(id => !(merk[r] || []).includes(id)).length, 0) : 0;
+  $('awAdopt').disabled = nurAnsicht && !fehlend;
+  $('awAdopt').textContent = nurAnsicht && !fehlend ? '✔ Schon alles in deiner Auswahl' : '♥ In meine Auswahl übernehmen';
+  const banner = nurAnsicht ? `<div class="aw-banner" role="note"><strong>Geteilte Auswahl – du siehst die Zusammenstellung einer anderen Person.</strong>Deine eigene Merkliste bleibt unverändert.<small>Mit „In meine Auswahl übernehmen“ (oder ♡ bei einzelnen Pflanzen) kopierst du Pflanzen in deine eigene Liste. Die Hinweise beziehen sich auf deine Angaben im Cockpit.</small></div>` : '';
   if (!raeume.length) {
+    if (nurAnsicht) { body.innerHTML = banner + `<div class="aw-empty"><span class="big" aria-hidden="true">🔗</span><p><strong>Dieser Link enthält keine (gültigen) Pflanzen.</strong></p></div>`; return; }
     body.innerHTML = `<div class="aw-empty"><span class="big" aria-hidden="true">🪴</span><p><strong>Noch keine Pflanzen gemerkt.</strong></p><p>Klicke in der Pflanzenliste, im Steckbrief oder bei den Raum-Empfehlungen auf <strong>♡ Merken</strong> und wähle den Raum. Hier siehst du dann deine Zusammenstellung je Zimmer.</p></div>`;
     return;
   }
   const html = raeume.map(r => {
-    const ids = merk[r], licht = raumLicht(r);
+    const ids = quelle[r], licht = raumLicht(r);
     const punkte = ids.reduce((s, id) => s + PFLANZE[id].luftbefeuchtung, 0);
     const warn = [];
     ids.forEach(id => {
@@ -1306,9 +1328,11 @@ function renderAuswahl() {
         <button type="button" class="aw-open" data-pflanze="${id}" aria-label="Steckbrief ${esc(p.kurzname)} öffnen"><img src="${esc(p.bild.datei)}" alt="" loading="lazy" width="1000" height="750"><span class="aw-name">${esc(p.kurzname)}</span></button>
         <div class="aw-badges"><span class="badge" title="Luftbefeuchtung">${'💧'.repeat(p.luftbefeuchtung)} ${p.luftbefeuchtung}/5</span>${giftBadge}<span class="badge allergie-${p.allergie_bewertung}">${ALLERGIE_ICON[p.allergie_bewertung]} ${p.allergie_bewertung}</span></div>
         <div class="aw-meta">Licht: ${esc(lichtTxt)}<br>Pflege: ${esc(p.pflege_aufwand || p.pflegeaufwand)}</div>
-        <div class="aw-actions">
+        <div class="aw-actions">${nurAnsicht ? ((merk[r] || []).includes(id)
+          ? `<button type="button" class="aw-adopt" disabled>♥ In deiner Auswahl (${RAEUME[r]})</button>`
+          : `<button type="button" class="aw-adopt" data-aw-adopt="${id}" data-raum="${r}" aria-label="${esc(p.kurzname)} für ${RAEUME[r]} in meine Auswahl übernehmen">♡ Merken für ${RAEUME[r]}</button>`) : `
           <select data-aw-move="${id}" data-von="${r}" aria-label="${esc(p.kurzname)} in anderen Raum verschieben">${opts}</select>
-          <button type="button" class="aw-remove" data-aw-remove="${id}" data-von="${r}" aria-label="${esc(p.kurzname)} aus ${RAEUME[r]} entfernen">Entfernen</button>
+          <button type="button" class="aw-remove" data-aw-remove="${id}" data-von="${r}" aria-label="${esc(p.kurzname)} aus ${RAEUME[r]} entfernen">Entfernen</button>`}
         </div>
       </div>`;
     }).join('');
@@ -1319,12 +1343,12 @@ function renderAuswahl() {
       <div class="aw-grid">${items}</div>
     </section>`;
   }).join('');
-  const alle = [...new Set(raeume.flatMap(r => merk[r]))];
+  const alle = [...new Set(raeume.flatMap(r => quelle[r]))];
   const shop = `<details class="aw-shop"><summary>🛒 Einkaufsliste (${alle.length} ${alle.length === 1 ? 'Art' : 'Arten'})</summary>
-    <ul>${alle.map(id => { const p = PFLANZE[id], n = merkRaeumeVon(id).length; return `<li><strong>${esc(p.kurzname)}</strong>${n > 1 ? ` × ${n}` : ''} – ${esc(p.preis_eur)} · <a href="https://www.obi.de/search/${encodeURIComponent(p.kurzname)}/" target="_blank" rel="noopener">bei OBI suchen</a></li>`; }).join('')}
+    <ul>${alle.map(id => { const p = PFLANZE[id], n = raeume.filter(r => quelle[r].includes(id)).length; return `<li><strong>${esc(p.kurzname)}</strong>${n > 1 ? ` × ${n}` : ''} – ${esc(p.preis_eur)} · <a href="https://www.obi.de/search/${encodeURIComponent(p.kurzname)}/" target="_blank" rel="noopener">bei OBI suchen</a></li>`; }).join('')}
     <li>Übertöpfe und Pflanzenständer: <a href="https://www.connox.de/search?q=pflanzenst%C3%A4nder" target="_blank" rel="noopener">bei Connox &amp; Co.</a> · <a href="https://www.obi.de/search/elho%20selbstbew%C3%A4ssernd/" target="_blank" rel="noopener">selbstbewässernde Töpfe bei OBI</a></li></ul>
     <p class="aw-sum">Nur Suchlinks – Verfügbarkeit und Preise bitte im Shop prüfen.</p></details>`;
-  body.innerHTML = html + shop;
+  body.innerHTML = banner + html + shop;
 }
 function openAuswahl(fromHash) {
   closeMerkMenu(false);
@@ -1340,10 +1364,35 @@ function closeAuswahl(fromHash) {
   if (auswahlModal.hidden) return;
   auswahlModal.hidden = true; document.body.classList.remove('auswahl-open');
   if (modal.hidden) document.body.classList.remove('modal-open');
-  if (!fromHash && location.hash === '#auswahl') history.pushState(null, '', location.pathname + location.search + (document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
+  const warGeteilt = !!geteilt; geteilt = null;
+  if (!fromHash && warGeteilt && location.hash.startsWith('#auswahl=')) history.replaceState(null, '', location.pathname + location.search + (document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
+  else if (!fromHash && location.hash === '#auswahl') history.pushState(null, '', location.pathname + location.search + (document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
   if (auswahlLastFocus && document.contains(auswahlLastFocus)) auswahlLastFocus.focus();
 }
-document.getElementById('merkFab').addEventListener('click', () => openAuswahl());
+document.getElementById('merkFab').addEventListener('click', () => { if (geteilt) zeigeEigeneAuswahl(); else openAuswahl(); });
+function auswahlHash() { return geteilt ? '#auswahl=' + auswahlCode(geteilt) : '#auswahl'; }
+function zeigeEigeneAuswahl() {
+  geteilt = null; history.replaceState(null, '', '#auswahl');
+  if (auswahlModal.hidden) openAuswahl(true); else { renderAuswahl(); auswahlModal.querySelector('.modal-dialog').scrollTop = 0; document.getElementById('auswahlClose').focus(); }
+}
+function merkHinzu(id, raum) { merk[raum] = [...new Set([...(merk[raum] || []), id])]; }
+document.getElementById('awOwn').addEventListener('click', zeigeEigeneAuswahl);
+document.getElementById('awAdopt').addEventListener('click', () => {
+  if (!geteilt) return;
+  let n = 0;
+  RAUM_IDS.forEach(r => (geteilt[r] || []).forEach(id => { if (!(merk[r] || []).includes(id)) { merkHinzu(id, r); n++; } }));
+  merkSpeichern(); merkUI();
+  toast(n ? `${n} ${n === 1 ? 'Pflanze' : 'Pflanzen'} in deine Auswahl übernommen` : 'Alles war schon in deiner Auswahl');
+  zeigeEigeneAuswahl();
+});
+auswahlModal.addEventListener('click', e => {
+  const b = e.target.closest('[data-aw-adopt]'); if (!b || !geteilt) return;
+  const id = b.dataset.awAdopt, r = b.dataset.raum;
+  merkHinzu(id, r); merkSpeichern(); merkUI();
+  toast(`${PFLANZE[id].kurzname} für „${RAEUME[r]}“ in deine Auswahl übernommen`);
+  const f = document.getElementById('merkFab'); f.classList.remove('bump'); void f.offsetWidth; f.classList.add('bump');
+  const next = auswahlModal.querySelector('[data-aw-adopt]') || document.getElementById('awOwn'); next.focus();
+});
 document.getElementById('auswahlClose').addEventListener('click', () => closeAuswahl());
 auswahlModal.addEventListener('click', e => { if (e.target === auswahlModal) closeAuswahl(); });
 auswahlModal.addEventListener('change', e => {
@@ -1377,33 +1426,29 @@ document.getElementById('awPrint').addEventListener('click', () => {
   window.print();
 });
 // Teilen: Auswahl kompakt im Hash kodieren, z. B. #auswahl=wohn:areca,monstera;schlaf:pilea
-function auswahlCode() { return RAUM_IDS.filter(r => (merk[r] || []).length).map(r => r + ':' + merk[r].join(',')).join(';'); }
+function auswahlCode(d = merk) { return RAUM_IDS.filter(r => (d[r] || []).length).map(r => r + ':' + d[r].join(',')).join(';'); }
 function auswahlParse(code) {
   const d = {};
-  decodeURIComponent(code).split(';').forEach(part => { const [r, l] = part.split(':'); if (RAEUME[r] && l) d[r] = l.split(','); });
+  let txt = code; try { txt = decodeURIComponent(code); } catch (e) {}
+  txt.split(';').forEach(part => { const [r, l] = part.split(':'); if (RAEUME[r] && l) d[r] = l.split(','); });
   return merkSauber(d);
 }
 document.getElementById('awShare').addEventListener('click', async () => {
   const url = location.origin + location.pathname + '#auswahl=' + auswahlCode();
   const field = document.getElementById('awShareField'), st = document.getElementById('awStatus');
   field.value = url; field.hidden = false;
-  try { await navigator.clipboard.writeText(url); st.textContent = '✔ Link kopiert – wer ihn öffnet, sieht deine Auswahl.'; }
-  catch (e) { field.select(); st.textContent = 'Link markiert – bitte mit Strg+C / ⌘+C kopieren.'; }
+  try { await navigator.clipboard.writeText(url); st.textContent = '✔ Link kopiert. Wer ihn öffnet, sieht deine Auswahl als eigene Ansicht „Geteilte Auswahl“ – seine eigene Merkliste bleibt unberührt, übernehmen kann er sie per Klick.'; }
+  catch (e) { field.select(); st.textContent = 'Link markiert – bitte mit Strg+C / ⌘+C kopieren. Wer ihn öffnet, sieht deine Auswahl als eigene Ansicht – seine eigene Merkliste bleibt unberührt.'; }
 });
 function syncAuswahlHash() {
   const h = location.hash;
   if (h.startsWith('#auswahl=')) {
-    const neu = auswahlParse(h.slice(9));
-    const gleich = JSON.stringify(neu) === JSON.stringify(merk);
-    if (Object.keys(neu).length && !gleich) {
-      if (!merkAnzahl() || confirm('Geteilte Auswahl laden? Deine bisherige Merkliste in diesem Browser wird dabei ersetzt.')) {
-        merk = neu; merkSpeichern(); merkUI(); toast('Geteilte Auswahl geladen');
-      }
-    }
-    history.replaceState(null, '', '#auswahl');
-    openAuswahl(true); return;
+    // Teilen-Link: nur anzeigen, NIE in die eigene Merkliste (localStorage) schreiben
+    geteilt = auswahlParse(h.slice(9));
+    if (auswahlModal.hidden) openAuswahl(true); else renderAuswahl();
+    return;
   }
-  if (h === '#auswahl') openAuswahl(true);
+  if (h === '#auswahl') { const war = !!geteilt; geteilt = null; if (auswahlModal.hidden) openAuswahl(true); else if (war) renderAuswahl(); }
   else if (!h.startsWith('#pflanze-')) closeAuswahl(true);
 }
 window.addEventListener('hashchange', syncAuswahlHash);
