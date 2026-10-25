@@ -72,6 +72,42 @@
   }
   nav a:hover { color: var(--green-light); }
   section { max-width: 1100px; margin: 0 auto; padding: 4rem 1.5rem; }
+  section[id] { scroll-margin-top: 3.5rem; }
+  /* So funktioniert's */
+  .howto { padding: 1.2rem 1.5rem 0; }
+  .howto[hidden] { display: none; }
+  .howto + #config { padding-top: 2.5rem; }
+  .howto-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem 1.3rem 1.2rem; position: relative; }
+  .howto-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.7rem; }
+  .howto-head h2 { font-size: 1.35rem; margin: 0; text-align: left; }
+  .howto-close { flex: none; width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid #e3ebe1; background: white; color: var(--muted); font-size: 1.15rem; line-height: 1; cursor: pointer; }
+  .howto-close:hover, .howto-close:focus-visible { background: var(--green-bg); color: var(--green); outline: none; }
+  .howto-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7rem; counter-reset: none; }
+  .howto-steps a { display: flex; gap: 0.6rem; align-items: flex-start; height: 100%; padding: 0.75rem 0.8rem; border-radius: 12px; background: #f6faf5; border: 1px solid #e3ede0; color: var(--text); text-decoration: none; font-size: 0.9rem; line-height: 1.4; transition: background .15s, border-color .15s; }
+  .howto-steps a:hover, .howto-steps a:focus-visible { background: var(--green-bg); border-color: #bfdcbb; outline: none; }
+  .howto-steps .num { flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--green); color: white; font-weight: 700; font-size: 0.85rem; display: grid; place-items: center; }
+  .howto-steps strong { display: block; color: var(--green); font-size: 0.95rem; }
+  .howto-steps .ico { margin-right: 0.15rem; }
+  .howto-show { background: none; border: none; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
+  @media (max-width: 760px) {
+    header { padding: 2.2rem 1.2rem 3.4rem; }
+    header::after { height: 60px; bottom: -32px; }
+    header h1 { font-size: 1.9rem; margin-bottom: 0.6rem; line-height: 1.2; }
+    header p { font-size: 0.98rem; line-height: 1.5; }
+    nav { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; gap: 1.1rem; padding: 0.7rem 1rem; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    nav::-webkit-scrollbar { display: none; }
+    nav a { flex: none; font-size: 0.9rem; }
+    section[id] { scroll-margin-top: 3.5rem; }
+    .howto { padding: 0.9rem 0.8rem 0; }
+    .howto + #config { padding-top: 2rem; }
+    .howto-box { padding: 0.8rem 0.9rem 0.9rem; }
+    .howto-head { margin-bottom: 0.45rem; }
+    .howto-head h2 { font-size: 1.15rem; }
+    .howto-steps { grid-template-columns: 1fr; gap: 0.35rem; }
+    .howto-steps a { padding: 0.45rem 0.6rem; font-size: 0.85rem; align-items: center; }
+    .howto-steps strong { display: inline; font-size: 0.85rem; }
+    .howto-steps .num { width: 1.4rem; height: 1.4rem; font-size: 0.78rem; }
+  }
   h2 {
     font-family: 'Playfair Display', serif;
     font-size: 2.2rem;
@@ -417,6 +453,21 @@
   <a href="#kaufen">Kaufen</a>
   <a href="#tipps">Tipps</a>
 </nav>
+
+<section id="sofunktionierts" class="howto" aria-labelledby="howtoTitle">
+  <div class="howto-box">
+    <div class="howto-head">
+      <h2 id="howtoTitle">So funktioniert’s</h2>
+      <button type="button" class="howto-close" id="howtoClose" aria-label="Anleitung ausblenden" title="Ausblenden">×</button>
+    </div>
+    <ol class="howto-steps">
+      <li><a href="#config"><span class="num" aria-hidden="true">1</span><span><strong><span class="ico" aria-hidden="true">✏️</span>Angaben machen</strong> Wohnung, Räume, Licht – dann bestätigen.</span></a></li>
+      <li><a href="#raeume"><span class="num" aria-hidden="true">2</span><span><strong><span class="ico" aria-hidden="true">🏠</span>Räume ansehen</strong> Piktogramm antippen für den Steckbrief.</span></a></li>
+      <li><a href="#pflanzen-alle" id="howtoPflanzen"><span class="num" aria-hidden="true">3</span><span><strong><span class="ico" aria-hidden="true">♡</span>Merken</strong> Lieblingspflanzen einem Zimmer zuordnen.</span></a></li>
+      <li><a href="#auswahl"><span class="num" aria-hidden="true">4</span><span><strong><span class="ico" aria-hidden="true">🌿</span>Meine Auswahl</strong> öffnen, teilen oder drucken.</span></a></li>
+    </ol>
+  </div>
+</section>
 
 <section id="config">
   <h2>Deine Wohnung – individuell angepasst</h2>
@@ -808,7 +859,7 @@
 </div>
 
 <footer>
-  <p><a href="#bildnachweis" onclick="document.getElementById('creditsBox').open=true">Bildnachweise</a></p>
+  <p><a href="#bildnachweis" onclick="document.getElementById('creditsBox').open=true">Bildnachweise</a><span id="howtoShowWrap" hidden> · <button type="button" class="howto-show" id="howtoShow">„So funktioniert’s“ wieder einblenden</button></span></p>
   <p>Erstellt als individueller Planer für trockene Winterluft in Stuttgart. Empfehlungen basieren auf aktuellen Erkenntnissen zu Transpiration und Pflege.</p>
 </footer>
 
@@ -1483,6 +1534,17 @@ window.addEventListener('popstate', syncAuswahlHash);
 window.addEventListener('storage', e => { if (e.key === MERK_KEY) { merkLaden(); merkUI(); } });
 merkLaden();
 window.__merkReady = true;
+// ---------- So funktioniert's (ausblendbar, gemerkt in localStorage) ----------
+(() => {
+  const KEY = 'zimmerpflanzen-anleitung-aus', box = document.getElementById('sofunktionierts'), wrap = document.getElementById('howtoShowWrap');
+  const setze = aus => { box.hidden = aus; wrap.hidden = !aus; try { aus ? localStorage.setItem(KEY, '1') : localStorage.removeItem(KEY); } catch (e) {} };
+  let aus = false; try { aus = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  box.hidden = aus; wrap.hidden = !aus;
+  document.getElementById('howtoClose').addEventListener('click', () => { setze(true); document.getElementById('config').querySelector('h2').setAttribute('tabindex', '-1'); document.getElementById('config').querySelector('h2').focus({ preventScroll: true }); });
+  document.getElementById('howtoShow').addEventListener('click', () => { setze(false); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.getElementById('howtoClose').focus({ preventScroll: true }); });
+  // Schritt 3: Pflanzenliste aufklappen und hinscrollen
+  document.getElementById('howtoPflanzen').addEventListener('click', e => { e.preventDefault(); setPlantsOpen(true, true); });
+})();
 merkUI();
 syncAuswahlHash();
 
