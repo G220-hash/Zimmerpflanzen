@@ -88,7 +88,7 @@
     gap: 1.5rem;
   }
   .config label { font-weight: 600; display: block; margin-bottom: 0.4rem; }
-  .config input[type="range"], .config select, .config input[type="number"] {
+  .config input[type="range"], .config select, .config input[type="number"], .config input[type="text"] {
     width: 100%;
     padding: 0.6rem;
     border: 1px solid #ddd;
@@ -114,12 +114,12 @@
   }
   .card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
   .plant-link { display: block; color: inherit; text-decoration: none; cursor: pointer; }
-  .wiki-hint { display: inline-block; margin-top: 0.4rem; color: var(--accent); font-weight: 600; font-size: 0.95rem; }
+  .wiki-hint { display: inline-block; white-space: nowrap; margin-top: 0.4rem; color: var(--accent); font-weight: 600; font-size: 0.95rem; }
   .plant-link:hover .wiki-hint { text-decoration: underline; }
   .plant-icons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.3rem; margin-top: 0.8rem; }
   .plant-icon { margin: 0; text-align: center; min-width: 0; }
   .card .plant-icon img { width: 54px; height: 54px; object-fit: contain; display: block; margin: 0 auto; }
-  .plant-icon figcaption { font-size: 0.72rem; white-space: nowrap; color: var(--green); font-weight: 600; margin-top: 0.2rem; line-height: 1.2; }
+  .plant-icon figcaption, .plant-icon .cap { display: block; font-size: 0.72rem; white-space: nowrap; color: var(--green); font-weight: 600; margin-top: 0.2rem; line-height: 1.2; }
   .room-hint { font-size: 0.9rem; color: #555; margin-top: 0.8rem; }
   .card img { width: 100%; height: 200px; object-fit: cover; }
   .card-body { padding: 1.2rem; }
@@ -162,6 +162,89 @@
   .care-icon { font-size: 1.6rem; line-height: 1; margin-bottom: 0.4rem; display: block; }
   .subsection-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--green); text-align: center; margin: 3rem 0 0.5rem; }
   .tips-note { text-align: center; max-width: 700px; margin: 0 auto; color: var(--muted); }
+
+  /* ---------- Pflanzen-Datenbank: Filter, Karten, Popup ---------- */
+  .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem 1.4rem; margin: 0 auto 0.5rem; }
+  .filter-group { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+  .filter-group > span { font-weight: 600; font-size: 0.9rem; color: var(--muted); margin-right: 0.2rem; }
+  .chip { border: 1px solid #cfe3cf; background: white; color: var(--green); border-radius: 20px; padding: 0.3rem 0.8rem; font: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+  .chip:hover { border-color: var(--accent); }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: white; }
+  .filter-count { text-align: center; color: var(--muted); font-size: 0.9rem; margin: 0.4rem 0 0; }
+  .plant-card { position: relative; display: flex; flex-direction: column; }
+  .plant-card .card-body { display: flex; flex-direction: column; flex: 1; }
+  .plant-card .stretched { position: absolute; inset: 0; z-index: 1; border-radius: var(--radius); }
+  .plant-card .stretched:focus-visible { outline: 3px solid var(--green-light); outline-offset: 2px; }
+  .plant-card .card-img { position: relative; }
+  .plant-card .card-img img { display: block; }
+  .plant-card .botanisch { margin: -0.3rem 0 0.6rem; color: var(--muted); font-style: italic; font-size: 0.9rem; }
+  .plant-card p { margin: 0 0 0.6rem; }
+  .plant-card .meta { font-size: 0.9rem; color: #444; }
+  .plant-card .card-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+  .icon-btn { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 0.4rem; background: var(--green-bg); border: 1px solid #cfe3cf; border-radius: 30px; padding: 0.25rem 0.75rem 0.25rem 0.3rem; cursor: pointer; font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--green); }
+  .icon-btn:hover, .icon-btn:focus-visible { background: #d7eed8; outline: none; box-shadow: 0 0 0 3px rgba(76,175,80,0.35); }
+  .card .icon-btn img { width: 34px; height: 34px; object-fit: contain; }
+  .pikto-float { position: absolute; right: 0.7rem; bottom: -26px; z-index: 2; width: 58px; height: 58px; border-radius: 50%; background: white; border: none; box-shadow: 0 4px 14px rgba(0,0,0,0.15); cursor: pointer; padding: 6px; }
+  .pikto-float:hover, .pikto-float:focus-visible { transform: scale(1.08); outline: none; box-shadow: 0 0 0 3px rgba(76,175,80,0.45), 0 4px 14px rgba(0,0,0,0.15); }
+  .card .pikto-float img { width: 46px; height: 46px; object-fit: contain; }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
+  .badge.allergie-unproblematisch { background: #e8f5e9; color: #1b5e20; }
+  .badge.allergie-gering { background: #fff8e1; color: #8a5a00; }
+  .badge.allergie-Vorsicht { background: #fdecea; color: #b3261e; }
+  .drops { letter-spacing: -2px; }
+  .drops .off { opacity: 0.25; }
+  button.plant-icon { background: none; border: none; padding: 0.2rem 0; cursor: pointer; font: inherit; border-radius: 10px; }
+  button.plant-icon:hover, button.plant-icon:focus-visible { background: var(--green-bg); outline: none; }
+  button.plant-icon:hover img { transform: scale(1.08); }
+  .plant-icon img { transition: transform 0.15s; }
+  .room-more { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; }
+  body.modal-open { overflow: hidden; }
+  .modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1.5rem; background: rgba(20, 40, 20, 0.55); backdrop-filter: blur(3px); }
+  .modal[hidden] { display: none; }
+  .modal-dialog { background: var(--bg); width: min(920px, 100%); max-height: calc(100vh - 3rem); overflow-y: auto; border-radius: var(--radius); box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative; }
+  .modal-close { position: absolute; top: 0.8rem; right: 0.8rem; z-index: 3; width: 42px; height: 42px; border-radius: 50%; border: none; background: rgba(255,255,255,0.92); color: var(--green); font-size: 1.6rem; line-height: 1; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+  .modal-close:hover, .modal-close:focus-visible { background: white; outline: none; box-shadow: 0 0 0 3px rgba(76,175,80,0.5); }
+  .modal-hero { position: relative; }
+  .modal-hero img { display: block; width: 100%; height: 300px; object-fit: cover; }
+  .modal-hero figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.35rem 0.8rem; font-size: 0.72rem; color: white; background: linear-gradient(transparent, rgba(0,0,0,0.6)); text-align: right; }
+  .modal-hero figcaption a { color: white; }
+  .modal-head { display: flex; gap: 1rem; align-items: center; padding: 1.2rem 1.5rem 0.4rem; }
+  .modal-head .pikto { flex: 0 0 auto; width: 76px; height: 76px; background: white; border-radius: 50%; box-shadow: var(--shadow); padding: 8px; margin-top: -48px; position: relative; }
+  .modal-head .pikto img { width: 60px; height: 60px; }
+  .modal-head h2 { font-size: 1.9rem; margin: 0; text-align: left; line-height: 1.2; }
+  .modal-head .botanisch { margin: 0.1rem 0 0; color: var(--muted); font-style: italic; }
+  .modal-badges { padding: 0.4rem 1.5rem 0.6rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .modal-lead { padding: 0 1.5rem; margin: 0.2rem 0 0.4rem; color: #333; }
+  .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1rem 1.5rem; }
+  .detail { background: white; border-radius: 12px; padding: 0.9rem 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .detail.wide { grid-column: 1 / -1; }
+  .detail h3 { margin: 0 0 0.35rem; font-size: 1rem; color: var(--green); display: flex; align-items: center; gap: 0.45rem; }
+  .detail h3 .ico { font-size: 1.2rem; }
+  .detail p { margin: 0 0 0.35rem; font-size: 0.95rem; }
+  .detail p:last-child { margin-bottom: 0; }
+  .detail .sub { color: var(--muted); font-size: 0.88rem; }
+  .light-scale { display: flex; gap: 0.3rem; flex-wrap: wrap; margin: 0.3rem 0; }
+  .light-scale span { padding: 0.15rem 0.55rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; background: #f1f1f1; color: #999; text-decoration: line-through; }
+  .light-scale span.on { background: var(--green-bg); color: var(--green); text-decoration: none; }
+  .light-scale span.ideal { background: var(--accent); color: white; }
+  .src-list { margin: 0.3rem 0 0; padding-left: 1.1rem; font-size: 0.82rem; word-break: break-word; }
+  .modal-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; padding: 0 1.5rem 1.5rem; }
+  .modal-actions .cta { margin-top: 0; }
+  .modal-credit { font-size: 0.8rem; color: var(--muted); }
+  .credits { font-size: 0.85rem; color: var(--muted); }
+  .credits ul { columns: 2; column-gap: 2rem; padding-left: 1.1rem; }
+  .credits li { break-inside: avoid; margin-bottom: 0.3rem; }
+  @media (max-width: 700px) {
+    .detail-grid { grid-template-columns: 1fr; padding: 1rem; }
+    .modal { padding: 0; align-items: stretch; }
+    .modal-dialog { max-height: 100vh; height: 100%; border-radius: 0; }
+    .modal-hero img { height: 220px; }
+    .modal-head { padding: 1rem 1rem 0.3rem; }
+    .modal-head h2 { font-size: 1.5rem; }
+    .modal-badges, .modal-lead, .modal-actions { padding-left: 1rem; padding-right: 1rem; }
+    .credits ul { columns: 1; }
+    .plant-icons { grid-template-columns: repeat(3, 1fr); }
+  }
 </style>
 </head>
 <body>
@@ -245,6 +328,25 @@
           <option value="dunkel">Kaum oder gar kein Tageslicht</option>
         </select>
     </div>
+    <div class="row">
+      <div>
+        <label for="platz">Bevorzugte Platzierung</label>
+        <select id="platz" onchange="markDirty()">
+          <option value="alle" selected>Egal – alle Platzierungen</option>
+          <option value="boden">Boden / Pflanzenständer</option>
+          <option value="tisch">Tisch / Sideboard</option>
+          <option value="haengend">Hängend / Ampel</option>
+          <option value="fensterbank">Fensterbank</option>
+        </select>
+      </div>
+      <div>
+        <label>Allergiker im Haushalt?</label>
+        <div class="toggle-group">
+          <label><input type="radio" name="allergie" value="ja" onchange="markDirty()"> Ja – „Vorsicht“-Pflanzen ausblenden</label>
+          <label><input type="radio" name="allergie" value="nein" checked onchange="markDirty()"> Nein</label>
+        </div>
+      </div>
+    </div>
     <div>
       <label for="region">Deine Region / Stadt (für lokale Kaufempfehlungen)</label>
       <input type="text" id="region" value="Stuttgart" placeholder="z.B. Stuttgart, München, Hamburg, Berlin..." oninput="markDirty()">
@@ -261,60 +363,30 @@
 </section>
 
 <section id="pflanzen">
-  <h2>Die besten Feuchtigkeits-Spender</h2>
-  <p style="text-align:center; max-width:700px; margin:0 auto 2rem;">Sortiert nach Transpiration und Praxis-Tauglichkeit. Mit selbstbewässernden Töpfen besonders unkompliziert.</p>
-  <div class="plants-grid">
-    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Goldfruchtpalme" target="_blank" rel="noopener" title="Areca-Palme auf Wikipedia">
-      <img src="images/areca-palme.jpg" alt="Areca-Palme mit feinen Wedeln vor einem hellen Fenster" loading="lazy">
-      <div class="card-body">
-        <span class="badge">Höchste Transpiration</span>
-        <h3>Areca-Palme</h3>
-        <p>Feingefiederte Wedel, bis ~1 Liter Wasser/Tag bei großer Pflanze. Braucht helles indirektes Licht.</p>
-        <p><strong>Pflege:</strong> Mittel · <strong>Effektiv ab:</strong> 80–100 cm · <strong>Kosten:</strong> 40–100 €</p>
-        <span class="wiki-hint">Mehr auf Wikipedia →</span>
-      </div>
-    </a>
-    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Nephrolepis_exaltata" target="_blank" rel="noopener" title="Schwertfarn / Boston-Farn auf Wikipedia">
-      <img src="https://images.unsplash.com/photo-1528604891270-c2d9c3d1fc0b?auto=format&fit=crop&w=800&q=80" alt="Boston Farn">
-      <div class="card-body">
-        <span class="badge">Sehr hoch</span>
-        <h3>Schwertfarn / Boston-Farn</h3>
-        <p>Dichte Wedel, einer der besten Luftbefeuchter. Mag konstante Feuchte.</p>
-        <p><strong>Pflege:</strong> Mittel · <strong>Effektiv ab:</strong> mittelgroß · <strong>Kosten:</strong> 20–50 €</p>
-        <span class="wiki-hint">Mehr auf Wikipedia →</span>
-      </div>
-    </a>
-    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Spathiphyllum" target="_blank" rel="noopener" title="Einblatt (Friedenslilie) auf Wikipedia">
-      <img src="https://images.unsplash.com/photo-1642049671771-8b22a7152bda?auto=format&fit=crop&w=800&q=80" alt="Einblatt">
-      <div class="card-body">
-        <span class="badge">Hoch & anpassungsfähig</span>
-        <h3>Einblatt (Friedenslilie)</h3>
-        <p>Große Blätter + weiße Blüten. Verträgt auch weniger Licht, zeigt Durst durch Hängen.</p>
-        <p><strong>Pflege:</strong> Leicht–mittel · <strong>Effektiv ab:</strong> 40 cm · <strong>Kosten:</strong> 30–55 €</p>
-        <span class="wiki-hint">Mehr auf Wikipedia →</span>
-      </div>
-    </a>
-    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Efeutute" target="_blank" rel="noopener" title="Efeutute (Pothos) auf Wikipedia">
-      <img src="https://images.unsplash.com/photo-1534726955665-2cb2d145f2ad?auto=format&fit=crop&w=800&q=80" alt="Efeutute">
-      <div class="card-body">
-        <span class="badge">Sehr pflegeleicht</span>
-        <h3>Efeutute (Pothos)</h3>
-        <p>Extrem robust, wächst auch bei weniger Licht, rankend oder hängend.</p>
-        <p><strong>Pflege:</strong> Sehr leicht · <strong>Effektiv ab:</strong> buschig · <strong>Kosten:</strong> 20–40 €</p>
-        <span class="wiki-hint">Mehr auf Wikipedia →</span>
-      </div>
-    </a>
-    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Grünlilie" target="_blank" rel="noopener" title="Grünlilie (Spider Plant) auf Wikipedia">
-      <img src="https://images.unsplash.com/photo-1526152880876-59f84a23d871?auto=format&fit=crop&w=800&q=80" alt="Grünlilie">
-      <div class="card-body">
-        <span class="badge">Anfänger-Favorit</span>
-        <h3>Grünlilie (Spider Plant)</h3>
-        <p>Sehr einfach, bildet Kindel, gute Transpiration.</p>
-        <p><strong>Pflege:</strong> Sehr leicht · <strong>Effektiv ab:</strong> volle Pflanze · <strong>Kosten:</strong> 15–35 €</p>
-        <span class="wiki-hint">Mehr auf Wikipedia →</span>
-      </div>
-    </a>
+  <h2>Die besten Feuchtigkeitsspender</h2>
+  <p style="text-align:center; max-width:760px; margin:0 auto 1.2rem;">20 Zimmerpflanzen, sortiert nach ihrer Luftbefeuchtung (💧 1–5, qualitative Einschätzung). <strong>Karte anklicken</strong> öffnet den Wikipedia-Artikel, <strong>Piktogramm anklicken</strong> öffnet den ausführlichen Steckbrief mit allen Infos.</p>
+  <div class="filter-bar" id="plantFilters" aria-label="Pflanzen filtern">
+    <div class="filter-group" role="group" aria-label="Licht"><span>Licht:</span>
+      <button type="button" class="chip" data-f="licht" data-v="alle" aria-pressed="true">Alle</button>
+      <button type="button" class="chip" data-f="licht" data-v="sonnig" aria-pressed="false">☀️ Sonnig</button>
+      <button type="button" class="chip" data-f="licht" data-v="hell" aria-pressed="false">🌤 Hell</button>
+      <button type="button" class="chip" data-f="licht" data-v="wenig" aria-pressed="false">⛅ Wenig</button>
+      <button type="button" class="chip" data-f="licht" data-v="dunkel" aria-pressed="false">🌑 Dunkel</button>
+    </div>
+    <div class="filter-group" role="group" aria-label="Platzierung"><span>Platz:</span>
+      <button type="button" class="chip" data-f="platz" data-v="alle" aria-pressed="true">Alle</button>
+      <button type="button" class="chip" data-f="platz" data-v="boden" aria-pressed="false">Boden/Ständer</button>
+      <button type="button" class="chip" data-f="platz" data-v="tisch" aria-pressed="false">Tisch</button>
+      <button type="button" class="chip" data-f="platz" data-v="haengend" aria-pressed="false">Hängend</button>
+      <button type="button" class="chip" data-f="platz" data-v="fensterbank" aria-pressed="false">Fensterbank</button>
+    </div>
+    <div class="filter-group" role="group" aria-label="Allergie"><span>Allergie:</span>
+      <button type="button" class="chip" data-f="allergie" data-v="alle" aria-pressed="true">Alle</button>
+      <button type="button" class="chip" data-f="allergie" data-v="ok" aria-pressed="false">🤧 Ohne „Vorsicht“</button>
+    </div>
   </div>
+  <p class="filter-count" id="filterCount" aria-live="polite"></p>
+  <div class="plants-grid" id="plantsGrid"></div>
 </section>
 
 <section id="raeume">
@@ -510,16 +582,30 @@
       <div class="card-body">
         <span class="care-icon" aria-hidden="true">🤧</span>
         <h4>Allergie</h4>
-        <p>Das Einblatt ist bei einer Allergie auf europäische Gräser in der Regel unproblematisch (keine ausgeprägte Kreuzreaktion bekannt). Im Zweifel ärztlich abklären.</p>
+        <p>Zimmerpflanzen geben meist kaum Pollen ab. Relevanter sind Milchsaft-Allergene (<strong>Gummibaum</strong>/Ficus), Blüten des <strong>Einblatts</strong> sowie Kontaktallergene beim Schneiden (<strong>Zimmerlinde, Strahlenaralie, Philodendron</strong>) – und Schimmel in dauerfeuchter Erde. Die Einstufung pro Pflanze steht im Steckbrief (Piktogramm anklicken). Im Zweifel ärztlich abklären.</p>
       </div>
     </div>
   </div>
 </section>
 
+<section id="bildnachweis" class="credits">
+  <h3 class="subsection-title" style="font-size:1.3rem;margin-top:0">Bildnachweise</h3>
+  <p>Pflanzenfotos von Wikimedia Commons bzw. Pexels unter den jeweils genannten Lizenzen (Bilder verkleinert und komprimiert). Die Inspirations-Bilder sowie die Fotos von Boston-Farn, Einblatt, Efeutute und Grünlilie sind für diese Seite KI-generiert. Piktogramme: eigene Grafiken.</p>
+  <ul id="creditsList"></ul>
+</section>
+
+<div class="modal" id="plantModal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Steckbrief schließen">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
 <footer>
   <p>Erstellt als individueller Planer für trockene Winterluft in Stuttgart. Empfehlungen basieren auf aktuellen Erkenntnissen zu Transpiration und Pflege.</p>
 </footer>
 
+<script src="data/plants.js"></script>
 <script>
 let userCoords = null;
 const STANDORT_LABEL = 'Aktueller Standort';
@@ -578,31 +664,34 @@ function update() {
 
   document.getElementById('result').innerHTML = '<strong>Empfehlung basierend auf deinen Angaben:</strong><br>' + text;
 
-  // Room recommendations: same light scale for every room
-  const pflanzenInfo = {
-    areca: 'Areca-Palme', gummibaum: 'Gummibaum', gruenlilie: 'Grünlilie',
-    schwertfarn: 'Schwertfarn', einblatt: 'Einblatt', efeutute: 'Efeutute'
-  };
+  // Raum-Empfehlungen: datengetrieben aus der Pflanzen-Datenbank (data/plants.js)
+  const platz = document.getElementById('platz').value;
+  const allergiker = document.querySelector('input[name="allergie"]:checked').value === 'ja';
   const lichtInfo = {
-    sonnig: { text: 'sonnig, zeitweise direkte Sonne', pflanzen: ['areca', 'gummibaum', 'gruenlilie'], hinweis: 'Bei praller Mittagssonne etwas vom Fenster abrücken.' },
-    hell:   { text: 'hell, ohne direkte Sonne', pflanzen: ['areca', 'schwertfarn', 'gummibaum', 'einblatt'], hinweis: '' },
-    wenig:  { text: 'wenig natürliches Licht', pflanzen: ['einblatt', 'efeutute', 'gruenlilie'], hinweis: '' },
-    dunkel: { text: 'kaum oder gar kein Tageslicht', pflanzen: ['efeutute', 'einblatt'], hinweis: 'Efeutute ist am robustesten. Ohne Tageslicht wächst keine Pflanze dauerhaft: eine kleine Pflanzenlampe (LED, ca. 8–12 Std./Tag) einplanen.' }
+    sonnig: { text: 'sonnig, zeitweise direkte Sonne', hinweis: 'Bei praller Mittagssonne empfindliche Pflanzen etwas vom Fenster abrücken.' },
+    hell:   { text: 'hell, ohne direkte Sonne', hinweis: '' },
+    wenig:  { text: 'wenig natürliches Licht', hinweis: '' },
+    dunkel: { text: 'kaum oder gar kein Tageslicht', hinweis: 'Ohne Tageslicht wächst keine Pflanze dauerhaft: eine kleine Pflanzenlampe (LED, ca. 8–12 Std./Tag) einplanen. Am robustesten sind Zamioculcas, Bogenhanf und Efeutute.' }
   };
-  const raum = (name, licht) => {
+  const raum = (name, licht, schlafzimmer) => {
     const info = lichtInfo[licht];
-    const icons = info.pflanzen.map(k => `
-        <figure class="plant-icon"><img src="icons/${k}.svg" alt="Piktogramm ${pflanzenInfo[k]}" width="64" height="64"><figcaption>${pflanzenInfo[k]}</figcaption></figure>`).join('');
+    const liste = empfehlungen(licht, platz, { allergiker, schlafzimmer });
+    const top = liste.slice(0, 8);
+    const icons = top.map(p => `
+        <button type="button" class="plant-icon" data-pflanze="${p.id}" aria-label="Steckbrief ${p.kurzname} öffnen"><img src="${p.icon}" alt="" width="64" height="64"><span class="cap">${p.kurzname}</span></button>`).join('');
+    const platzText = platz === 'alle' ? '' : ` · Platz: ${PLATZ_LABEL[platz]}`;
     return `
     <div class="card"><div class="card-body">
       <h3>${name}</h3>
-      <p><strong>Licht:</strong> ${info.text}</p>
-      <div class="plant-icons">${icons}
-      </div>
+      <p><strong>Licht:</strong> ${info.text}${platzText}</p>
+      ${top.length ? `<div class="plant-icons">${icons}
+      </div>` : '<p class="placeholder">Für diese Kombination passt keine Pflanze aus unserer Liste – probier eine andere Platzierung.</p>'}
+      ${liste.length > top.length ? `<p class="room-more">+ ${liste.length - top.length} weitere passende Pflanzen in der Liste oben.</p>` : ''}
       ${info.hinweis ? `<p class="room-hint">${info.hinweis}</p>` : ''}
+      <p class="room-more">Sortiert nach Luftbefeuchtung · Piktogramm anklicken für den Steckbrief.</p>
     </div></div>`;
   };
-  let rooms = raum('Wohnzimmer', lichtWohn) + raum('Schlafzimmer', lichtSchlaf) + raum('Flur', lichtFlur);
+  let rooms = raum('Wohnzimmer', lichtWohn, false) + raum('Schlafzimmer', lichtSchlaf, true) + raum('Flur', lichtFlur, false);
   document.getElementById('roomsContent').innerHTML = rooms;
 
   // Local shops based on region
@@ -658,6 +747,168 @@ function update() {
   document.getElementById('localList').innerHTML = localHtml;
   updateMap(region, usingCoords);
 }
+
+// ---------- Pflanzen-Datenbank: Karten, Filter, Steckbrief-Popup ----------
+const PFLANZEN = (window.PFLANZEN || []).slice().sort((a, b) => b.luftbefeuchtung - a.luftbefeuchtung || a.kurzname.localeCompare(b.kurzname, 'de'));
+const PFLANZE = Object.fromEntries(PFLANZEN.map(p => [p.id, p]));
+const PLATZ_LABEL = { boden: 'Boden/Ständer', tisch: 'Tisch', haengend: 'hängend', fensterbank: 'Fensterbank' };
+const LICHT_LABEL = { sonnig: '☀️ sonnig', hell: '🌤 hell', wenig: '⛅ wenig Licht', dunkel: '🌑 dunkel' };
+const ALLERGIE_ICON = { unproblematisch: '✅', gering: '🟡', Vorsicht: '⚠️' };
+const JA_NEIN = { ja: 'geeignet', bedingt: 'bedingt geeignet', nein: 'nicht ideal' };
+const GIFT = { nein: '🐾 ungiftig', bedingt: '🐾 leicht giftig', ja: '🐾 giftig für Tiere' };
+
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const drops = n => `<span class="drops" aria-label="Luftbefeuchtung ${n} von 5">${'💧'.repeat(n)}<span class="off">${'💧'.repeat(5 - n)}</span></span>`;
+
+function empfehlungen(licht, platz, opt = {}) {
+  return PFLANZEN.filter(p =>
+    (licht === 'alle' || p.licht[licht]) &&
+    (platz === 'alle' || p.standorte[platz]) &&
+    !(opt.allergiker && p.allergie_bewertung === 'Vorsicht') &&
+    !(opt.schlafzimmer && p.schlafzimmer === 'nein'));
+}
+
+const filterState = { licht: 'alle', platz: 'alle', allergie: 'alle' };
+function renderPlantCards() {
+  const liste = empfehlungen(filterState.licht, filterState.platz, { allergiker: filterState.allergie === 'ok' });
+  document.getElementById('plantsGrid').innerHTML = liste.map(p => `
+    <article class="card plant-card">
+      <a class="stretched" href="${esc(p.wikipedia_url)}" target="_blank" rel="noopener" aria-label="${esc(p.kurzname)} auf Wikipedia öffnen (neuer Tab)"></a>
+      <div class="card-img">
+        <img src="${esc(p.bild.datei)}" alt="${esc(p.bild.alt)}" loading="lazy" width="400" height="200">
+        <button type="button" class="pikto-float" data-pflanze="${p.id}" aria-label="Steckbrief ${esc(p.kurzname)} öffnen" title="Steckbrief öffnen"><img src="${esc(p.icon)}" alt=""></button>
+      </div>
+      <div class="card-body">
+        <div class="badges"><span class="badge" title="Luftbefeuchtung">${drops(p.luftbefeuchtung)}</span><span class="badge allergie-${p.allergie_bewertung}" title="Allergie-Einstufung">${ALLERGIE_ICON[p.allergie_bewertung]} Allergie: ${p.allergie_bewertung}</span></div>
+        <h3>${esc(p.kurzname)}</h3>
+        <p class="botanisch">${esc(p.botanischer_name)}</p>
+        <p>${esc(p.auswahl_begruendung)}</p>
+        <p class="meta"><strong>Licht:</strong> ${Object.keys(LICHT_LABEL).filter(k => p.licht[k]).map(k => LICHT_LABEL[k]).join(', ')}<br><strong>Platz:</strong> ${esc(p.standorte_text)}<br><strong>Pflege:</strong> ${esc(p.pflegeaufwand)} · <strong>Preis:</strong> ${esc(p.preis_eur)}</p>
+        <div class="card-foot"><span class="wiki-hint">Mehr auf Wikipedia →</span>
+          <button type="button" class="icon-btn" data-pflanze="${p.id}"><img src="${esc(p.icon)}" alt="">Steckbrief</button></div>
+      </div>
+    </article>`).join('') || '<p class="placeholder">Keine Pflanze passt zu dieser Filterkombination.</p>';
+  document.getElementById('filterCount').textContent = `${liste.length} von ${PFLANZEN.length} Pflanzen`;
+}
+document.getElementById('plantFilters').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  filterState[b.dataset.f] = b.dataset.v;
+  document.querySelectorAll(`.chip[data-f="${b.dataset.f}"]`).forEach(c => c.setAttribute('aria-pressed', String(c === b)));
+  renderPlantCards();
+});
+
+function lizenzLink(b) {
+  if (!b.lizenz_url) return esc(b.autor);
+  return `${esc(b.autor)}, <a href="${esc(b.quelle)}" target="_blank" rel="noopener">Quelle</a>, <a href="${esc(b.lizenz_url)}" target="_blank" rel="noopener">${esc(b.lizenz)}</a>`;
+}
+function renderCredits() {
+  document.getElementById('creditsList').innerHTML = PFLANZEN.map(p => `<li><strong>${esc(p.kurzname)}:</strong> ${p.bild.lizenz_url ? lizenzLink(p.bild) : esc(p.bild.autor)}</li>`).join('');
+}
+
+function detailHtml(p) {
+  const b = p.bild;
+  const lichtScale = Object.keys(LICHT_LABEL).map(k => `<span class="${p.licht[k] ? 'on' : ''} ${p.licht_ideal === k ? 'ideal' : ''}">${LICHT_LABEL[k]}${p.licht_ideal === k ? ' (ideal)' : ''}</span>`).join('');
+  const platzScale = Object.keys(PLATZ_LABEL).map(k => `<span class="${p.standorte[k] ? 'on' : ''}">${PLATZ_LABEL[k]}</span>`).join('');
+  const sonne = { ja: 'ja, verträgt sie', teilweise: 'nur teilweise (Morgen-/Abendsonne)', nein: 'nein, lieber meiden' }[p.direkte_sonne] || p.direkte_sonne;
+  const quellen = [...new Set([...(p.quellen || []), ...(p.allergie_quellen || [])])];
+  return `
+    <figure class="modal-hero" style="margin:0">
+      <img src="${esc(b.datei)}" alt="${esc(b.alt)}">
+      <figcaption>Bild: ${lizenzLink(b)}</figcaption>
+    </figure>
+    <div class="modal-head">
+      <div class="pikto"><img src="${esc(p.icon)}" alt="Piktogramm ${esc(p.kurzname)}"></div>
+      <div>
+        <h2 id="modalTitle">${esc(p.name)}</h2>
+        <p class="botanisch">${esc(p.botanischer_name)}${p.synonyme && p.synonyme.length ? ` · auch: ${esc(p.synonyme.join(', '))}` : ''}</p>
+      </div>
+    </div>
+    <div class="modal-badges">
+      <span class="badge">${drops(p.luftbefeuchtung)} Befeuchtung ${p.luftbefeuchtung}/5</span>
+      <span class="badge allergie-${p.allergie_bewertung}">${ALLERGIE_ICON[p.allergie_bewertung]} Allergie: ${p.allergie_bewertung}</span>
+      <span class="badge">${GIFT[p.giftig_haustiere_kinder] || ''}</span>
+      <span class="badge">🛏 Schlafzimmer: ${JA_NEIN[p.schlafzimmer] || p.schlafzimmer}</span>
+      <span class="badge">🪴 Pflege: ${esc(p.pflegeaufwand)}</span>
+      <span class="badge">💶 ${esc(p.preis_eur)}</span>
+    </div>
+    <p class="modal-lead">${esc(p.auswahl_begruendung)}</p>
+    <div class="detail-grid">
+      <div class="detail"><h3><span class="ico" aria-hidden="true">☀️</span>Licht</h3>
+        <div class="light-scale">${lichtScale}</div>
+        <p>${esc(p.licht_text)}</p><p class="sub">Direkte Sonne: ${esc(sonne)}</p></div>
+      <div class="detail"><h3><span class="ico" aria-hidden="true">🪴</span>Platzierung &amp; Wuchs</h3>
+        <div class="light-scale">${platzScale}</div>
+        <p>${esc(p.wuchsform)} · Größe im Zimmer: ${esc(p.groesse_indoor)}</p></div>
+      <div class="detail"><h3><span class="ico" aria-hidden="true">💧</span>Luftbefeuchtung: ${p.luftbefeuchtung}/5</h3>
+        <p>${esc(p.luftbefeuchtung_begruendung)}</p><p class="sub">Qualitative Einschätzung, keine Messwerte.</p></div>
+      <div class="detail"><h3><span class="ico" aria-hidden="true">🚿</span>Pflege &amp; Gießen</h3>
+        <p><strong>Pflegeaufwand:</strong> ${esc(p.pflegeaufwand)}</p><p><strong>Wasserbedarf:</strong> ${esc(p.wasserbedarf)}</p></div>
+      <div class="detail"><h3><span class="ico" aria-hidden="true">🌙</span>Schlafzimmer &amp; Sauerstoff</h3>
+        <p><strong>${esc(JA_NEIN[p.schlafzimmer] || p.schlafzimmer)}:</strong> ${esc(p.schlafzimmer_text)}</p></div>
+      <div class="detail"><h3><span class="ico" aria-hidden="true">🐾</span>Haustiere &amp; Kinder</h3>
+        <p>${esc(p.giftig_text)}</p></div>
+      <div class="detail wide"><h3><span class="ico" aria-hidden="true">🤧</span>Allergie: <span class="badge allergie-${p.allergie_bewertung}">${ALLERGIE_ICON[p.allergie_bewertung]} ${p.allergie_bewertung}</span></h3>
+        ${p.allergie_art && p.allergie_art !== '–' ? `<p class="sub">Betrifft: ${esc(p.allergie_art)}</p>` : ''}
+        <p>${esc(p.allergie_text)}</p>
+        <p class="sub">Allgemein gilt: Blätter abstauben, Staunässe vermeiden (Schimmel in der Erde), im Zweifel ärztlich abklären.</p></div>
+      <div class="detail wide"><h3><span class="ico" aria-hidden="true">🔥</span>Fußbodenheizung &amp; Temperatur</h3>
+        <p>${esc(p.temperatur_fussbodenheizung)}</p></div>
+      <div class="detail wide"><h3><span class="ico" aria-hidden="true">✨</span>Gut zu wissen</h3>
+        <p>${esc(p.besonderheit)}</p></div>
+      <div class="detail wide"><h3><span class="ico" aria-hidden="true">📚</span>Quellen</h3>
+        <ul class="src-list">${quellen.map(q => `<li><a href="${esc(q)}" target="_blank" rel="noopener">${esc(decodeURI(q).replace(/^https?:\/\//, ''))}</a></li>`).join('')}</ul></div>
+    </div>
+    <div class="modal-actions">
+      <a class="cta" href="${esc(p.wikipedia_url)}" target="_blank" rel="noopener">📖 Wikipedia-Artikel öffnen</a>
+      <span class="modal-credit">Bild: ${lizenzLink(b)}</span>
+    </div>`;
+}
+
+const modal = document.getElementById('plantModal');
+let lastFocus = null;
+function openPlant(id, fromHash) {
+  const p = PFLANZE[id]; if (!p) return;
+  if (modal.hidden) lastFocus = document.activeElement;
+  document.getElementById('modalContent').innerHTML = detailHtml(p);
+  modal.hidden = false;
+  document.body.classList.add('modal-open');
+  modal.querySelector('.modal-dialog').scrollTop = 0;
+  document.getElementById('modalClose').focus();
+  if (!fromHash && location.hash !== '#pflanze-' + id) history.pushState(null, '', '#pflanze-' + id);
+}
+function closePlant(fromHash) {
+  if (modal.hidden) return;
+  modal.hidden = true;
+  document.body.classList.remove('modal-open');
+  if (!fromHash && location.hash.startsWith('#pflanze-')) history.pushState(null, '', location.pathname + location.search);
+  if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-pflanze]');
+  if (t) { e.preventDefault(); openPlant(t.dataset.pflanze); }
+});
+document.getElementById('modalClose').addEventListener('click', () => closePlant());
+modal.addEventListener('click', e => { if (e.target === modal) closePlant(); });
+document.addEventListener('keydown', e => {
+  if (modal.hidden) return;
+  if (e.key === 'Escape') { closePlant(); return; }
+  if (e.key === 'Tab') {
+    const f = [...modal.querySelectorAll('a[href], button')].filter(el => el.offsetParent !== null);
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+  }
+});
+function syncHash() {
+  const m = location.hash.match(/^#pflanze-([a-z]+)$/);
+  if (m && PFLANZE[m[1]]) openPlant(m[1], true); else closePlant(true);
+}
+window.addEventListener('hashchange', syncHash);
+window.addEventListener('popstate', syncHash);
+
+renderPlantCards();
+renderCredits();
+syncHash();
 </script>
 </body>
 </html>
