@@ -134,6 +134,14 @@
   }
   .cta { display: inline-block; background: var(--accent); color: white; padding: 0.8rem 1.6rem; border-radius: 30px; text-decoration: none; font-weight: 600; margin-top: 1rem; }
   .cta:hover { background: #1b5e20; }
+  .confirm-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; margin-top: 1.2rem; }
+  .confirm-bar button { border: none; cursor: pointer; font-size: 1rem; margin-top: 0; }
+  .btn-secondary { background: white !important; color: var(--accent) !important; border: 2px solid var(--accent) !important; }
+  .confirm-status { font-size: 0.95rem; color: #555; }
+  .confirm-status.dirty { color: #b26a00; font-weight: 600; }
+  .placeholder { color: #777; font-style: italic; }
+  #mapWrap { margin-top: 1rem; }
+  #mapWrap iframe { width: 100%; height: 380px; border: 0; border-radius: var(--radius); }
 </style>
 </head>
 <body>
@@ -159,38 +167,38 @@
     <div class="row">
       <div>
         <label for="qm">Wohnungsgröße (m²)</label>
-        <input type="range" id="qm" min="30" max="120" value="60" oninput="update()">
+        <input type="range" id="qm" min="30" max="120" value="60" oninput="markDirty()">
         <span id="qmVal">60 m²</span>
       </div>
       <div>
         <label for="tempWohl">Wohlfühltemperatur (°C)</label>
-        <input type="number" id="tempWohl" value="23" min="18" max="26" oninput="update()">
+        <input type="number" id="tempWohl" value="23" min="18" max="26" oninput="markDirty()">
       </div>
     </div>
     <div class="row">
       <div>
         <label for="tempEingestellt">Eingestellte Temperatur (°C)</label>
-        <input type="number" id="tempEingestellt" value="22" min="16" max="26" oninput="update()">
+        <input type="number" id="tempEingestellt" value="22" min="16" max="26" oninput="markDirty()">
       </div>
       <div>
         <label>Fußbodenheizung?</label>
         <div class="toggle-group">
-          <label><input type="radio" name="fbh" value="ja" checked onchange="update()"> Ja</label>
-          <label><input type="radio" name="fbh" value="nein" onchange="update()"> Nein</label>
+          <label><input type="radio" name="fbh" value="ja" checked onchange="markDirty()"> Ja</label>
+          <label><input type="radio" name="fbh" value="nein" onchange="markDirty()"> Nein</label>
         </div>
       </div>
     </div>
     <div>
       <label>Saugroboter vorhanden?</label>
       <div class="toggle-group">
-        <label><input type="radio" name="roboter" value="ja" checked onchange="update()"> Ja</label>
-        <label><input type="radio" name="roboter" value="nein" onchange="update()"> Nein</label>
+        <label><input type="radio" name="roboter" value="ja" checked onchange="markDirty()"> Ja</label>
+        <label><input type="radio" name="roboter" value="nein" onchange="markDirty()"> Nein</label>
       </div>
     </div>
     <div class="row">
       <div>
         <label for="lichtWohn">Licht Wohnzimmer</label>
-        <select id="lichtWohn" onchange="update()">
+        <select id="lichtWohn" onchange="markDirty()">
           <option value="sonnig" selected>Sonnig, z. B. nachmittags lichtdurchflutet</option>
           <option value="hell">Hell, aber keine direkte Sonne</option>
           <option value="wenig">Wenig natürliches Licht</option>
@@ -199,7 +207,7 @@
       </div>
       <div>
         <label for="lichtSchlaf">Licht Schlafzimmer</label>
-        <select id="lichtSchlaf" onchange="update()">
+        <select id="lichtSchlaf" onchange="markDirty()">
           <option value="sonnig">Sonnig, z. B. nachmittags lichtdurchflutet</option>
           <option value="hell" selected>Hell, aber keine direkte Sonne</option>
           <option value="wenig">Wenig natürliches Licht</option>
@@ -209,7 +217,7 @@
     </div>
     <div>
       <label for="lichtFlur">Licht Flur</label>
-        <select id="lichtFlur" onchange="update()">
+        <select id="lichtFlur" onchange="markDirty()">
           <option value="sonnig">Sonnig, z. B. nachmittags lichtdurchflutet</option>
           <option value="hell">Hell, aber keine direkte Sonne</option>
           <option value="wenig" selected>Wenig natürliches Licht</option>
@@ -218,12 +226,16 @@
     </div>
     <div>
       <label for="region">Deine Region / Stadt (für lokale Kaufempfehlungen)</label>
-      <input type="text" id="region" value="Stuttgart" placeholder="z.B. Stuttgart, München, Hamburg, Berlin..." oninput="update()">
+      <input type="text" id="region" value="Stuttgart" placeholder="z.B. Stuttgart, München, Hamburg, Berlin..." oninput="markDirty()">
     </div>
   </div>
+  <div class="confirm-bar">
+    <button type="button" class="cta" id="confirmBtn" onclick="confirmAngaben()">✔ Angaben bestätigen</button>
+    <button type="button" class="cta btn-secondary" onclick="useLocation()">📍 Meinen Standort verwenden</button>
+    <span class="confirm-status" id="confirmStatus">Noch nicht bestätigt</span>
+  </div>
   <div class="result-box" id="result">
-    <strong>Empfehlung basierend auf deinen Angaben:</strong><br>
-    Für deine ~60 m² Wohnung empfehlen wir <strong>6–8 mittelgroße bis große Pflanzen</strong> mit hoher Transpiration. Bei Fußbodenheizung und Saugroboter: Pflanzen auf Ständer oder Tische stellen (min. 5–8 cm Höhe).
+    <span class="placeholder">Gib deine Angaben ein und klicke auf „Angaben bestätigen“. Dann bauen wir Empfehlung, Raumplanung und Einkaufstipps für dich auf.</span>
   </div>
 </section>
 
@@ -282,7 +294,7 @@
 <section id="raeume">
   <h2>Empfehlungen pro Raum</h2>
   <div class="rooms-grid" id="roomsContent">
-    <!-- filled by JS -->
+    <p class="placeholder">Erscheint nach dem Bestätigen deiner Angaben.</p>
   </div>
 </section>
 
@@ -356,8 +368,12 @@
     </ul>
     <h3 id="localTitle">Lokal in deiner Region</h3>
     <ul id="localList">
-      <!-- wird dynamisch gefüllt -->
+      <li class="placeholder">Erscheint nach dem Bestätigen deiner Angaben.</li>
     </ul>
+    <div id="mapWrap" style="display:none">
+      <iframe id="shopMap" title="Gartencenter in deiner Nähe auf Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <p><a id="mapLink" href="#" target="_blank" rel="noopener">In Google Maps öffnen</a></p>
+    </div>
   </div>
 </section>
 
@@ -379,6 +395,41 @@
 </footer>
 
 <script>
+let userCoords = null;
+const STANDORT_LABEL = 'Aktueller Standort';
+
+function markDirty() {
+  document.getElementById('qmVal').textContent = document.getElementById('qm').value + ' m²';
+  const st = document.getElementById('confirmStatus');
+  if (st.dataset.confirmed) { st.textContent = 'Angaben geändert – bitte erneut bestätigen'; st.classList.add('dirty'); }
+}
+
+function useLocation() {
+  const st = document.getElementById('confirmStatus');
+  if (!navigator.geolocation) { st.textContent = 'Standort wird von deinem Browser nicht unterstützt'; return; }
+  st.textContent = 'Standort wird ermittelt…';
+  navigator.geolocation.getCurrentPosition(pos => {
+    userCoords = { lat: pos.coords.latitude.toFixed(4), lng: pos.coords.longitude.toFixed(4) };
+    document.getElementById('region').value = STANDORT_LABEL;
+    st.textContent = 'Standort übernommen – jetzt bestätigen'; st.classList.add('dirty');
+  }, () => { st.textContent = 'Standort nicht verfügbar – bitte Stadt eintippen'; });
+}
+
+function confirmAngaben() {
+  update();
+  const st = document.getElementById('confirmStatus');
+  st.textContent = '✔ Bestätigt – Empfehlungen aktualisiert'; st.classList.remove('dirty'); st.dataset.confirmed = '1';
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function updateMap(region, usingCoords) {
+  const q = usingCoords ? `Gartencenter near ${userCoords.lat},${userCoords.lng}` : `Gartencenter Pflanzen ${region}`;
+  const enc = encodeURIComponent(q);
+  document.getElementById('shopMap').src = `https://www.google.com/maps?q=${enc}&z=12&hl=de&output=embed`;
+  document.getElementById('mapLink').href = `https://www.google.com/maps/search/${enc}`;
+  document.getElementById('mapWrap').style.display = 'block';
+}
+
 function update() {
   const qm = document.getElementById('qm').value;
   document.getElementById('qmVal').textContent = qm + ' m²';
@@ -387,7 +438,9 @@ function update() {
   const lichtWohn = document.getElementById('lichtWohn').value;
   const lichtSchlaf = document.getElementById('lichtSchlaf').value;
   const lichtFlur = document.getElementById('lichtFlur').value;
-  const region = (document.getElementById('region').value || 'Stuttgart').trim();
+  const regionInput = (document.getElementById('region').value || 'Stuttgart').trim();
+  const usingCoords = !!userCoords && regionInput === STANDORT_LABEL;
+  const region = usingCoords ? 'deiner Nähe' : regionInput;
 
   let anzahl = Math.round(qm / 10);
   if (anzahl < 4) anzahl = 4;
@@ -418,7 +471,7 @@ function update() {
   // Local shops based on region
   const regionLower = region.toLowerCase();
   let localHtml = '';
-  let title = `Lokal in der Region ${region}`;
+  let title = usingCoords ? 'Lokal in deiner Nähe' : `Lokal in der Region ${region}`;
 
   if (regionLower.includes('stuttgart') || regionLower.includes('stutt')) {
     localHtml = `
@@ -433,7 +486,7 @@ function update() {
       <li><strong>Pflanzen-Kölle München</strong> (mehrere Filialen, z. B. in Pasing / Obersendling)</li>
       <li><strong>Dehner München</strong> und Umgebung</li>
       <li><strong>OBI & Toom</strong> in München und Umland</li>
-      <li>Suche lokal nach „Gartencenter ${region}“ oder „Pflanzen-Kölle ${region}“</li>
+      <li>Suche lokal nach der Karte unten oder „Pflanzen-Kölle ${region}“</li>
     `;
   } else if (regionLower.includes('berlin')) {
     localHtml = `
@@ -466,8 +519,8 @@ function update() {
 
   document.getElementById('localTitle').textContent = title;
   document.getElementById('localList').innerHTML = localHtml;
+  updateMap(region, usingCoords);
 }
-update();
 </script>
 </body>
 </html>
