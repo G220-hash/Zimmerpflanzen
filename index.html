@@ -147,6 +147,22 @@
     border-radius: 8px;
     margin-top: 1.5rem;
   }
+  .res-lines { list-style: none; margin: 0; padding: 0; }
+  .res-lines li { display: flex; gap: 0.5rem; align-items: baseline; margin: 0.25rem 0; line-height: 1.45; }
+  .res-lines li > span:first-child { flex: 0 0 1.4em; text-align: center; }
+  .res-lines li.main { font-size: 1.08rem; }
+  .res-lines li.warn { color: #8a3b00; }
+  .res-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin-top: 0.7rem; }
+  .res-chips .lbl { font-size: 0.85rem; font-weight: 600; color: var(--green); margin-right: 0.15rem; }
+  .res-chip { border: 1px solid #cfe3cb; background: white; color: var(--green); border-radius: 20px; padding: 0.2rem 0.65rem; font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+  .res-chip:hover, .res-chip:focus-visible { background: #eef6ec; outline: none; }
+  .res-chip.info { cursor: default; background: transparent; border-style: dashed; font-weight: 500; color: var(--muted); }
+  details.footnote { margin-top: 0.8rem; font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  details.footnote summary { cursor: pointer; font-weight: 600; color: var(--green); font-size: 0.85rem; width: fit-content; }
+  details.footnote ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+  details.footnote li { margin: 0.2rem 0; }
+  .rooms-intro { text-align: center; font-size: 0.88rem; color: var(--muted); margin: -0.4rem auto 1rem; max-width: 760px; }
+  #raeume details.footnote { max-width: 1100px; margin: 1rem auto 0; }
   .tips, .shops { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
   footer {
     text-align: center;
@@ -543,9 +559,20 @@
 
 <section id="raeume">
   <h2>Empfehlungen pro Raum</h2>
+  <p class="rooms-intro">Sortiert nach Luftbefeuchtung · Piktogramm öffnet den Steckbrief · ♡ merkt die Pflanze für den Raum.</p>
   <div class="rooms-grid" id="roomsContent">
     <p class="placeholder">Erscheint nach dem Bestätigen deiner Angaben.</p>
   </div>
+  <details class="footnote">
+    <summary>ℹ️ Mehr zu den Räumen</summary>
+    <ul>
+      <li><strong>Schlafzimmer:</strong> Pflanzen, die als gut geeignet gelten, stehen vorne. Den „Sauerstoff in der Nacht“-Effekt gibt es praktisch nicht – es geht um ruhige, pflegeleichte Pflanzen.</li>
+      <li><strong>Bad:</strong> Feuchtigkeitsliebende Pflanzen (💦) stehen vorne. Sukkulenten mögen dauerhaft feuchte Luft weniger. Ohne Fenster nur mit Pflanzenlampe.</li>
+      <li><strong>Küche:</strong> Nicht direkt neben Herd oder Backofen (Hitze, Fettdunst). <strong>Arbeitszimmer:</strong> nicht direkt über die warme Luft von Rechner oder Heizung.</li>
+      <li><strong>Sonnige Räume:</strong> Bei praller Mittagssonne empfindliche Pflanzen etwas vom Fenster abrücken.</li>
+      <li><strong>Dunkle Räume:</strong> Ohne Tageslicht wächst keine Pflanze dauerhaft – eine kleine LED-Pflanzenlampe (ca. 8–12 Std./Tag) einplanen. Am robustesten sind Zamioculcas, Bogenhanf und Efeutute.</li>
+    </ul>
+  </details>
 </section>
 
 <section id="inspiration">
@@ -863,33 +890,36 @@ function update() {
   const minDrops = n.stufe === 'trocken' ? 4 : 3;
   const starke = passend.filter(p => p.luftbefeuchtung >= minDrops).slice(0, 5);
 
-  let html = '<strong>Empfehlung basierend auf deinen Angaben:</strong><br>';
-  html += `Für deine ~${qm} m² Wohnung empfehlen wir <strong>${n.von}–${n.bis} mittelgroße bis große Pflanzen</strong> mit hoher Transpiration.`;
-  let warum = `Faustregel: ca. 1 Pflanze pro 10 m², mindestens 4 und höchstens 10 (hier: ${n.basis}).`;
-  if (rf === null) warum += rfRaw !== '' ? ' Die eingegebene Luftfeuchte liegt außerhalb von 10–90 % und wurde ignoriert.' : ' Mit einem Hygrometer-Wert können wir genauer werden.';
-  else if (n.stufe === 'trocken') warum += ` Deine Luftfeuchte von ${rf} % ist niedrig (unter 35 %): +2 Pflanzen, bevorzugt starke Befeuchter (💧 4–5).`;
-  else if (n.stufe === 'ok') warum += ` Deine Luftfeuchte von ${rf} % liegt im mittleren Bereich (35–45 %): keine Anpassung.`;
-  else warum += ` Deine Luftfeuchte von ${rf} % ist bereits gut (über 45 %): −2 Pflanzen – mehr bringt kaum etwas. Über 60 % steigt die Schimmelgefahr.`;
-  html += `<p class="result-note">${warum} Das ist eine <strong>Faustregel</strong>, keine Berechnung.</p>`;
-  if (starke.length) html += `<p style="margin:0.6rem 0 0"><strong>Am meisten bringen für dich:</strong> ${starke.map(p => `${esc(p.kurzname)} (${'💧'.repeat(p.luftbefeuchtung)})`).join(', ')}.</p>`;
-  const filterInfo = [tiere && 'für Hunde/Katzen giftige Pflanzen ausgeblendet', pflegeleicht && 'nur pflegeleichte Pflanzen', allergiker && '„Vorsicht“-Pflanzen für Allergiker ausgeblendet'].filter(Boolean);
-  if (filterInfo.length) html += `<p class="result-note">Berücksichtigt: ${filterInfo.join(' · ')} – ${passend.length} von ${PFLANZEN.length} Pflanzen passen.</p>`;
-  html += `<p class="result-note">Ehrlich gesagt: Pflanzen heben die Luftfeuchte in einer Wohnung meist nur um einige Prozentpunkte (in einer Büro-Studie von Lohr 1992 etwa von 25 auf 30 %). Bei großen Lücken hilft ein Luftbefeuchter deutlich mehr. Ziel im Winter: 40–50 % relative Luftfeuchte – mit einem Hygrometer kontrollieren.</p>`;
-  html += `<p class="result-note">Bei Fußbodenheizung und Saugroboter: Pflanzen auf Ständer mit schlanken Einzelbeinen oder auf Tische und Sideboards stellen (mindestens 5–10 cm Abstand zum Boden). So werden die Wurzeln nicht zu warm, und der Roboter kommt frei darunter durch.</p>`;
+  const zeilen = [`<li class="main"><span aria-hidden="true">🪴</span><span><strong>Für ~${qm} m²: ${n.von}–${n.bis} mittelgroße bis große Pflanzen.</strong></span></li>`];
+  if (rf !== null) zeilen.push(`<li><span aria-hidden="true">💧</span><span>${n.stufe === 'trocken' ? `Bei ${rf} % eher mehr starke Befeuchter (💧 4–5).` : n.stufe === 'ok' ? `Bei ${rf} % ist die Luft okay – Anzahl nach Faustregel.` : `Bei ${rf} % ist die Luft schon gut – weniger Pflanzen reichen.`}</span></li>`);
+  else if (rfRaw !== '') zeilen.push(`<li><span aria-hidden="true">💧</span><span>Luftfeuchte-Wert ignoriert (nur 10–90 % möglich).</span></li>`);
+  if (rf !== null && rf > 60) zeilen.push(`<li class="warn"><span aria-hidden="true">⚠️</span><span>Über 60 % steigt die Schimmelgefahr – lieber lüften.</span></li>`);
+  zeilen.push(`<li><span aria-hidden="true">📐</span><span>${platz === 'haengend' ? 'Hängend platzieren – der Boden bleibt frei für den Saugroboter.' : 'Auf Ständer oder Tisch stellen – Platz für Saugroboter lassen.'}</span></li>`);
+  let html = `<ul class="res-lines">${zeilen.join('')}</ul>`;
+  if (starke.length) html += `<div class="res-chips"><span class="lbl">Top für dich:</span>${starke.map(p => `<button type="button" class="res-chip" data-pflanze="${p.id}" aria-label="Steckbrief ${esc(p.kurzname)} öffnen, Luftbefeuchtung ${p.luftbefeuchtung} von 5">${esc(p.kurzname)} · 💧${p.luftbefeuchtung}</button>`).join('')}</div>`;
+  const filterInfo = [tiere && '🐾 ohne giftige', pflegeleicht && '🪴 pflegeleicht', allergiker && '🤧 ohne „Vorsicht“'].filter(Boolean);
+  if (filterInfo.length) html += `<div class="res-chips">${filterInfo.map(t => `<span class="res-chip info">${t}</span>`).join('')}<span class="res-chip info">${passend.length} von ${PFLANZEN.length} passen</span></div>`;
+  const anpassung = rf === null ? 'Ohne Hygrometer-Wert gilt nur die Faustregel – mit Wert werden wir genauer.' : n.stufe === 'trocken' ? `Deine ${rf} % sind niedrig (unter 35 %): +2 Pflanzen, bevorzugt starke Befeuchter (💧 4–5).` : n.stufe === 'ok' ? `Deine ${rf} % liegen im mittleren Bereich (35–45 %): keine Anpassung.` : `Deine ${rf} % sind schon gut (über 45 %): −2 Pflanzen – mehr bringt kaum etwas.`;
+  html += `<details class="footnote"><summary>ℹ️ Wie wir rechnen</summary><ul>
+    <li><strong>Faustregel, keine Berechnung:</strong> ca. 1 Pflanze pro 10 m², mindestens 4 und höchstens 10 (hier: ${n.basis}). ${anpassung}</li>
+    <li><strong>Realistische Wirkung:</strong> Pflanzen heben die Luftfeuchte meist nur um einige Prozentpunkte (Büro-Studie Lohr 1992: etwa von 25 auf 30 %). Bei großen Lücken hilft ein Luftbefeuchter deutlich mehr.</li>
+    <li><strong>Ziel im Winter:</strong> 40–50 % relative Luftfeuchte, mit einem Hygrometer kontrollieren. Über 60 % steigt die Schimmelgefahr.</li>
+    <li><strong>Fußbodenheizung &amp; Saugroboter:</strong> Ständer mit schlanken Einzelbeinen, Tische oder Sideboards nutzen (mindestens 5–10 cm Abstand zum Boden) – so werden die Wurzeln nicht zu warm und der Roboter kommt darunter durch.</li>
+  </ul></details>`;
   document.getElementById('result').innerHTML = html;
 
   // Raum-Empfehlungen: datengetrieben aus der Pflanzen-Datenbank (data/plants.js)
   const lichtInfo = {
-    sonnig: { text: 'sonnig, zeitweise direkte Sonne', hinweis: 'Bei praller Mittagssonne empfindliche Pflanzen etwas vom Fenster abrücken.' },
+    sonnig: { text: 'sonnig, zeitweise direkte Sonne', hinweis: '☀️ Empfindliche Pflanzen etwas vom Fenster abrücken.' },
     hell:   { text: 'hell, ohne direkte Sonne', hinweis: '' },
     wenig:  { text: 'wenig natürliches Licht', hinweis: '' },
-    dunkel: { text: 'kaum oder gar kein Tageslicht', hinweis: 'Ohne Tageslicht wächst keine Pflanze dauerhaft: eine kleine Pflanzenlampe (LED, ca. 8–12 Std./Tag) einplanen. Am robustesten sind Zamioculcas, Bogenhanf und Efeutute.' }
+    dunkel: { text: 'kaum oder gar kein Tageslicht', hinweis: '💡 Nur mit Pflanzenlampe (LED, 8–12 Std./Tag).' }
   };
   const raumHinweis = {
-    schlaf: 'Schlafzimmer: Pflanzen, die als gut geeignet gelten, stehen vorne. Den „Sauerstoff in der Nacht“-Effekt gibt es praktisch nicht – es geht um ruhige, pflegeleichte Pflanzen.',
-    bad: 'Bad: Feuchtigkeitsliebende Pflanzen stehen vorne (mit 💦 markiert). Sukkulenten mögen dauerhaft feuchte Luft weniger. Ohne Fenster nur mit Pflanzenlampe.',
-    kueche: 'Küche: Nicht direkt neben Herd oder Backofen stellen (Hitze, Fettdunst).',
-    arbeit: 'Arbeitszimmer: Nicht direkt über die warme Luft von Rechner oder Heizung stellen.'
+    schlaf: '🛏 Fürs Schlafzimmer geeignete zuerst.',
+    bad: '💦 Mögen feuchte Badluft – stehen vorne.',
+    kueche: '🔥 Nicht direkt neben Herd oder Backofen.',
+    arbeit: '🖥 Nicht über Rechner oder Heizung.'
   };
   const raum = (key, licht) => {
     const info = lichtInfo[licht];
@@ -905,12 +935,9 @@ function update() {
       <h3>${RAEUME[key]}</h3>
       <p><strong>Licht:</strong> ${info.text}${platzText}</p>
       ${top.length ? `<div class="plant-icons">${icons}
-      </div>` : '<p class="placeholder">Für diese Kombination passt keine Pflanze aus unserer Liste – probier eine andere Platzierung oder weniger Filter.</p>'}
-      ${liste.length > top.length ? `<p class="room-more">+ ${liste.length - top.length} weitere passende Pflanzen in der Pflanzenliste oben.</p>` : ''}
-      ${info.hinweis ? `<p class="room-hint">${info.hinweis}</p>` : ''}
-      ${raumHinweis[key] ? `<p class="room-hint">${raumHinweis[key]}</p>` : ''}
-      <p class="room-more">♡ am Piktogramm merkt die Pflanze direkt für ${RAEUME[key]}.</p>
-      <p class="room-more">${key === 'schlaf' ? 'Schlafzimmer-geeignete zuerst, dann' : key === 'bad' ? 'Feuchtigkeitsliebende zuerst, dann' : 'Sortiert'} nach Luftbefeuchtung · Piktogramm anklicken für den Steckbrief.</p>
+      </div>` : '<p class="placeholder">Keine passende Pflanze – andere Platzierung oder weniger Filter probieren.</p>'}
+      ${liste.length > top.length ? `<p class="room-more">+ ${liste.length - top.length} weitere in der Pflanzenliste.</p>` : ''}
+      ${info.hinweis || raumHinweis[key] ? `<p class="room-hint">${[info.hinweis, raumHinweis[key]].filter(Boolean).join('<br>')}</p>` : ''}
     </div></div>`;
   };
   const gewaehlt = Object.keys(RAEUME).filter(k => document.getElementById('raum-' + k).checked);
