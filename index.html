@@ -245,6 +245,32 @@
     .credits ul { columns: 1; }
     .plant-icons { grid-template-columns: repeat(3, 1fr); }
   }
+
+  /* ---------- Einklappbare Bereiche ---------- */
+  .teaser { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.3rem 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 1.5rem; }
+  .teaser-icons { display: flex; align-items: center; flex-wrap: wrap; gap: 0.2rem; }
+  .teaser-icons button { background: none; border: none; padding: 0.15rem; border-radius: 50%; cursor: pointer; }
+  .teaser-icons button:hover, .teaser-icons button:focus-visible { background: var(--green-bg); outline: none; }
+  .teaser-icons img { width: 44px; height: 44px; display: block; transition: transform 0.15s; }
+  .teaser-icons button:hover img { transform: scale(1.12); }
+  .teaser-icons .more { font-weight: 700; color: var(--green); margin-left: 0.4rem; font-size: 0.95rem; }
+  .teaser-text { flex: 1 1 220px; color: var(--muted); font-size: 0.95rem; }
+  .teaser-text strong { color: var(--green); }
+  .toggle-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: white; border: none; border-radius: 30px; padding: 0.75rem 1.4rem; font: inherit; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .toggle-btn:hover, .toggle-btn:focus-visible { background: var(--green); outline: none; box-shadow: 0 0 0 3px rgba(76,175,80,0.4); }
+  .toggle-btn .chev { display: inline-block; transition: transform 0.3s; }
+  .toggle-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .collapse { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s ease, opacity 0.35s ease; opacity: 0; }
+  .collapse > .collapse-inner { overflow: hidden; min-height: 0; }
+  .collapse.open { grid-template-rows: 1fr; opacity: 1; }
+  .collapse.open > .collapse-inner { padding-top: 1.2rem; }
+  @media (prefers-reduced-motion: reduce) { .collapse, .toggle-btn .chev { transition: none; } }
+  details.credits-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 0.9rem 1.3rem; }
+  details.credits-box summary { cursor: pointer; font-weight: 600; color: var(--green); list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  details.credits-box summary::-webkit-details-marker { display: none; }
+  details.credits-box summary::after { content: '▾'; transition: transform 0.3s; }
+  details.credits-box[open] summary::after { transform: rotate(180deg); }
+  @media (max-width: 700px) { .teaser { padding: 1rem; } .toggle-btn { width: 100%; justify-content: center; } .teaser-icons img { width: 38px; height: 38px; } }
 </style>
 </head>
 <body>
@@ -365,6 +391,13 @@
 <section id="pflanzen">
   <h2>Die besten Feuchtigkeitsspender</h2>
   <p style="text-align:center; max-width:760px; margin:0 auto 1.2rem;">20 Zimmerpflanzen, sortiert nach ihrer Luftbefeuchtung (💧 1–5, qualitative Einschätzung). <strong>Karte anklicken</strong> öffnet den Wikipedia-Artikel, <strong>Piktogramm anklicken</strong> öffnet den ausführlichen Steckbrief mit allen Infos.</p>
+  <div class="teaser" id="plantsTeaser">
+    <div class="teaser-icons" id="teaserIcons" aria-label="Top-Pflanzen – Piktogramm öffnet den Steckbrief"></div>
+    <p class="teaser-text" id="teaserText"><strong>20 Pflanzen</strong> mit Steckbrief, Fotos und Filtern nach Licht, Platz und Allergie.</p>
+    <button type="button" class="toggle-btn" id="plantsToggle" aria-expanded="false" aria-controls="plantsPanel"><span class="lbl">Alle 20 Pflanzen anzeigen</span> <span class="chev" aria-hidden="true">▾</span></button>
+  </div>
+  <div class="collapse" id="plantsPanel" inert>
+  <div class="collapse-inner">
   <div class="filter-bar" id="plantFilters" aria-label="Pflanzen filtern">
     <div class="filter-group" role="group" aria-label="Licht"><span>Licht:</span>
       <button type="button" class="chip" data-f="licht" data-v="alle" aria-pressed="true">Alle</button>
@@ -387,6 +420,8 @@
   </div>
   <p class="filter-count" id="filterCount" aria-live="polite"></p>
   <div class="plants-grid" id="plantsGrid"></div>
+  </div>
+  </div>
 </section>
 
 <section id="raeume">
@@ -589,9 +624,11 @@
 </section>
 
 <section id="bildnachweis" class="credits">
-  <h3 class="subsection-title" style="font-size:1.3rem;margin-top:0">Bildnachweise</h3>
+  <details class="credits-box" id="creditsBox">
+  <summary>Bildnachweise &amp; Lizenzen</summary>
   <p>Pflanzenfotos von Wikimedia Commons bzw. Pexels unter den jeweils genannten Lizenzen (Bilder verkleinert und komprimiert). Die Inspirations-Bilder sowie die Fotos von Boston-Farn, Einblatt, Efeutute und Grünlilie sind für diese Seite KI-generiert. Piktogramme: eigene Grafiken.</p>
   <ul id="creditsList"></ul>
+  </details>
 </section>
 
 <div class="modal" id="plantModal" hidden>
@@ -602,6 +639,7 @@
 </div>
 
 <footer>
+  <p><a href="#bildnachweis" onclick="document.getElementById('creditsBox').open=true">Bildnachweise</a></p>
   <p>Erstellt als individueller Planer für trockene Winterluft in Stuttgart. Empfehlungen basieren auf aktuellen Erkenntnissen zu Transpiration und Pflege.</p>
 </footer>
 
@@ -686,7 +724,7 @@ function update() {
       <p><strong>Licht:</strong> ${info.text}${platzText}</p>
       ${top.length ? `<div class="plant-icons">${icons}
       </div>` : '<p class="placeholder">Für diese Kombination passt keine Pflanze aus unserer Liste – probier eine andere Platzierung.</p>'}
-      ${liste.length > top.length ? `<p class="room-more">+ ${liste.length - top.length} weitere passende Pflanzen in der Liste oben.</p>` : ''}
+      ${liste.length > top.length ? `<p class="room-more">+ ${liste.length - top.length} weitere passende Pflanzen in der Pflanzenliste oben.</p>` : ''}
       ${info.hinweis ? `<p class="room-hint">${info.hinweis}</p>` : ''}
       <p class="room-more">Sortiert nach Luftbefeuchtung · Piktogramm anklicken für den Steckbrief.</p>
     </div></div>`;
@@ -880,7 +918,7 @@ function closePlant(fromHash) {
   if (modal.hidden) return;
   modal.hidden = true;
   document.body.classList.remove('modal-open');
-  if (!fromHash && location.hash.startsWith('#pflanze-')) history.pushState(null, '', location.pathname + location.search);
+  if (!fromHash && location.hash.startsWith('#pflanze-')) history.pushState(null, '', location.pathname + location.search + (document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
   if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
 }
 document.addEventListener('click', e => {
@@ -909,6 +947,27 @@ window.addEventListener('popstate', syncHash);
 renderPlantCards();
 renderCredits();
 syncHash();
+// ---------- Einklappbare Pflanzenliste ----------
+const plantsPanel = document.getElementById('plantsPanel');
+const plantsToggle = document.getElementById('plantsToggle');
+function setPlantsOpen(open, scroll) {
+  plantsPanel.classList.toggle('open', open);
+  if (open) plantsPanel.removeAttribute('inert'); else plantsPanel.setAttribute('inert', '');
+  plantsToggle.setAttribute('aria-expanded', String(open));
+  plantsToggle.querySelector('.lbl').textContent = open ? 'Pflanzenliste einklappen' : `Alle ${PFLANZEN.length} Pflanzen anzeigen`;
+  if (open && location.hash !== '#pflanzen-alle' && !location.hash.startsWith('#pflanze-')) history.replaceState(null, '', '#pflanzen-alle');
+  if (!open && location.hash === '#pflanzen-alle') history.replaceState(null, '', location.pathname + location.search);
+  if (scroll) document.getElementById('pflanzen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+plantsToggle.addEventListener('click', () => setPlantsOpen(!plantsPanel.classList.contains('open'), plantsPanel.classList.contains('open')));
+document.getElementById('teaserIcons').innerHTML = PFLANZEN.slice(0, 8).map(p =>
+  `<button type="button" data-pflanze="${p.id}" title="${esc(p.kurzname)} – Steckbrief" aria-label="Steckbrief ${esc(p.kurzname)} öffnen"><img src="${esc(p.icon)}" alt=""></button>`).join('') +
+  `<span class="more">+${PFLANZEN.length - 8}</span>`;
+document.getElementById('teaserText').innerHTML = `<strong>${PFLANZEN.length} Pflanzen</strong>, sortiert nach Luftbefeuchtung – mit Fotos, Steckbrief und Filtern nach Licht, Platz und Allergie.`;
+if (location.hash === '#pflanzen-alle') setPlantsOpen(true);
+window.addEventListener('hashchange', () => { if (location.hash === '#pflanzen-alle') setPlantsOpen(true); if (location.hash === '#bildnachweis') document.getElementById('creditsBox').open = true; });
+if (location.hash === '#bildnachweis') document.getElementById('creditsBox').open = true;
+
 </script>
 </body>
 </html>
