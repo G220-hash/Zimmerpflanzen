@@ -26,7 +26,7 @@
   "aufrechte_tischpflanze_hell": false,
   "groesse_indoor": "1–2 m",
   "luftbefeuchtung": 5,
-  "luftbefeuchtung_begruendung": "Sehr große, fein gegliederte Blattfläche und hoher Wasserverbrauch; in der Wolverton/NASA-Literatur als einer der stärksten Zimmer-Transpirierer genannt.",
+  "luftbefeuchtung_begruendung": "Sehr große, fein gegliederte Blattfläche und hoher Wasserverbrauch. In B. C. Wolvertons Buch „How to Grow Fresh Air“ (1996) mit der höchsten Transpirationsnote bewertet; dort: eine ca. 1,8 m hohe Pflanze gibt rund 1 Liter Wasser pro Tag ab (Einzelangabe, nicht peer-reviewt).",
   "pflegeaufwand": "mittel",
   "wasserbedarf": "hoch – Erde gleichmäßig feucht, keine Staunässe",
   "temperatur_fussbodenheizung": "Zimmertemperatur (ca. 18–25 °C) passt. Trockene Heizungsluft → braune Wedelspitzen, Spinnmilben. Auf Fußbodenheizung trocknet der Ballen schneller aus: Ständer/Rollen mit Abstand zum Boden empfohlen.",
@@ -35,14 +35,15 @@
   "allergie_hinweis": "unproblematisch",
   "schlafzimmer": "ja",
   "schlafzimmer_text": "Ungiftig, kein Duft, keine Blüte im Zimmer; reine Grünpflanze.",
-  "besonderheit": "In NASA/Wolverton-Rankings oft als 'beste Luftreiniger-Palme' gelistet – bei üblicher Pflanzendichte in Wohnungen ist der Reinigungseffekt aber vernachlässigbar (Cummings & Waring 2020). Der Befeuchtungseffekt ist dagegen real: Das gegossene Wasser verdunstet fast vollständig über die Blätter.",
+  "besonderheit": "In Wolvertons späteren Rankings (nicht in der NASA-Studie von 1989 selbst) oft als 'beste Luftreiniger-Palme' gelistet – bei üblicher Pflanzendichte in Wohnungen ist der Reinigungseffekt aber vernachlässigbar (Cummings & Waring 2020). Der Befeuchtungseffekt ist dagegen real: Das gegossene Wasser verdunstet fast vollständig über die Blätter.",
   "preis_eur": "ca. 15–80 € (je nach Höhe)",
   "wikipedia_url": "https://de.wikipedia.org/wiki/Goldfruchtpalme",
   "wikipedia_typ": "Art",
   "quellen": [
    "https://de.wikipedia.org/wiki/Goldfruchtpalme",
    "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/areca-palm",
-   "https://ntrs.nasa.gov/citations/19930073077"
+   "https://en.wikipedia.org/wiki/NASA_Clean_Air_Study",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Goldfruchtpalme",
   "wikipedia_geprueft": true,
@@ -63,7 +64,8 @@
    "lizenz": "Pexels-Lizenz",
    "lizenz_url": "https://www.pexels.com/de-de/lizenz/",
    "quelle": "https://www.pexels.com/"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 10/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "schwertfarn",
@@ -107,7 +109,8 @@
   "wikipedia_typ": "Art",
   "quellen": [
    "https://de.wikipedia.org/wiki/Nephrolepis_exaltata",
-   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/boston-fern"
+   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/boston-fern",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Nephrolepis exaltata",
   "wikipedia_geprueft": true,
@@ -128,7 +131,8 @@
    "lizenz": "eigenes Bild",
    "lizenz_url": "",
    "quelle": ""
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 9/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "einblatt",
@@ -160,7 +164,7 @@
   "luftbefeuchtung_begruendung": "Große, dünne Blätter; hoher Wasserbedarf, der sichtbar durch Schlappwerden angezeigt wird.",
   "pflegeaufwand": "leicht",
   "wasserbedarf": "mittel bis hoch – leicht feucht halten",
-  "temperatur_fussbodenheizung": "Zimmerwärme ideal. Direkte Sonne verbrennt die Blätter (Basti hat recht: nicht ins sonnige Zimmer). Trockene Luft → braune Spitzen. Bei 'dunkel' nur mit Pflanzenlampe dauerhaft.",
+  "temperatur_fussbodenheizung": "Zimmerwärme ideal. Direkte Sonne verbrennt die Blätter – nicht ins sonnige Zimmer stellen. Trockene Luft → braune Spitzen. Bei 'dunkel' nur mit Pflanzenlampe dauerhaft.",
   "giftig_haustiere_kinder": "ja",
   "giftig_text": "Giftig für Hunde und Katzen (unlösliche Calciumoxalate, ASPCA); Kauen reizt Mund und Rachen – auch bei Kleinkindern.",
   "allergie_hinweis": "Vorsicht: Atemwege (Blüte/Pollen), Haut",
@@ -172,7 +176,8 @@
   "wikipedia_typ": "Gattung",
   "quellen": [
    "https://de.wikipedia.org/wiki/Spathiphyllum",
-   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/peace-lily"
+   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/peace-lily",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Spathiphyllum",
   "wikipedia_geprueft": true,
@@ -194,7 +199,8 @@
    "lizenz": "eigenes Bild",
    "lizenz_url": "",
    "quelle": ""
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 8/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "efeutute",
@@ -222,8 +228,8 @@
   "standorte_text": "Boden/Ständer, Tisch/Sideboard, hängend/Ampel",
   "aufrechte_tischpflanze_hell": false,
   "groesse_indoor": "Triebe 1–3 m",
-  "luftbefeuchtung": 3,
-  "luftbefeuchtung_begruendung": "Mittelgroße, glatte Blätter; mäßiger Wasserverbrauch, mit Trieblänge steigend.",
+  "luftbefeuchtung": 4,
+  "luftbefeuchtung_begruendung": "Mittelgroße, glatte Blätter; Wasserverbrauch steigt stark mit der Trieblänge – eine üppige Pflanze transpiriert beachtlich (Wolverton: 7/10).",
   "pflegeaufwand": "leicht",
   "wasserbedarf": "mittel – Erde zwischendurch antrocknen lassen",
   "temperatur_fussbodenheizung": "Sehr tolerant gegenüber Wärme und trockener Luft. Nur milde Morgen-/Abendsonne; pralle Sonne bleicht/verbrennt Blätter. Bei 'dunkel' wächst sie langsam, Panaschierung verblasst.",
@@ -238,7 +244,8 @@
   "wikipedia_typ": "Art",
   "quellen": [
    "https://de.wikipedia.org/wiki/Efeutute",
-   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/golden-pothos"
+   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/golden-pothos",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Efeutute",
   "wikipedia_geprueft": true,
@@ -259,7 +266,8 @@
    "lizenz": "eigenes Bild",
    "lizenz_url": "",
    "quelle": ""
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "gruenlilie",
@@ -303,7 +311,8 @@
   "wikipedia_typ": "Art",
   "quellen": [
    "https://de.wikipedia.org/wiki/Grünlilie",
-   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/spider-plant"
+   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/spider-plant",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Grünlilie",
   "wikipedia_geprueft": true,
@@ -323,7 +332,8 @@
    "lizenz": "eigenes Bild",
    "lizenz_url": "",
    "quelle": ""
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 5/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "gummibaum",
@@ -351,13 +361,13 @@
   "standorte_text": "Boden/Ständer, Tisch/Sideboard",
   "aufrechte_tischpflanze_hell": false,
   "groesse_indoor": "jung 40–60 cm, später 1–2 m+",
-  "luftbefeuchtung": 3,
-  "luftbefeuchtung_begruendung": "Große, aber dicke ledrige Blätter mit Wachsschicht – große Fläche, aber nur moderate Transpiration je Blatt.",
+  "luftbefeuchtung": 4,
+  "luftbefeuchtung_begruendung": "Große, ledrige Blätter mit Wachsschicht – je Blatt moderat, durch die große Gesamtblattfläche aber insgesamt deutlich (Wolverton: 7/10).",
   "pflegeaufwand": "leicht",
   "wasserbedarf": "mittel – zwischen den Wassergaben antrocknen lassen",
   "temperatur_fussbodenheizung": "Verträgt warme Wurzeln und trockene Luft vergleichsweise gut. Langsam an direkte Sonne gewöhnen, pralle Mittagssonne hinter Glas kann Flecken machen.",
   "giftig_haustiere_kinder": "ja",
-  "giftig_text": "Giftig für Hunde und Katzen (Ficus-Arten: Ficin, Psoralene; ASPCA); Milchsaft reizt Haut und Schleimhäute.",
+  "giftig_text": "Giftig für Hunde und Katzen: ASPCA führt Ficus (Eintrag „Indian Rubber Plant“, botanisch dort F. benjamina; Wirkstoffe Ficin, Psoralene) – für F. elastica gilt dasselbe Vorsichtsprinzip. Milchsaft reizt Haut und Schleimhäute.",
   "allergie_hinweis": "Vorsicht: Atemwege + Haut (Ficus-Milchsaft/Latex)",
   "schlafzimmer": "ja",
   "schlafzimmer_text": "Ruhige Grünpflanze; für Latexallergiker eher nicht.",
@@ -367,7 +377,8 @@
   "wikipedia_typ": "Art",
   "quellen": [
    "https://de.wikipedia.org/wiki/Gummibaum",
-   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/indian-rubber-plant"
+   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/indian-rubber-plant",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Gummibaum",
   "wikipedia_geprueft": true,
@@ -390,7 +401,8 @@
    "lizenz": "CC BY 2.0",
    "lizenz_url": "https://creativecommons.org/licenses/by/2.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:Gummibaum_(Ficus_elastica_Robusta).jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "zypergras",
@@ -428,7 +440,7 @@
   "allergie_hinweis": "gering: Atemwege (Pollen, Schimmel)",
   "schlafzimmer": "ja",
   "schlafzimmer_text": "Ungiftig und stark befeuchtend – gut gegen trockene Schlafzimmerluft (helles Schlafzimmer vorausgesetzt).",
-  "besonderheit": "Naher Verwandter des Papyrus (Cyperus papyrus), aus dem die alten Ägypter Schreibmaterial machten. Vermehrung als Party-Trick: einen Blattschopf kopfüber ins Wasserglas stellen – er bewurzelt sich. Korrekt heißt er übrigens 'Zypergras' (de-Wikipedia nennt 'Zyperngras' falsch).",
+  "besonderheit": "Naher Verwandter des Papyrus (Cyperus papyrus), aus dem die alten Ägypter Schreibmaterial machten. Vermehrung als Party-Trick: einen Blattschopf kopfüber ins Wasserglas stellen – er bewurzelt sich. Korrekt heißt er übrigens 'Zypergras' (de-Wikipedia bezeichnet „Zyperngras“ ausdrücklich als falsch).",
   "preis_eur": "ca. 8–30 €",
   "wikipedia_url": "https://de.wikipedia.org/wiki/Cyperus_alternifolius",
   "wikipedia_typ": "Art",
@@ -456,7 +468,8 @@
    "lizenz": "CC BY-SA 3.0",
    "lizenz_url": "http://creativecommons.org/licenses/by-sa/3.0/",
    "quelle": "https://commons.wikimedia.org/wiki/File:Cyperus_alternifolius_01.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  },
  {
   "id": "zimmerlinde",
@@ -473,7 +486,7 @@
   },
   "licht_ideal": "hell, eher kühl",
   "licht_text": "hell (ideal: hell, eher kühl)",
-  "direkte_sonne": "teilweise",
+  "direkte_sonne": "nein",
   "wuchsform": "aufrecht (strauchig)",
   "standorte": {
    "boden": true,
@@ -519,7 +532,8 @@
    "lizenz": "CC BY-SA 4.0",
    "lizenz_url": "https://creativecommons.org/licenses/by-sa/4.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:Sparrmannia_africana_Lipka_afryka%C5%84ska_2024-02-29_Graz_02.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  },
  {
   "id": "kentia",
@@ -583,7 +597,8 @@
    "lizenz": "CC BY-SA 4.0",
    "lizenz_url": "https://creativecommons.org/licenses/by-sa/4.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:Howea_forsteriana_kz04.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  },
  {
   "id": "bergpalme",
@@ -611,8 +626,8 @@
   "standorte_text": "Boden/Ständer, Tisch/Sideboard",
   "aufrechte_tischpflanze_hell": false,
   "groesse_indoor": "40–150 cm",
-  "luftbefeuchtung": 3,
-  "luftbefeuchtung_begruendung": "Mittlere Blattfläche; wächst im Unterholz von Regenwäldern und transpiriert moderat.",
+  "luftbefeuchtung": 4,
+  "luftbefeuchtung_begruendung": "Mittlere Blattfläche aus vielen dünnen Fiedern; Unterholzpalme mit ordentlicher Transpiration (Wolverton: 7/10).",
   "pflegeaufwand": "leicht",
   "wasserbedarf": "mittel – gleichmäßig leicht feucht",
   "temperatur_fussbodenheizung": "Wärme ok; trockene Luft fördert Spinnmilben (Blätter abbrausen). Tischstandort umgeht warme Bodenzone.",
@@ -627,7 +642,8 @@
   "wikipedia_typ": "Art",
   "quellen": [
    "https://de.wikipedia.org/wiki/Chamaedorea_elegans",
-   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/parlor-palm"
+   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/parlor-palm",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Chamaedorea elegans",
   "wikipedia_geprueft": true,
@@ -647,7 +663,8 @@
    "lizenz": "CC BY-SA 4.0",
    "lizenz_url": "https://creativecommons.org/licenses/by-sa/4.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:Chamaedorea_elegans_-_Iman_Fakhri.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "monstera",
@@ -712,7 +729,8 @@
    "lizenz": "CC BY-SA 3.0",
    "lizenz_url": "https://creativecommons.org/licenses/by-sa/3.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:HK_SW_Leaves_with_holes.JPG"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  },
  {
   "id": "strelitzie",
@@ -778,13 +796,16 @@
    "lizenz": "CC BY-SA 4.0",
    "lizenz_url": "https://creativecommons.org/licenses/by-sa/4.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:Paradiesvogelblume_Botanischer_Garten_Dresden.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  },
  {
   "id": "strahlenaralie",
   "name": "Strahlenaralie (Schefflera)",
   "botanischer_name": "Schefflera arboricola",
-  "synonyme": [],
+  "synonyme": [
+   "Heptapleurum arboricola (neuere Einordnung)"
+  ],
   "bestand": "neu",
   "auswahl_begruendung": "Aufrechtes 'Bäumchen' für den hellen Tisch, verträgt etwas Sonne, sehr robust.",
   "licht": {
@@ -842,7 +863,8 @@
    "lizenz": "CC BY-SA 4.0",
    "lizenz_url": "https://creativecommons.org/licenses/by-sa/4.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:Dwarf_umbrella_tree_(Schefflera_arboricola).jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: qualitative Einschätzung. Wolverton (1996) bewertet die größere Verwandte Schefflera actinophylla mit 7/10; die kleinblättrige S. arboricola liegt vermutlich darunter."
  },
  {
   "id": "bogenhanf",
@@ -889,7 +911,8 @@
   "quellen": [
    "https://de.wikipedia.org/wiki/Sansevieria_trifasciata",
    "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/mother-laws-tongue",
-   "https://de.wikipedia.org/wiki/Crassulaceen-S%C3%A4urestoffwechsel"
+   "https://de.wikipedia.org/wiki/Crassulaceen-S%C3%A4urestoffwechsel",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Sansevieria trifasciata",
   "wikipedia_geprueft": true,
@@ -909,7 +932,8 @@
    "lizenz": "CC BY 3.0",
    "lizenz_url": "https://creativecommons.org/licenses/by/3.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:Sansevieria_trifasciata_pm.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 2/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "zamioculcas",
@@ -973,7 +997,8 @@
    "lizenz": "CC BY-SA 3.0",
    "lizenz_url": "http://creativecommons.org/licenses/by-sa/3.0/",
    "quelle": "https://commons.wikimedia.org/wiki/File:Zamioculcas_zamiifolia_1.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  },
  {
   "id": "aloe",
@@ -1018,7 +1043,8 @@
   "quellen": [
    "https://de.wikipedia.org/wiki/Echte_Aloe",
    "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/aloe",
-   "https://de.wikipedia.org/wiki/Crassulaceen-S%C3%A4urestoffwechsel"
+   "https://de.wikipedia.org/wiki/Crassulaceen-S%C3%A4urestoffwechsel",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Echte Aloe",
   "wikipedia_geprueft": true,
@@ -1039,7 +1065,8 @@
    "lizenz": "Public domain",
    "lizenz_url": "",
    "quelle": "https://commons.wikimedia.org/wiki/File:Aloe_vera_D190512.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 2/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "pilea",
@@ -1073,7 +1100,7 @@
   "wasserbedarf": "mittel – antrocknen lassen",
   "temperatur_fussbodenheizung": "Zimmerwärme ok; warme, trockene Luft gut toleriert. Morgen-/Abendsonne ok, pralle Mittagssonne verbrennt Blätter; regelmäßig drehen, sie wächst zum Licht.",
   "giftig_haustiere_kinder": "nein",
-  "giftig_text": "Nicht direkt in der ASPCA-Liste (andere Pilea-Arten dort ungiftig); gilt allgemein als ungiftig.",
+  "giftig_text": "Nicht in der ASPCA-Liste; die verwandte Pilea cadierei („Aluminum Plant“) wird dort als ungiftig geführt. Gilt allgemein als ungiftig.",
   "allergie_hinweis": "unproblematisch",
   "schlafzimmer": "ja",
   "schlafzimmer_text": "Ungiftig, klein, passt aufs Nachttischchen.",
@@ -1103,7 +1130,8 @@
    "lizenz": "CC BY-SA 3.0",
    "lizenz_url": "http://creativecommons.org/licenses/by-sa/3.0/",
    "quelle": "https://commons.wikimedia.org/wiki/File:Peperomioides-07.JPG"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  },
  {
   "id": "philodendron",
@@ -1111,7 +1139,7 @@
   "botanischer_name": "Philodendron hederaceum (syn. P. scandens)",
   "synonyme": [],
   "bestand": "neu",
-  "auswahl_begruendung": "Hängepflanze für wenig Licht mit mehr Blattmasse als die Efeutute-Alternative; robust.",
+  "auswahl_begruendung": "Robuste, pflegeleichte Hängepflanze für wenig Licht – Alternative zur Efeutute.",
   "licht": {
    "sonnig": false,
    "hell": true,
@@ -1131,8 +1159,8 @@
   "standorte_text": "Boden/Ständer, Tisch/Sideboard, hängend/Ampel",
   "aufrechte_tischpflanze_hell": false,
   "groesse_indoor": "Triebe 1–3 m",
-  "luftbefeuchtung": 3,
-  "luftbefeuchtung_begruendung": "Viele dünne, herzförmige Blätter; moderate Transpiration ähnlich Efeutute.",
+  "luftbefeuchtung": 2,
+  "luftbefeuchtung_begruendung": "Dünne, herzförmige Blätter, als Hängepflanze aber meist wenig Blattmasse – eher geringe Transpiration (Wolverton: 4/10).",
   "pflegeaufwand": "leicht",
   "wasserbedarf": "mittel",
   "temperatur_fussbodenheizung": "Sehr tolerant gegenüber Wärme und trockener Luft.",
@@ -1148,7 +1176,8 @@
   "quellen": [
    "https://de.wikipedia.org/wiki/Philodendron",
    "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/heartleaf-philodendron",
-   "https://ntrs.nasa.gov/citations/19930073077"
+   "https://ntrs.nasa.gov/citations/19930073077",
+   "https://www.ohiotropics.com/2020/01/06/houseplants-that-humidify-the-air-50-plants-evaluated/"
   ],
   "wikipedia_titel": "Philodendren",
   "wikipedia_geprueft": true,
@@ -1170,7 +1199,8 @@
    "lizenz": "CC BY-SA 3.0",
    "lizenz_url": "http://creativecommons.org/licenses/by-sa/3.0/",
    "quelle": "https://commons.wikimedia.org/wiki/File:Philodendron_scandens_subsp_oxycardium2.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 4/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
  },
  {
   "id": "elefantenfuss",
@@ -1234,7 +1264,8 @@
    "lizenz": "CC BY-SA 4.0",
    "lizenz_url": "https://creativecommons.org/licenses/by-sa/4.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:Beaucarnea_recurvata_-_%D0%91%D0%BE%D1%82%D0%B0%D0%BD%D0%B8%D1%87%D0%BA%D0%B0_%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D0%B0_%D0%A1%D0%BA%D0%BE%D0%BF%D1%98%D0%B5_(1).jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  },
  {
   "id": "zebrakraut",
@@ -1268,7 +1299,7 @@
   "wasserbedarf": "mittel",
   "temperatur_fussbodenheizung": "Wärme ok; in trockener Luft und Dunkelheit werden Triebe lang und kahl – regelmäßig einkürzen und Stecklinge neu setzen.",
   "giftig_haustiere_kinder": "bedingt",
-  "giftig_text": "ASPCA führt Tradescantia (Inch Plant) als giftig für Hunde, Katzen ; als Symptom wird Hautreizung (Dermatitis) genannt.",
+  "giftig_text": "ASPCA führt die nahe verwandte Tradescantia fluminensis („Inch Plant“) als giftig für Hunde und Katzen (Hautreizung/Dermatitis); T. zebrina ist dort nicht eigens gelistet – vorsichtshalber gleich behandeln.",
   "allergie_hinweis": "gering: Haut (Reizung)",
   "schlafzimmer": "ja",
   "schlafzimmer_text": "Hängend unproblematisch.",
@@ -1278,7 +1309,7 @@
   "wikipedia_typ": "Art",
   "quellen": [
    "https://de.wikipedia.org/wiki/Zebra-Ampelkraut",
-   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/wandering-jew"
+   "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/inch-plant"
   ],
   "wikipedia_titel": "Zebra-Ampelkraut",
   "wikipedia_geprueft": true,
@@ -1299,6 +1330,7 @@
    "lizenz": "CC BY 4.0",
    "lizenz_url": "https://creativecommons.org/licenses/by/4.0",
    "quelle": "https://commons.wikimedia.org/wiki/File:20260317_Tradescantia_zebrina_01.jpg"
-  }
+  },
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
  }
 ]

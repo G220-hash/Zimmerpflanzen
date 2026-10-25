@@ -878,7 +878,7 @@ function detailHtml(p) {
         <div class="light-scale">${platzScale}</div>
         <p>${esc(p.wuchsform)} · Größe im Zimmer: ${esc(p.groesse_indoor)}</p></div>
       <div class="detail"><h3><span class="ico" aria-hidden="true">💧</span>Luftbefeuchtung: ${p.luftbefeuchtung}/5</h3>
-        <p>${esc(p.luftbefeuchtung_begruendung)}</p><p class="sub">Qualitative Einschätzung, keine Messwerte.</p></div>
+        <p>${esc(p.luftbefeuchtung_begruendung)}</p><p class="sub">${esc(p.luftbefeuchtung_basis || "Qualitative Einschätzung, keine Messwerte.")}</p></div>
       <div class="detail"><h3><span class="ico" aria-hidden="true">🚿</span>Pflege &amp; Gießen</h3>
         <p><strong>Pflegeaufwand:</strong> ${esc(p.pflegeaufwand)}</p><p><strong>Wasserbedarf:</strong> ${esc(p.wasserbedarf)}</p></div>
       <div class="detail"><h3><span class="ico" aria-hidden="true">🌙</span>Schlafzimmer &amp; Sauerstoff</h3>
