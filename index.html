@@ -288,6 +288,93 @@
   details.credits-box summary::after { content: '▾'; transition: transform 0.3s; }
   details.credits-box[open] summary::after { transform: rotate(180deg); }
   @media (max-width: 700px) { .teaser { padding: 1rem; } .toggle-btn { width: 100%; justify-content: center; } .teaser-icons img { width: 38px; height: 38px; } }
+  /* ---------- Merkliste („Meine Auswahl“) ---------- */
+  .merk-btn { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 0.35rem; border: 1px solid #cfe3cf; background: white; color: var(--accent); border-radius: 30px; padding: 0.3rem 0.8rem; font: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+  .merk-btn .heart { font-size: 1.05em; line-height: 1; }
+  .merk-btn:hover, .merk-btn:focus-visible { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(76,175,80,0.3); }
+  .merk-btn.saved { background: var(--accent); border-color: var(--accent); color: white; }
+  .card-img .merk-btn { position: absolute; top: 0.6rem; left: 0.6rem; background: rgba(255,255,255,0.94); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .card-img .merk-btn.saved { background: var(--accent); }
+  .merk-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.2rem 0 0.5rem; min-height: 0; }
+  .merk-tags:empty { display: none; }
+  .merk-tag { font-size: 0.75rem; font-weight: 600; background: #f1f8f0; color: var(--green); border: 1px solid #cfe3cf; border-radius: 6px; padding: 0.05rem 0.45rem; }
+  .modal-merk { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; padding: 0 1.5rem 0.6rem; }
+  .modal-merk .merk-tags { margin: 0; }
+  .pi-wrap { position: relative; }
+  .pi-wrap .merk-mini { position: absolute; top: -2px; right: 2px; z-index: 2; width: 26px; height: 26px; border-radius: 50%; border: 1px solid #cfe3cf; background: white; color: var(--accent); font-size: 0.85rem; line-height: 1; cursor: pointer; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  .pi-wrap .merk-mini.saved { background: var(--accent); color: white; border-color: var(--accent); }
+  .pi-wrap .merk-mini:focus-visible { outline: 3px solid var(--green-light); outline-offset: 1px; }
+  .merk-menu { position: fixed; z-index: 1300; min-width: 230px; background: white; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.2); padding: 0.5rem; border: 1px solid #e3ece1; }
+  .merk-menu[hidden] { display: none; }
+  .merk-menu .mm-title { font-size: 0.8rem; font-weight: 700; color: var(--muted); padding: 0.3rem 0.6rem 0.4rem; }
+  .merk-menu button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 0.8rem; background: none; border: none; border-radius: 8px; padding: 0.5rem 0.6rem; font: inherit; font-size: 0.92rem; color: var(--text); cursor: pointer; text-align: left; }
+  .merk-menu button:hover, .merk-menu button:focus-visible { background: var(--green-bg); outline: none; }
+  .merk-menu button .mm-meta { font-size: 0.75rem; color: var(--muted); }
+  .merk-menu button[aria-checked="true"] { color: var(--green); font-weight: 600; }
+  .merk-menu .mm-sep { height: 1px; background: #e8efe6; margin: 0.3rem 0.4rem; }
+  .merk-fab { position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 900; display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: white; border: none; border-radius: 40px; padding: 0.8rem 1.2rem; font: inherit; font-weight: 600; box-shadow: 0 8px 24px rgba(27,94,32,0.35); cursor: pointer; }
+  .merk-fab:hover, .merk-fab:focus-visible { background: var(--green); outline: none; box-shadow: 0 0 0 3px rgba(76,175,80,0.45), 0 8px 24px rgba(27,94,32,0.35); }
+  .merk-fab .count { background: white; color: var(--green); border-radius: 20px; min-width: 1.6rem; padding: 0 0.45rem; text-align: center; font-size: 0.85rem; }
+  .merk-fab.bump { animation: bump .35s ease; }
+  @keyframes bump { 50% { transform: scale(1.08); } }
+  .merk-toast { position: fixed; left: 50%; bottom: 5.2rem; transform: translateX(-50%); z-index: 1400; background: #1f3a1f; color: white; padding: 0.6rem 1rem; border-radius: 10px; font-size: 0.9rem; box-shadow: 0 6px 20px rgba(0,0,0,0.25); opacity: 0; pointer-events: none; transition: opacity .25s; max-width: calc(100vw - 2rem); }
+  .merk-toast.show { opacity: 1; }
+  #auswahlModal { z-index: 990; }
+  .auswahl-head { padding: 1.4rem 1.5rem 0.4rem; }
+  .auswahl-head h2 { text-align: left; margin: 0 2.5rem 0.3rem 0; font-size: 1.8rem; }
+  .auswahl-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+  .auswahl-body { padding: 0.6rem 1.5rem 1rem; }
+  .aw-room { background: white; border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); padding: 1rem 1.1rem; margin-bottom: 1rem; }
+  .aw-room-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.4rem 1rem; }
+  .aw-room-head h3 { margin: 0; color: var(--green); font-size: 1.2rem; }
+  .aw-sum { font-size: 0.85rem; color: var(--muted); }
+  .aw-warn { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+  .aw-warn li { font-size: 0.85rem; background: #fff8e1; color: #6d4c00; border-radius: 8px; padding: 0.35rem 0.6rem; margin-top: 0.3rem; }
+  .aw-warn li.info { background: #f1f8f0; color: var(--green); }
+  .aw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.8rem; margin-top: 0.8rem; }
+  .aw-item { border: 1px solid #e6eee4; border-radius: 12px; overflow: hidden; background: #fcfdfb; display: flex; flex-direction: column; }
+  .aw-open { display: block; width: 100%; padding: 0; border: none; background: none; text-align: left; font: inherit; cursor: pointer; color: inherit; }
+  .aw-open:focus-visible { outline: 3px solid var(--green-light); outline-offset: -3px; }
+  .aw-open img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+  .aw-open .aw-name { display: block; font-weight: 700; color: var(--green); padding: 0.5rem 0.7rem 0.1rem; }
+  .aw-meta { padding: 0 0.7rem; font-size: 0.8rem; color: var(--muted); line-height: 1.45; }
+  .aw-badges { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.35rem 0.7rem 0; }
+  .aw-badges .badge { font-size: 0.7rem; padding: 0.1rem 0.45rem; }
+  .badge.warn { background: #fdecea; color: #b3261e; }
+  .aw-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; padding: 0.55rem 0.7rem 0.7rem; margin-top: auto; }
+  .aw-actions select { flex: 1 1 100%; min-width: 0; font: inherit; font-size: 0.8rem; padding: 0.3rem; border: 1px solid #d5e2d2; border-radius: 8px; background: white; }
+  .aw-remove { flex: 1 1 100%; border: 1px solid #f0c9c4; background: white; color: #b3261e; border-radius: 8px; padding: 0.3rem 0.55rem; font: inherit; font-size: 0.8rem; cursor: pointer; }
+  .aw-remove:hover, .aw-remove:focus-visible { background: #fdecea; outline: none; }
+  .aw-empty { text-align: center; padding: 2rem 1rem; color: var(--muted); }
+  .aw-empty .big { font-size: 2.4rem; display: block; margin-bottom: 0.4rem; }
+  .aw-shop { margin-top: 0.4rem; }
+  .aw-shop summary { cursor: pointer; font-weight: 600; color: var(--green); }
+  .aw-shop ul { margin: 0.5rem 0 0; padding-left: 1.2rem; font-size: 0.9rem; }
+  .aw-shop a { color: var(--accent); }
+  .auswahl-foot { position: sticky; bottom: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; padding: 0.9rem 1.5rem; background: rgba(250,250,250,0.96); border-top: 1px solid #e6eee4; }
+  .auswahl-foot .cta { margin-top: 0; padding: 0.6rem 1.1rem; font-size: 0.9rem; border: none; cursor: pointer; font-family: inherit; }
+  .auswahl-foot .danger { background: white; color: #b3261e; border: 1px solid #f0c9c4; }
+  .auswahl-foot .status { font-size: 0.85rem; color: var(--muted); flex: 1 1 100%; }
+  .auswahl-foot .share-field { flex: 1 1 100%; font: inherit; font-size: 0.8rem; padding: 0.4rem; border: 1px solid #d5e2d2; border-radius: 8px; }
+  .auswahl-foot .share-field[hidden] { display: none; }
+  .print-only { display: none; }
+  @media (max-width: 700px) {
+    .merk-fab { right: 0.8rem; bottom: 0.8rem; padding: 0.7rem 1rem; font-size: 0.92rem; }
+    .auswahl-head, .auswahl-body, .auswahl-foot { padding-left: 1rem; padding-right: 1rem; }
+    .auswahl-head h2 { font-size: 1.45rem; }
+    .aw-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .aw-actions { flex-wrap: wrap; }
+  }
+  @media print {
+    body.auswahl-open > *:not(#auswahlModal) { display: none !important; }
+    body.auswahl-open #auswahlModal { position: static; display: block; background: none; padding: 0; backdrop-filter: none; }
+    body.auswahl-open #auswahlModal .modal-dialog { box-shadow: none; max-height: none; overflow: visible; width: 100%; height: auto; }
+    .modal-close, .auswahl-foot, .aw-actions, .merk-fab, .merk-toast, .merk-menu, .aw-shop summary::marker { display: none !important; }
+    .aw-shop { display: block; } .aw-shop[open] ul, .aw-shop ul { display: block; }
+    .aw-room { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .aw-grid { grid-template-columns: repeat(4, 1fr); }
+    .print-only { display: block; }
+  }
 </style>
 </head>
 <body>
@@ -661,6 +748,29 @@
   </div>
 </div>
 
+<button type="button" class="merk-fab" id="merkFab" aria-haspopup="dialog" aria-controls="auswahlModal"><span aria-hidden="true">🌿</span> Meine Auswahl <span class="count" id="merkCount" aria-hidden="true">0</span><span class="sr-only" id="merkCountSr"></span></button>
+<div class="merk-menu" id="merkMenu" role="menu" aria-label="Raum auswählen" hidden></div>
+<div class="merk-toast" id="merkToast" role="status" aria-live="polite"></div>
+
+<div class="modal" id="auswahlModal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="auswahlTitle" tabindex="-1">
+    <button type="button" class="modal-close" id="auswahlClose" aria-label="Meine Auswahl schließen">×</button>
+    <div class="auswahl-head">
+      <h2 id="auswahlTitle">🌿 Meine Auswahl</h2>
+      <p>Deine Zusammenstellung nach Räumen – keine Bestellung, nur eine Merkliste. Wird in diesem Browser gespeichert.</p>
+      <p class="print-only" id="auswahlPrintDate"></p>
+    </div>
+    <div class="auswahl-body" id="auswahlBody"></div>
+    <div class="auswahl-foot" id="auswahlFoot">
+      <button type="button" class="cta" id="awShare">🔗 Link teilen</button>
+      <button type="button" class="cta btn-secondary" id="awPrint">🖨 Drucken / als PDF</button>
+      <button type="button" class="cta danger" id="awClear">Liste leeren</button>
+      <input type="text" class="share-field" id="awShareField" readonly aria-label="Link zu deiner Auswahl" hidden>
+      <span class="status" id="awStatus" role="status" aria-live="polite"></span>
+    </div>
+  </div>
+</div>
+
 <footer>
   <p><a href="#bildnachweis" onclick="document.getElementById('creditsBox').open=true">Bildnachweise</a></p>
   <p>Erstellt als individueller Planer für trockene Winterluft in Stuttgart. Empfehlungen basieren auf aktuellen Erkenntnissen zu Transpiration und Pflege.</p>
@@ -779,7 +889,7 @@ function update() {
     if (key === 'bad') liste = [...liste].sort((a, b) => (b.bad_geeignet ? 1 : 0) - (a.bad_geeignet ? 1 : 0));
     const top = liste.slice(0, 8);
     const icons = top.map(p => `
-        <button type="button" class="plant-icon" data-pflanze="${p.id}" aria-label="Steckbrief ${p.kurzname} öffnen"><img src="${p.icon}" alt="" width="64" height="64"><span class="cap">${p.kurzname}${key === 'bad' && p.bad_geeignet ? ' 💦' : ''}</span></button>`).join('');
+        <div class="pi-wrap"><button type="button" class="plant-icon" data-pflanze="${p.id}" aria-label="Steckbrief ${p.kurzname} öffnen"><img src="${p.icon}" alt="" width="64" height="64"><span class="cap">${p.kurzname}${key === 'bad' && p.bad_geeignet ? ' 💦' : ''}</span></button>${merkMiniHtml(p.id, key)}</div>`).join('');
     const platzText = platz === 'alle' ? '' : ` · Platz: ${PLATZ_LABEL[platz]}`;
     return `
     <div class="card"><div class="card-body">
@@ -790,12 +900,14 @@ function update() {
       ${liste.length > top.length ? `<p class="room-more">+ ${liste.length - top.length} weitere passende Pflanzen in der Pflanzenliste oben.</p>` : ''}
       ${info.hinweis ? `<p class="room-hint">${info.hinweis}</p>` : ''}
       ${raumHinweis[key] ? `<p class="room-hint">${raumHinweis[key]}</p>` : ''}
+      <p class="room-more">♡ am Piktogramm merkt die Pflanze direkt für ${RAEUME[key]}.</p>
       <p class="room-more">${key === 'schlaf' ? 'Schlafzimmer-geeignete zuerst, dann' : key === 'bad' ? 'Feuchtigkeitsliebende zuerst, dann' : 'Sortiert'} nach Luftbefeuchtung · Piktogramm anklicken für den Steckbrief.</p>
     </div></div>`;
   };
   const gewaehlt = Object.keys(RAEUME).filter(k => document.getElementById('raum-' + k).checked);
   const rooms = gewaehlt.length ? gewaehlt.map(k => raum(k, document.getElementById('licht-' + k).value)).join('') : '<p class="placeholder">Kein Raum ausgewählt – wähle oben mindestens einen Raum aus.</p>';
   document.getElementById('roomsContent').innerHTML = rooms;
+  if (window.__merkReady) merkUI();
 
   // Local shops based on region
   const regionLower = region.toLowerCase();
@@ -882,11 +994,13 @@ function renderPlantCards() {
       <div class="card-img">
         <img src="${esc(p.bild.datei)}" alt="${esc(p.bild.alt)}" loading="lazy" width="1000" height="750">
         <button type="button" class="pikto-float" data-pflanze="${p.id}" aria-label="Steckbrief ${esc(p.kurzname)} öffnen" title="Steckbrief öffnen"><img src="${esc(p.icon)}" alt=""></button>
+        ${merkBtnHtml(p.id)}
       </div>
       <div class="card-body">
         <div class="badges"><span class="badge" title="Luftbefeuchtung">${drops(p.luftbefeuchtung)}</span><span class="badge allergie-${p.allergie_bewertung}" title="Allergie-Einstufung">${ALLERGIE_ICON[p.allergie_bewertung]} Allergie: ${p.allergie_bewertung}</span></div>
         <h3>${esc(p.kurzname)}</h3>
         <p class="botanisch">${esc(p.botanischer_name)}</p>
+        ${merkTagsHtml(p.id)}
         <p>${esc(p.auswahl_begruendung)}</p>
         <p class="meta"><strong>Licht:</strong> ${Object.keys(LICHT_LABEL).filter(k => p.licht[k]).map(k => LICHT_LABEL[k]).join(', ')}<br><strong>Platz:</strong> ${esc(p.standorte_text)}<br><strong>Pflege:</strong> ${esc(p.pflegeaufwand)} · <strong>Preis:</strong> ${esc(p.preis_eur)}</p>
         <div class="card-foot"><span class="wiki-hint">Mehr auf Wikipedia →</span>
@@ -894,6 +1008,7 @@ function renderPlantCards() {
       </div>
     </article>`).join('') || '<p class="placeholder">Keine Pflanze passt zu dieser Filterkombination.</p>';
   document.getElementById('filterCount').textContent = `${liste.length} von ${PFLANZEN.length} Pflanzen`;
+  if (window.__merkReady) merkUI();
 }
 document.getElementById('plantFilters').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
@@ -937,6 +1052,7 @@ function detailHtml(p) {
       <span class="badge">🪴 Pflege: ${esc(p.pflege_aufwand || p.pflegeaufwand)}</span>
       <span class="badge">💶 ${esc(p.preis_eur)}</span>
     </div>
+    <div class="modal-merk">${merkBtnHtml(p.id)}${merkTagsHtml(p.id)}</div>
     <p class="modal-lead">${esc(p.auswahl_begruendung)}</p>
     <div class="detail-grid">
       <div class="detail"><h3><span class="ico" aria-hidden="true">☀️</span>Licht</h3>
@@ -976,6 +1092,7 @@ function openPlant(id, fromHash) {
   const p = PFLANZE[id]; if (!p) return;
   if (modal.hidden) lastFocus = document.activeElement;
   document.getElementById('modalContent').innerHTML = detailHtml(p);
+  if (window.__merkReady) merkUI();
   modal.hidden = false;
   document.body.classList.add('modal-open');
   modal.querySelector('.modal-dialog').scrollTop = 0;
@@ -985,8 +1102,9 @@ function openPlant(id, fromHash) {
 function closePlant(fromHash) {
   if (modal.hidden) return;
   modal.hidden = true;
-  document.body.classList.remove('modal-open');
-  if (!fromHash && location.hash.startsWith('#pflanze-')) history.pushState(null, '', location.pathname + location.search + (document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
+  const auswahlOffen = !document.getElementById('auswahlModal').hidden;
+  if (!auswahlOffen) document.body.classList.remove('modal-open');
+  if (!fromHash && location.hash.startsWith('#pflanze-')) history.pushState(null, '', location.pathname + location.search + (auswahlOffen ? '#auswahl' : document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
   if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
 }
 document.addEventListener('click', e => {
@@ -1035,6 +1153,266 @@ document.getElementById('teaserText').innerHTML = `<strong>${PFLANZEN.length} Pf
 if (location.hash === '#pflanzen-alle') setPlantsOpen(true);
 window.addEventListener('hashchange', () => { if (location.hash === '#pflanzen-alle') setPlantsOpen(true); if (location.hash === '#bildnachweis') document.getElementById('creditsBox').open = true; });
 if (location.hash === '#bildnachweis') document.getElementById('creditsBox').open = true;
+
+// ---------- Merkliste „Meine Auswahl“ (keine Bestellung, nur Zusammenstellung je Raum) ----------
+const MERK_KEY = 'zimmerpflanzen-auswahl-v1';
+const RAUM_IDS = Object.keys(RAEUME);
+let merk = {};
+function merkLaden() {
+  try { const d = JSON.parse(localStorage.getItem(MERK_KEY) || '{}'); merk = merkSauber(d); } catch (e) { merk = {}; }
+}
+function merkSauber(d) {
+  const out = {};
+  RAUM_IDS.forEach(r => { const l = Array.isArray(d && d[r]) ? d[r].filter((id, i, a) => PFLANZE[id] && a.indexOf(id) === i) : []; if (l.length) out[r] = l; });
+  return out;
+}
+function merkSpeichern() { try { localStorage.setItem(MERK_KEY, JSON.stringify(merk)); } catch (e) {} }
+const merkRaeumeVon = id => RAUM_IDS.filter(r => (merk[r] || []).includes(id));
+const merkAnzahl = () => RAUM_IDS.reduce((s, r) => s + (merk[r] || []).length, 0);
+function merkToggle(id, raum) {
+  const l = merk[raum] || [];
+  const drin = l.includes(id);
+  merk[raum] = drin ? l.filter(x => x !== id) : [...l, id];
+  if (!merk[raum].length) delete merk[raum];
+  merkSpeichern(); merkUI();
+  toast(drin ? `${PFLANZE[id].kurzname} aus „${RAEUME[raum]}“ entfernt` : `${PFLANZE[id].kurzname} für „${RAEUME[raum]}“ gemerkt`);
+  if (!drin) { const f = document.getElementById('merkFab'); f.classList.remove('bump'); void f.offsetWidth; f.classList.add('bump'); }
+}
+function merkVerschieben(id, von, nach) {
+  if (von === nach) return;
+  merk[von] = (merk[von] || []).filter(x => x !== id); if (!merk[von].length) delete merk[von];
+  merk[nach] = [...new Set([...(merk[nach] || []), id])];
+  merkSpeichern(); merkUI(); toast(`${PFLANZE[id].kurzname} nach „${RAEUME[nach]}“ verschoben`);
+}
+let toastTimer = null;
+function toast(t) {
+  const el = document.getElementById('merkToast'); el.textContent = t; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+}
+function merkBtnHtml(id, extraClass = '') {
+  return `<button type="button" class="merk-btn ${extraClass}" data-merken="${id}" aria-haspopup="menu" aria-expanded="false"><span class="heart" aria-hidden="true">♡</span><span class="lbl">Merken</span></button>`;
+}
+function merkTagsHtml(id) { return `<div class="merk-tags" data-tags-for="${id}"></div>`; }
+function merkMiniHtml(id, raum) { return `<button type="button" class="merk-mini" data-merken="${id}" data-raum="${raum}" aria-pressed="false" aria-label="${esc(PFLANZE[id].kurzname)} für ${RAEUME[raum]} merken">♡</button>`; }
+
+// Zustand aller Merken-Buttons, Raum-Tags, Zähler und ggf. offenes Auswahl-Fenster aktualisieren
+function merkUI() {
+  document.querySelectorAll('[data-merken]').forEach(b => {
+    const id = b.dataset.merken, raeume = merkRaeumeVon(id), name = PFLANZE[id].kurzname;
+    if (b.dataset.raum) {
+      const on = raeume.includes(b.dataset.raum);
+      b.classList.toggle('saved', on); b.textContent = on ? '♥' : '♡'; b.setAttribute('aria-pressed', String(on));
+      b.setAttribute('aria-label', `${name} ${on ? 'aus ' + RAEUME[b.dataset.raum] + ' entfernen' : 'für ' + RAEUME[b.dataset.raum] + ' merken'}`);
+      b.title = on ? `Gemerkt für ${RAEUME[b.dataset.raum]} – klicken zum Entfernen` : `Für ${RAEUME[b.dataset.raum]} merken`;
+    } else {
+      const on = raeume.length > 0;
+      b.classList.toggle('saved', on);
+      b.querySelector('.heart').textContent = on ? '♥' : '♡';
+      b.querySelector('.lbl').textContent = on ? `Gemerkt (${raeume.length})` : 'Merken';
+      b.setAttribute('aria-label', on ? `${name} gemerkt für ${raeume.map(r => RAEUME[r]).join(', ')} – Räume ändern` : `${name} merken – Raum wählen`);
+    }
+  });
+  document.querySelectorAll('[data-tags-for]').forEach(el => {
+    el.innerHTML = merkRaeumeVon(el.dataset.tagsFor).map(r => `<span class="merk-tag">♥ ${RAEUME[r]}</span>`).join('');
+  });
+  const n = merkAnzahl();
+  document.getElementById('merkCount').textContent = n;
+  document.getElementById('merkCountSr').textContent = `, ${n} ${n === 1 ? 'Pflanze' : 'Pflanzen'} gemerkt`;
+  if (!auswahlModal.hidden) renderAuswahl();
+}
+
+// Raum-Auswahlmenü (Popover)
+const merkMenu = document.getElementById('merkMenu');
+let menuTrigger = null;
+function gewaehlteRaeume() { return RAUM_IDS.filter(k => document.getElementById('raum-' + k)?.checked); }
+function openMerkMenu(btn) {
+  const id = btn.dataset.merken; menuTrigger = btn;
+  const sel = gewaehlteRaeume(), rest = RAUM_IDS.filter(r => !sel.includes(r)), drin = merkRaeumeVon(id);
+  const item = r => `<button type="button" role="menuitemcheckbox" aria-checked="${drin.includes(r)}" data-mm-raum="${r}"><span>${drin.includes(r) ? '♥' : '♡'} ${RAEUME[r]}</span><span class="mm-meta">${drin.includes(r) ? 'gemerkt' : sel.includes(r) ? 'dein Raum' : ''}</span></button>`;
+  merkMenu.innerHTML = `<div class="mm-title">${esc(PFLANZE[id].kurzname)} merken für …</div>${sel.map(item).join('')}${sel.length && rest.length ? '<div class="mm-sep" role="separator"></div>' : ''}${rest.map(item).join('')}`;
+  merkMenu.dataset.id = id; merkMenu.hidden = false; btn.setAttribute('aria-expanded', 'true');
+  const r = btn.getBoundingClientRect(), mw = merkMenu.offsetWidth, mh = merkMenu.offsetHeight;
+  let left = Math.min(Math.max(8, r.left), window.innerWidth - mw - 8);
+  let top = r.bottom + 6; if (top + mh > window.innerHeight - 8) top = Math.max(8, r.top - mh - 6);
+  merkMenu.style.left = left + 'px'; merkMenu.style.top = top + 'px';
+  merkMenu.querySelector('button').focus();
+}
+function closeMerkMenu(refocus) {
+  if (merkMenu.hidden) return;
+  merkMenu.hidden = true;
+  if (menuTrigger) { menuTrigger.setAttribute('aria-expanded', 'false'); if (refocus && document.contains(menuTrigger)) menuTrigger.focus(); }
+}
+merkMenu.addEventListener('click', e => {
+  const b = e.target.closest('[data-mm-raum]'); if (!b) return;
+  merkToggle(merkMenu.dataset.id, b.dataset.mmRaum); closeMerkMenu(true);
+});
+document.addEventListener('keydown', e => {
+  if (merkMenu.hidden) return;
+  const items = [...merkMenu.querySelectorAll('button')], i = items.indexOf(document.activeElement);
+  if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); closeMerkMenu(true); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+  else if (e.key === 'Home') { e.preventDefault(); items[0].focus(); }
+  else if (e.key === 'End') { e.preventDefault(); items[items.length - 1].focus(); }
+  else if (e.key === 'Tab') { e.preventDefault(); e.stopImmediatePropagation(); closeMerkMenu(true); }
+}, true);
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-merken]');
+  if (b) {
+    e.preventDefault(); e.stopPropagation();
+    if (b.dataset.raum) { merkToggle(b.dataset.merken, b.dataset.raum); return; }
+    if (!merkMenu.hidden && menuTrigger === b) closeMerkMenu(false); else { closeMerkMenu(false); openMerkMenu(b); }
+    return;
+  }
+  if (!merkMenu.hidden && !merkMenu.contains(e.target)) closeMerkMenu(false);
+}, true);
+window.addEventListener('resize', () => closeMerkMenu(false));
+document.addEventListener('scroll', () => closeMerkMenu(false), true);
+
+// Auswahl-Fenster
+const auswahlModal = document.getElementById('auswahlModal');
+let auswahlLastFocus = null;
+function raumLicht(r) { const cb = document.getElementById('raum-' + r); return cb && cb.checked ? document.getElementById('licht-' + r).value : null; }
+function renderAuswahl() {
+  const tiere = document.querySelector('input[name="tiere"]:checked')?.value === 'ja';
+  const allergiker = document.querySelector('input[name="allergie"]:checked')?.value === 'ja';
+  const raeume = RAUM_IDS.filter(r => (merk[r] || []).length);
+  const body = document.getElementById('auswahlBody');
+  document.getElementById('auswahlPrintDate').textContent = 'Stand: ' + new Date().toLocaleDateString('de-DE');
+  ['awShare', 'awPrint', 'awClear'].forEach(i => document.getElementById(i).disabled = !raeume.length);
+  if (!raeume.length) {
+    body.innerHTML = `<div class="aw-empty"><span class="big" aria-hidden="true">🪴</span><p><strong>Noch keine Pflanzen gemerkt.</strong></p><p>Klicke in der Pflanzenliste, im Steckbrief oder bei den Raum-Empfehlungen auf <strong>♡ Merken</strong> und wähle den Raum. Hier siehst du dann deine Zusammenstellung je Zimmer.</p></div>`;
+    return;
+  }
+  const html = raeume.map(r => {
+    const ids = merk[r], licht = raumLicht(r);
+    const punkte = ids.reduce((s, id) => s + PFLANZE[id].luftbefeuchtung, 0);
+    const warn = [];
+    ids.forEach(id => {
+      const p = PFLANZE[id];
+      if (licht && !p.licht[licht]) warn.push(`☀️ ${esc(p.kurzname)} passt nicht zum Licht im ${RAEUME[r]} (${LICHT_LABEL[licht].replace(/^\S+\s/, '')}).`);
+      if (tiere && p.giftig_haustiere_kinder !== 'nein') warn.push(`🐾 ${esc(p.kurzname)} ist ${p.giftig_haustiere_kinder === 'ja' ? 'giftig' : 'leicht giftig'} für Hunde/Katzen.`);
+      if (allergiker && p.allergie_bewertung === 'Vorsicht') warn.push(`🤧 ${esc(p.kurzname)}: Allergie „Vorsicht“ (${esc(p.allergie_art)}).`);
+      if (r === 'schlaf' && p.schlafzimmer === 'nein') warn.push(`🛏 ${esc(p.kurzname)} gilt als nicht ideal fürs Schlafzimmer.`);
+      if (r === 'bad' && !p.bad_geeignet) warn.push(`💦 ${esc(p.kurzname)} mag dauerhaft feuchte Badluft eher nicht.`);
+    });
+    const info = licht ? '' : `<li class="info">Licht für ${RAEUME[r]} im Cockpit nicht angegeben – Raum dort auswählen, dann prüfen wir das Licht.</li>`;
+    const items = ids.map(id => {
+      const p = PFLANZE[id];
+      const lichtTxt = Object.keys(LICHT_LABEL).filter(k => p.licht[k]).map(k => LICHT_LABEL[k].replace(/^\S+\s/, '')).join(', ');
+      const giftBadge = p.giftig_haustiere_kinder === 'nein' ? '<span class="badge">🐾 ungiftig</span>' : `<span class="badge${tiere ? ' warn' : ''}">🐾 ${p.giftig_haustiere_kinder === 'ja' ? 'giftig' : 'leicht giftig'}</span>`;
+      const opts = RAUM_IDS.map(x => `<option value="${x}"${x === r ? ' selected' : ''}>${x === r ? '' : '→ '}${RAEUME[x]}</option>`).join('');
+      return `<div class="aw-item">
+        <button type="button" class="aw-open" data-pflanze="${id}" aria-label="Steckbrief ${esc(p.kurzname)} öffnen"><img src="${esc(p.bild.datei)}" alt="" loading="lazy" width="1000" height="750"><span class="aw-name">${esc(p.kurzname)}</span></button>
+        <div class="aw-badges"><span class="badge" title="Luftbefeuchtung">${'💧'.repeat(p.luftbefeuchtung)} ${p.luftbefeuchtung}/5</span>${giftBadge}<span class="badge allergie-${p.allergie_bewertung}">${ALLERGIE_ICON[p.allergie_bewertung]} ${p.allergie_bewertung}</span></div>
+        <div class="aw-meta">Licht: ${esc(lichtTxt)}<br>Pflege: ${esc(p.pflege_aufwand || p.pflegeaufwand)}</div>
+        <div class="aw-actions">
+          <select data-aw-move="${id}" data-von="${r}" aria-label="${esc(p.kurzname)} in anderen Raum verschieben">${opts}</select>
+          <button type="button" class="aw-remove" data-aw-remove="${id}" data-von="${r}" aria-label="${esc(p.kurzname)} aus ${RAEUME[r]} entfernen">Entfernen</button>
+        </div>
+      </div>`;
+    }).join('');
+    return `<section class="aw-room" aria-labelledby="aw-h-${r}">
+      <div class="aw-room-head"><h3 id="aw-h-${r}">${RAEUME[r]}</h3>
+        <span class="aw-sum">${ids.length} ${ids.length === 1 ? 'Pflanze' : 'Pflanzen'} · ${punkte} 💧-Punkte${licht ? ' · Licht: ' + LICHT_LABEL[licht].replace(/^\S+\s/, '') : ''}</span></div>
+      ${warn.length || info ? `<ul class="aw-warn">${warn.map(w => `<li>${w}</li>`).join('')}${info}</ul>` : ''}
+      <div class="aw-grid">${items}</div>
+    </section>`;
+  }).join('');
+  const alle = [...new Set(raeume.flatMap(r => merk[r]))];
+  const shop = `<details class="aw-shop"><summary>🛒 Einkaufsliste (${alle.length} ${alle.length === 1 ? 'Art' : 'Arten'})</summary>
+    <ul>${alle.map(id => { const p = PFLANZE[id], n = merkRaeumeVon(id).length; return `<li><strong>${esc(p.kurzname)}</strong>${n > 1 ? ` × ${n}` : ''} – ${esc(p.preis_eur)} · <a href="https://www.obi.de/search/${encodeURIComponent(p.kurzname)}/" target="_blank" rel="noopener">bei OBI suchen</a></li>`; }).join('')}
+    <li>Übertöpfe und Pflanzenständer: <a href="https://www.connox.de/search?q=pflanzenst%C3%A4nder" target="_blank" rel="noopener">bei Connox &amp; Co.</a> · <a href="https://www.obi.de/search/elho%20selbstbew%C3%A4ssernd/" target="_blank" rel="noopener">selbstbewässernde Töpfe bei OBI</a></li></ul>
+    <p class="aw-sum">Nur Suchlinks – Verfügbarkeit und Preise bitte im Shop prüfen.</p></details>`;
+  body.innerHTML = html + shop;
+}
+function openAuswahl(fromHash) {
+  closeMerkMenu(false);
+  if (auswahlModal.hidden) auswahlLastFocus = document.activeElement;
+  renderAuswahl();
+  document.getElementById('awShareField').hidden = true; document.getElementById('awStatus').textContent = '';
+  auswahlModal.hidden = false; document.body.classList.add('modal-open', 'auswahl-open');
+  auswahlModal.querySelector('.modal-dialog').scrollTop = 0;
+  document.getElementById('auswahlClose').focus();
+  if (!fromHash && location.hash !== '#auswahl') history.pushState(null, '', '#auswahl');
+}
+function closeAuswahl(fromHash) {
+  if (auswahlModal.hidden) return;
+  auswahlModal.hidden = true; document.body.classList.remove('auswahl-open');
+  if (modal.hidden) document.body.classList.remove('modal-open');
+  if (!fromHash && location.hash === '#auswahl') history.pushState(null, '', location.pathname + location.search + (document.getElementById('plantsPanel').classList.contains('open') ? '#pflanzen-alle' : ''));
+  if (auswahlLastFocus && document.contains(auswahlLastFocus)) auswahlLastFocus.focus();
+}
+document.getElementById('merkFab').addEventListener('click', () => openAuswahl());
+document.getElementById('auswahlClose').addEventListener('click', () => closeAuswahl());
+auswahlModal.addEventListener('click', e => { if (e.target === auswahlModal) closeAuswahl(); });
+auswahlModal.addEventListener('change', e => {
+  const s = e.target.closest('[data-aw-move]'); if (s) merkVerschieben(s.dataset.awMove, s.dataset.von, s.value);
+});
+auswahlModal.addEventListener('click', e => {
+  const b = e.target.closest('[data-aw-remove]'); if (!b) return;
+  merkToggle(b.dataset.awRemove, b.dataset.von);
+  const first = auswahlModal.querySelector('.aw-remove, #auswahlClose'); if (first) first.focus();
+});
+let escFuerSteckbrief = false;
+document.addEventListener('keydown', e => { escFuerSteckbrief = e.key === 'Escape' && !modal.hidden; }, true);
+document.addEventListener('keydown', e => {
+  if (escFuerSteckbrief) { escFuerSteckbrief = false; return; }
+  if (auswahlModal.hidden || !modal.hidden || !merkMenu.hidden) return;
+  if (e.key === 'Escape') { closeAuswahl(); return; }
+  if (e.key === 'Tab') {
+    const f = [...auswahlModal.querySelectorAll('a[href], button:not([disabled]), select, input:not([hidden]), summary')].filter(el => el.offsetParent !== null);
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+  }
+});
+document.getElementById('awClear').addEventListener('click', () => {
+  if (!merkAnzahl()) return;
+  if (!confirm('Wirklich alle gemerkten Pflanzen aus deiner Auswahl entfernen?')) return;
+  merk = {}; merkSpeichern(); merkUI(); toast('Auswahl geleert'); document.getElementById('auswahlClose').focus();
+});
+document.getElementById('awPrint').addEventListener('click', () => {
+  const d = auswahlModal.querySelector('.aw-shop'); if (d) d.open = true;
+  window.print();
+});
+// Teilen: Auswahl kompakt im Hash kodieren, z. B. #auswahl=wohn:areca,monstera;schlaf:pilea
+function auswahlCode() { return RAUM_IDS.filter(r => (merk[r] || []).length).map(r => r + ':' + merk[r].join(',')).join(';'); }
+function auswahlParse(code) {
+  const d = {};
+  decodeURIComponent(code).split(';').forEach(part => { const [r, l] = part.split(':'); if (RAEUME[r] && l) d[r] = l.split(','); });
+  return merkSauber(d);
+}
+document.getElementById('awShare').addEventListener('click', async () => {
+  const url = location.origin + location.pathname + '#auswahl=' + auswahlCode();
+  const field = document.getElementById('awShareField'), st = document.getElementById('awStatus');
+  field.value = url; field.hidden = false;
+  try { await navigator.clipboard.writeText(url); st.textContent = '✔ Link kopiert – wer ihn öffnet, sieht deine Auswahl.'; }
+  catch (e) { field.select(); st.textContent = 'Link markiert – bitte mit Strg+C / ⌘+C kopieren.'; }
+});
+function syncAuswahlHash() {
+  const h = location.hash;
+  if (h.startsWith('#auswahl=')) {
+    const neu = auswahlParse(h.slice(9));
+    const gleich = JSON.stringify(neu) === JSON.stringify(merk);
+    if (Object.keys(neu).length && !gleich) {
+      if (!merkAnzahl() || confirm('Geteilte Auswahl laden? Deine bisherige Merkliste in diesem Browser wird dabei ersetzt.')) {
+        merk = neu; merkSpeichern(); merkUI(); toast('Geteilte Auswahl geladen');
+      }
+    }
+    history.replaceState(null, '', '#auswahl');
+    openAuswahl(true); return;
+  }
+  if (h === '#auswahl') openAuswahl(true);
+  else if (!h.startsWith('#pflanze-')) closeAuswahl(true);
+}
+window.addEventListener('hashchange', syncAuswahlHash);
+window.addEventListener('popstate', syncAuswahlHash);
+window.addEventListener('storage', e => { if (e.key === MERK_KEY) { merkLaden(); merkUI(); } });
+merkLaden();
+window.__merkReady = true;
+merkUI();
+syncAuswahlHash();
 
 </script>
 </body>
