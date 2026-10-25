@@ -113,6 +113,9 @@
     transition: transform 0.2s, box-shadow 0.2s;
   }
   .card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+  .plant-link { display: block; color: inherit; text-decoration: none; cursor: pointer; }
+  .wiki-hint { display: inline-block; margin-top: 0.4rem; color: var(--accent); font-weight: 600; font-size: 0.95rem; }
+  .plant-link:hover .wiki-hint { text-decoration: underline; }
   .card img { width: 100%; height: 200px; object-fit: cover; }
   .card-body { padding: 1.2rem; }
   .card h3 { margin: 0 0 0.5rem; color: var(--green); }
@@ -243,51 +246,56 @@
   <h2>Die besten Feuchtigkeits-Spender</h2>
   <p style="text-align:center; max-width:700px; margin:0 auto 2rem;">Sortiert nach Transpiration und Praxis-Tauglichkeit. Mit selbstbewässernden Töpfen besonders unkompliziert.</p>
   <div class="plants-grid">
-    <div class="card">
+    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Goldfruchtpalme" target="_blank" rel="noopener" title="Areca-Palme auf Wikipedia">
       <img src="images/areca-palme.jpg" alt="Areca-Palme mit feinen Wedeln vor einem hellen Fenster" loading="lazy">
       <div class="card-body">
         <span class="badge">Höchste Transpiration</span>
         <h3>Areca-Palme</h3>
         <p>Feingefiederte Wedel, bis ~1 Liter Wasser/Tag bei großer Pflanze. Braucht helles indirektes Licht.</p>
         <p><strong>Pflege:</strong> Mittel · <strong>Effektiv ab:</strong> 80–100 cm · <strong>Kosten:</strong> 40–100 €</p>
+        <span class="wiki-hint">Mehr auf Wikipedia →</span>
       </div>
-    </div>
-    <div class="card">
+    </a>
+    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Nephrolepis_exaltata" target="_blank" rel="noopener" title="Schwertfarn / Boston-Farn auf Wikipedia">
       <img src="https://images.unsplash.com/photo-1528604891270-c2d9c3d1fc0b?auto=format&fit=crop&w=800&q=80" alt="Boston Farn">
       <div class="card-body">
         <span class="badge">Sehr hoch</span>
         <h3>Schwertfarn / Boston-Farn</h3>
         <p>Dichte Wedel, einer der besten Luftbefeuchter. Mag konstante Feuchte.</p>
         <p><strong>Pflege:</strong> Mittel · <strong>Effektiv ab:</strong> mittelgroß · <strong>Kosten:</strong> 20–50 €</p>
+        <span class="wiki-hint">Mehr auf Wikipedia →</span>
       </div>
-    </div>
-    <div class="card">
+    </a>
+    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Spathiphyllum" target="_blank" rel="noopener" title="Einblatt (Friedenslilie) auf Wikipedia">
       <img src="https://images.unsplash.com/photo-1642049671771-8b22a7152bda?auto=format&fit=crop&w=800&q=80" alt="Einblatt">
       <div class="card-body">
         <span class="badge">Hoch & anpassungsfähig</span>
         <h3>Einblatt (Friedenslilie)</h3>
         <p>Große Blätter + weiße Blüten. Verträgt auch weniger Licht, zeigt Durst durch Hängen.</p>
         <p><strong>Pflege:</strong> Leicht–mittel · <strong>Effektiv ab:</strong> 40 cm · <strong>Kosten:</strong> 30–55 €</p>
+        <span class="wiki-hint">Mehr auf Wikipedia →</span>
       </div>
-    </div>
-    <div class="card">
+    </a>
+    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Efeutute" target="_blank" rel="noopener" title="Efeutute (Pothos) auf Wikipedia">
       <img src="https://images.unsplash.com/photo-1534726955665-2cb2d145f2ad?auto=format&fit=crop&w=800&q=80" alt="Efeutute">
       <div class="card-body">
         <span class="badge">Sehr pflegeleicht</span>
         <h3>Efeutute (Pothos)</h3>
         <p>Extrem robust, wächst auch bei weniger Licht, rankend oder hängend.</p>
         <p><strong>Pflege:</strong> Sehr leicht · <strong>Effektiv ab:</strong> buschig · <strong>Kosten:</strong> 20–40 €</p>
+        <span class="wiki-hint">Mehr auf Wikipedia →</span>
       </div>
-    </div>
-    <div class="card">
+    </a>
+    <a class="card plant-link" href="https://de.wikipedia.org/wiki/Grünlilie" target="_blank" rel="noopener" title="Grünlilie (Spider Plant) auf Wikipedia">
       <img src="https://images.unsplash.com/photo-1526152880876-59f84a23d871?auto=format&fit=crop&w=800&q=80" alt="Grünlilie">
       <div class="card-body">
         <span class="badge">Anfänger-Favorit</span>
         <h3>Grünlilie (Spider Plant)</h3>
         <p>Sehr einfach, bildet Kindel, gute Transpiration.</p>
         <p><strong>Pflege:</strong> Sehr leicht · <strong>Effektiv ab:</strong> volle Pflanze · <strong>Kosten:</strong> 15–35 €</p>
+        <span class="wiki-hint">Mehr auf Wikipedia →</span>
       </div>
-    </div>
+    </a>
   </div>
 </section>
 
