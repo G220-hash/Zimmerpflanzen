@@ -520,9 +520,9 @@
     </fieldset>
     <div class="row">
       <div>
-        <label>Haustiere im Haushalt?</label>
+        <label>Haustiere oder Kleinkinder im Haushalt?</label>
         <div class="toggle-group">
-          <label><input type="radio" name="tiere" value="ja" onchange="markDirty()"> Ja – für Hunde/Katzen giftige Pflanzen ausblenden</label>
+          <label><input type="radio" name="tiere" value="ja" onchange="markDirty()"> Ja – giftige Pflanzen ausblenden</label>
           <label><input type="radio" name="tiere" value="nein" checked onchange="markDirty()"> Nein</label>
         </div>
       </div>
@@ -948,7 +948,7 @@ function update() {
   zeilen.push(`<li><span aria-hidden="true">📐</span><span>${platz === 'haengend' ? 'Hängend platzieren – der Boden bleibt frei für den Saugroboter.' : 'Auf Ständer oder Tisch stellen – Platz für Saugroboter lassen.'}</span></li>`);
   let html = `<ul class="res-lines">${zeilen.join('')}</ul>`;
   if (starke.length) html += `<div class="res-chips"><span class="lbl">Top für dich:</span>${starke.map(p => `<button type="button" class="res-chip" data-pflanze="${p.id}" aria-label="Steckbrief ${esc(p.kurzname)} öffnen, Luftbefeuchtung ${p.luftbefeuchtung} von 5">${esc(p.kurzname)} · 💧${p.luftbefeuchtung}</button>`).join('')}</div>`;
-  const filterInfo = [tiere && '🐾 ohne giftige', pflegeleicht && '🪴 pflegeleicht', allergiker && '🤧 ohne „Vorsicht“'].filter(Boolean);
+  const filterInfo = [tiere && '🐾👶 ohne giftige', pflegeleicht && '🪴 pflegeleicht', allergiker && '🤧 ohne „Vorsicht“'].filter(Boolean);
   if (filterInfo.length) html += `<div class="res-chips">${filterInfo.map(t => `<span class="res-chip info">${t}</span>`).join('')}<span class="res-chip info">${passend.length} von ${PFLANZEN.length} passen</span></div>`;
   const anpassung = rf === null ? 'Ohne Hygrometer-Wert gilt nur die Faustregel – mit Wert werden wir genauer.' : n.stufe === 'trocken' ? `Deine ${rf} % sind niedrig (unter 35 %): +2 Pflanzen, bevorzugt starke Befeuchter (💧 4–5).` : n.stufe === 'ok' ? `Deine ${rf} % liegen im mittleren Bereich (35–45 %): keine Anpassung.` : `Deine ${rf} % sind schon gut (über 45 %): −2 Pflanzen – mehr bringt kaum etwas.`;
   html += `<details class="footnote"><summary>ℹ️ Wie wir rechnen</summary><ul>
@@ -1057,7 +1057,7 @@ const PLATZ_LABEL = { boden: 'Boden/Ständer', tisch: 'Tisch', haengend: 'hänge
 const LICHT_LABEL = { sonnig: '☀️ sonnig', hell: '🌤 hell', wenig: '⛅ wenig Licht', dunkel: '🌑 dunkel' };
 const ALLERGIE_ICON = { unproblematisch: '✅', gering: '🟡', Vorsicht: '⚠️' };
 const JA_NEIN = { ja: 'geeignet', bedingt: 'bedingt geeignet', nein: 'nicht ideal' };
-const GIFT = { nein: '🐾 ungiftig', bedingt: '🐾 leicht giftig', ja: '🐾 giftig für Tiere' };
+const GIFT = { nein: '🐾 ungiftig', bedingt: '🐾👶 leicht giftig', ja: '🐾👶 giftig' };
 
 const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const drops = n => `<span class="drops" aria-label="Luftbefeuchtung ${n} von 5">${'💧'.repeat(n)}<span class="off">${'💧'.repeat(5 - n)}</span></span>`;
@@ -1154,8 +1154,8 @@ function detailHtml(p) {
         <p><strong>Pflegeaufwand:</strong> ${esc(p.pflege_aufwand || p.pflegeaufwand)}${p.pflege_begruendung ? ` – ${esc(p.pflege_begruendung)}` : ''}</p><p><strong>Wasserbedarf:</strong> ${esc(p.wasserbedarf)}</p></div>
       <div class="detail"><h3><span class="ico" aria-hidden="true">🌙</span>Schlafzimmer &amp; Sauerstoff</h3>
         <p><strong>${esc(JA_NEIN[p.schlafzimmer] || p.schlafzimmer)}:</strong> ${esc(p.schlafzimmer_text)}</p></div>
-      <div class="detail"><h3><span class="ico" aria-hidden="true">🐾</span>Haustiere &amp; Kinder</h3>
-        <p>${esc(p.giftig_text)}</p></div>
+      <div class="detail"><h3><span class="ico" aria-hidden="true">🐾</span>Haustiere &amp; Kleinkinder</h3>
+        <p>${esc(p.giftig_text)}</p><p class="sub">${p.giftig_haustiere_kinder === 'nein' ? 'Die Einstufung stützt sich auf Daten für Hunde/Katzen (v. a. ASPCA); eine eigene Einstufung für Kleinkinder gibt es nicht – Pflanzen trotzdem nicht essen lassen.' : 'Die Einstufung stützt sich auf Daten für Hunde/Katzen (v. a. ASPCA). Dieselben Stoffe (z. B. Calciumoxalat, Milchsaft, Saponine) reizen beim Kauen auch Mund und Rachen von Kleinkindern – außer Reichweite stellen, im Notfall Giftnotruf.'}</p></div>
       <div class="detail wide"><h3><span class="ico" aria-hidden="true">🤧</span>Allergie: <span class="badge allergie-${p.allergie_bewertung}">${ALLERGIE_ICON[p.allergie_bewertung]} ${p.allergie_bewertung}</span></h3>
         ${p.allergie_art && p.allergie_art !== '–' ? `<p class="sub">Betrifft: ${esc(p.allergie_art)}</p>` : ''}
         <p>${esc(p.allergie_text)}</p>
@@ -1391,7 +1391,7 @@ function renderAuswahl() {
     ids.forEach(id => {
       const p = PFLANZE[id];
       if (licht && !p.licht[licht]) warn.push(`☀️ ${esc(p.kurzname)} passt nicht zum Licht im ${RAEUME[r]} (${LICHT_LABEL[licht].replace(/^\S+\s/, '')}).`);
-      if (tiere && p.giftig_haustiere_kinder !== 'nein') warn.push(`🐾 ${esc(p.kurzname)} ist ${p.giftig_haustiere_kinder === 'ja' ? 'giftig' : 'leicht giftig'} für Hunde/Katzen.`);
+      if (tiere && p.giftig_haustiere_kinder !== 'nein') warn.push(`🐾👶 ${esc(p.kurzname)} ist ${p.giftig_haustiere_kinder === 'ja' ? 'giftig' : 'leicht giftig'} – nicht ideal für Haushalte mit Tieren/Kleinkindern.`);
       if (allergiker && p.allergie_bewertung === 'Vorsicht') warn.push(`🤧 ${esc(p.kurzname)}: Allergie „Vorsicht“ (${esc(p.allergie_art)}).`);
       if (r === 'schlaf' && p.schlafzimmer === 'nein') warn.push(`🛏 ${esc(p.kurzname)} gilt als nicht ideal fürs Schlafzimmer.`);
       if (r === 'bad' && !p.bad_geeignet) warn.push(`💦 ${esc(p.kurzname)} mag dauerhaft feuchte Badluft eher nicht.`);
@@ -1400,7 +1400,7 @@ function renderAuswahl() {
     const items = ids.map(id => {
       const p = PFLANZE[id];
       const lichtTxt = Object.keys(LICHT_LABEL).filter(k => p.licht[k]).map(k => LICHT_LABEL[k].replace(/^\S+\s/, '')).join(', ');
-      const giftBadge = p.giftig_haustiere_kinder === 'nein' ? '<span class="badge">🐾 ungiftig</span>' : `<span class="badge${tiere ? ' warn' : ''}">🐾 ${p.giftig_haustiere_kinder === 'ja' ? 'giftig' : 'leicht giftig'}</span>`;
+      const giftBadge = p.giftig_haustiere_kinder === 'nein' ? '<span class="badge">🐾 ungiftig</span>' : `<span class="badge${tiere ? ' warn' : ''}">🐾👶 ${p.giftig_haustiere_kinder === 'ja' ? 'giftig' : 'leicht giftig'}</span>`;
       const opts = RAUM_IDS.map(x => `<option value="${x}"${x === r ? ' selected' : ''}>${x === r ? '' : '→ '}${RAEUME[x]}</option>`).join('');
       return `<div class="aw-item">
         <button type="button" class="aw-open" data-pflanze="${id}" aria-label="Steckbrief ${esc(p.kurzname)} öffnen"><img src="${esc(p.bild.datei)}" alt="" loading="lazy" width="1000" height="750"><span class="aw-name">${esc(p.kurzname)}</span></button>
