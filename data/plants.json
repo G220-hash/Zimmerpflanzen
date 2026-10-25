@@ -66,7 +66,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 10/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 10/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "mittel",
+  "pflege_begruendung": "Gleichmäßig feucht halten, bei trockener Luft anfällig für Spinnmilben.",
+  "bad_geeignet": false
  },
  {
   "id": "schwertfarn",
@@ -96,7 +99,7 @@
   "groesse_indoor": "40–80 cm Durchmesser",
   "luftbefeuchtung": 5,
   "luftbefeuchtung_begruendung": "Sehr viele dünne Fiederblättchen mit großer Gesamtoberfläche; braucht ständig feuchte Erde und gibt entsprechend viel Wasser ab.",
-  "pflegeaufwand": "mittel",
+  "pflegeaufwand": "anspruchsvoll",
   "wasserbedarf": "hoch – nie austrocknen lassen",
   "temperatur_fussbodenheizung": "Wärme ok, aber trockene Heizungsluft ist sein Hauptproblem (Fiederblättchen rieseln). Nicht direkt auf den beheizten Boden stellen – besser Ampel, Säule oder Ständer.",
   "giftig_haustiere_kinder": "nein",
@@ -134,7 +137,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 9/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 9/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "anspruchsvoll",
+  "pflege_begruendung": "Erde darf nie austrocknen, braucht hohe Luftfeuchte; reagiert schnell mit braunen, abfallenden Fiedern.",
+  "bad_geeignet": true
  },
  {
   "id": "einblatt",
@@ -203,7 +209,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 8/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 8/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Zeigt Durst durch Schlappwerden und erholt sich nach dem Gießen schnell.",
+  "bad_geeignet": true
  },
  {
   "id": "efeutute",
@@ -271,7 +280,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Verzeiht Gießpausen und wenig Licht.",
+  "bad_geeignet": true
  },
  {
   "id": "gruenlilie",
@@ -338,7 +350,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 5/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 5/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Speicherwurzeln puffern Trockenheit; sehr robust.",
+  "bad_geeignet": true
  },
  {
   "id": "gummibaum",
@@ -408,7 +423,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Robust; zwischen den Wassergaben antrocknen lassen, Blätter gelegentlich abwischen.",
+  "bad_geeignet": false
  },
  {
   "id": "zypergras",
@@ -438,7 +456,7 @@
   "groesse_indoor": "50–120 cm",
   "luftbefeuchtung": 5,
   "luftbefeuchtung_begruendung": "Sumpf-/Uferpflanze mit dauerhaft nassem Wurzelballen; der Wasserverbrauch ist sehr hoch, das Wasser verdunstet über die vielen schmalen Hochblätter.",
-  "pflegeaufwand": "leicht",
+  "pflegeaufwand": "mittel",
   "wasserbedarf": "sehr hoch – Untersetzer immer mit etwas Wasser (Ausnahme von der Staunässe-Regel)",
   "temperatur_fussbodenheizung": "Wärme und warme Wurzeln kein Problem, solange immer Wasser im Untersetzer steht. Trockene Luft → braune Spitzen.",
   "giftig_haustiere_kinder": "nein",
@@ -476,7 +494,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "mittel",
+  "pflege_begruendung": "Einfach, aber der Untersetzer muss immer Wasser enthalten – vergessen wird nicht verziehen.",
+  "bad_geeignet": true
  },
  {
   "id": "zimmerlinde",
@@ -506,7 +527,7 @@
   "groesse_indoor": "1–2 m (wächst schnell)",
   "luftbefeuchtung": 5,
   "luftbefeuchtung_begruendung": "Große, weich behaarte Blätter und hohe Blattmasse; de-Wikipedia nennt ausdrücklich eine hohe Verdunstungsrate und positiven Einfluss auf die Luftfeuchte.",
-  "pflegeaufwand": "mittel",
+  "pflegeaufwand": "anspruchsvoll",
   "wasserbedarf": "hoch – regelmäßig und reichlich",
   "temperatur_fussbodenheizung": "Mag es eher kühl (Winter ideal unter normaler Wohntemperatur). In warmen Wohnungen mit Fußbodenheizung deutlich mehr Wasser nötig und anfällig für Weiße Fliege/Spinnmilben: Ständer, kühlster heller Raum (oft das Schlafzimmer).",
   "giftig_haustiere_kinder": "bedingt",
@@ -541,7 +562,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "anspruchsvoll",
+  "pflege_begruendung": "Will es hell und eher kühl, braucht viel Wasser, wächst schnell und ist anfällig für Weiße Fliege und Spinnmilben.",
+  "bad_geeignet": false
  },
  {
   "id": "kentia",
@@ -607,7 +631,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Langsam wachsend, verträgt Halbschatten und trockene Luft vergleichsweise gut.",
+  "bad_geeignet": true
  },
  {
   "id": "bergpalme",
@@ -674,7 +701,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 7/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Kommt mit wenig Licht aus; gelegentlich abbrausen gegen Spinnmilben.",
+  "bad_geeignet": true
  },
  {
   "id": "monstera",
@@ -741,7 +771,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Robust; braucht mit der Zeit Platz und eine Stütze.",
+  "bad_geeignet": true
  },
  {
   "id": "strelitzie",
@@ -809,7 +842,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "mittel",
+  "pflege_begruendung": "Braucht viel Licht und eine kühlere Winterruhe, um zu blühen.",
+  "bad_geeignet": false
  },
  {
   "id": "strahlenaralie",
@@ -877,7 +913,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: qualitative Einschätzung. Wolverton (1996) bewertet die größere Verwandte Schefflera actinophylla mit 7/10; die kleinblättrige S. arboricola liegt vermutlich darunter."
+  "luftbefeuchtung_basis": "Basis: qualitative Einschätzung. Wolverton (1996) bewertet die größere Verwandte Schefflera actinophylla mit 7/10; die kleinblättrige S. arboricola liegt vermutlich darunter.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Robust, verträgt Rückschnitt; nur Staunässe meiden.",
+  "bad_geeignet": true
  },
  {
   "id": "bogenhanf",
@@ -947,7 +986,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 2/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 2/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Sukkulent: selten gießen, verträgt fast alles außer Staunässe.",
+  "bad_geeignet": false
  },
  {
   "id": "zamioculcas",
@@ -1013,7 +1055,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Speichert Wasser im Rhizom; Gießen vergessen ist kein Problem.",
+  "bad_geeignet": false
  },
  {
   "id": "aloe",
@@ -1082,7 +1127,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 2/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 2/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Sukkulent: sehr sparsam gießen, hell stellen.",
+  "bad_geeignet": false
  },
  {
   "id": "pilea",
@@ -1148,7 +1196,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Regelmäßig drehen, antrocknen lassen; bildet von selbst Ableger.",
+  "bad_geeignet": true
  },
  {
   "id": "philodendron",
@@ -1218,7 +1269,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: Transpirationsnote 4/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen."
+  "luftbefeuchtung_basis": "Basis: Transpirationsnote 4/10 in Wolverton „How to Grow Fresh Air“ (1996), umgerechnet auf 1–5. Vergleichswert unter Laborbedingungen, keine Messung in Wohnungen.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Verzeiht wenig Licht und Gießpausen.",
+  "bad_geeignet": true
  },
  {
   "id": "elefantenfuss",
@@ -1284,7 +1338,10 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Speichert Wasser im Stammfuß; sehr sparsam gießen.",
+  "bad_geeignet": false
  },
  {
   "id": "zebrakraut",
@@ -1351,6 +1408,9 @@
    "quelle": "",
    "ki": true
   },
-  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte."
+  "luftbefeuchtung_basis": "Basis: eigene qualitative Einschätzung (Blattmasse, Blattbau, Wasserbedarf) – für diese Art gibt es keine vergleichenden Messwerte.",
+  "pflege_aufwand": "leicht",
+  "pflege_begruendung": "Wächst schnell; ab und zu einkürzen und Stecklinge neu setzen, damit sie dicht bleibt.",
+  "bad_geeignet": true
  }
 ]

@@ -99,6 +99,21 @@
   @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
   .toggle-group { display: flex; gap: 1rem; flex-wrap: wrap; }
   .toggle-group label { font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+  .config .opt { font-weight: 400; color: var(--muted); font-size: 0.85em; }
+  .rooms-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .rooms-fieldset legend { font-weight: 600; margin-bottom: 0.5rem; padding: 0; }
+  .room-picks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  @media (max-width: 900px) { .room-picks { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .room-picks { grid-template-columns: 1fr; } }
+  .room-pick { border: 1px solid #dfe7dc; border-radius: 10px; padding: 0.55rem 0.7rem; background: #fafcf9; transition: background .2s, border-color .2s; }
+  .room-pick.on { background: #eef6ec; border-color: #a5d6a7; }
+  .room-pick .room-check { display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.35rem; cursor: pointer; }
+  .config .room-pick select { width: 100%; font-size: 0.88rem; padding: 0.35rem; }
+  .room-pick:not(.on) select { opacity: 0.45; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .result-note { font-size: 0.88rem; color: var(--muted); margin-top: 0.6rem; }
+  .result-box ul.result-list { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+  .room-tag { display: inline-block; font-size: 0.75rem; background: #e8f5e9; color: #1b5e20; border-radius: 6px; padding: 0 0.4rem; margin-left: 0.3rem; }
   .plants-grid, .rooms-grid, .pots-grid, .stands-grid, .shops-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -303,58 +318,60 @@
         <span id="qmVal">60 m²</span>
       </div>
       <div>
-        <label for="tempWohl">Wohlfühltemperatur (°C)</label>
-        <input type="number" id="tempWohl" value="23" min="18" max="26" oninput="markDirty()">
+        <label for="rf">Aktuelle Luftfeuchte (%) <span class="opt">optional, vom Hygrometer</span></label>
+        <input type="number" id="rf" min="10" max="90" step="1" placeholder="z. B. 35" inputmode="numeric" oninput="markDirty()">
       </div>
     </div>
-    <div class="row">
-      <div>
-        <label for="tempEingestellt">Eingestellte Temperatur (°C)</label>
-        <input type="number" id="tempEingestellt" value="22" min="16" max="26" oninput="markDirty()">
-      </div>
-      <div>
-        <label>Fußbodenheizung?</label>
-        <div class="toggle-group">
-          <label><input type="radio" name="fbh" value="ja" checked onchange="markDirty()"> Ja</label>
-          <label><input type="radio" name="fbh" value="nein" onchange="markDirty()"> Nein</label>
+    <fieldset class="rooms-fieldset">
+      <legend>Räume auswählen <span class="opt">– und jeweils das Licht angeben</span></legend>
+      <div class="room-picks">
+        <div class="room-pick on" data-raum="wohn">
+          <label class="room-check"><input type="checkbox" id="raum-wohn" value="wohn" checked onchange="toggleRaum(this)"> Wohnzimmer</label>
+          <label class="sr-only" for="licht-wohn">Licht Wohnzimmer</label>
+          <select id="licht-wohn" onchange="markDirty()" aria-label="Licht Wohnzimmer"><option value="sonnig" selected>Sonnig, zeitweise direkte Sonne</option><option value="hell">Hell, aber keine direkte Sonne</option><option value="wenig">Wenig natürliches Licht</option><option value="dunkel">Kaum oder gar kein Tageslicht</option></select>
+        </div>
+        <div class="room-pick on" data-raum="schlaf">
+          <label class="room-check"><input type="checkbox" id="raum-schlaf" value="schlaf" checked onchange="toggleRaum(this)"> Schlafzimmer</label>
+          <label class="sr-only" for="licht-schlaf">Licht Schlafzimmer</label>
+          <select id="licht-schlaf" onchange="markDirty()" aria-label="Licht Schlafzimmer"><option value="sonnig">Sonnig, zeitweise direkte Sonne</option><option value="hell" selected>Hell, aber keine direkte Sonne</option><option value="wenig">Wenig natürliches Licht</option><option value="dunkel">Kaum oder gar kein Tageslicht</option></select>
+        </div>
+        <div class="room-pick on" data-raum="flur">
+          <label class="room-check"><input type="checkbox" id="raum-flur" value="flur" checked onchange="toggleRaum(this)"> Flur</label>
+          <label class="sr-only" for="licht-flur">Licht Flur</label>
+          <select id="licht-flur" onchange="markDirty()" aria-label="Licht Flur"><option value="sonnig">Sonnig, zeitweise direkte Sonne</option><option value="hell">Hell, aber keine direkte Sonne</option><option value="wenig" selected>Wenig natürliches Licht</option><option value="dunkel">Kaum oder gar kein Tageslicht</option></select>
+        </div>
+        <div class="room-pick" data-raum="kueche">
+          <label class="room-check"><input type="checkbox" id="raum-kueche" value="kueche" onchange="toggleRaum(this)"> Küche</label>
+          <label class="sr-only" for="licht-kueche">Licht Küche</label>
+          <select id="licht-kueche" onchange="markDirty()" aria-label="Licht Küche" disabled><option value="sonnig">Sonnig, zeitweise direkte Sonne</option><option value="hell" selected>Hell, aber keine direkte Sonne</option><option value="wenig">Wenig natürliches Licht</option><option value="dunkel">Kaum oder gar kein Tageslicht</option></select>
+        </div>
+        <div class="room-pick" data-raum="bad">
+          <label class="room-check"><input type="checkbox" id="raum-bad" value="bad" onchange="toggleRaum(this)"> Bad</label>
+          <label class="sr-only" for="licht-bad">Licht Bad</label>
+          <select id="licht-bad" onchange="markDirty()" aria-label="Licht Bad" disabled><option value="sonnig">Sonnig, zeitweise direkte Sonne</option><option value="hell">Hell, aber keine direkte Sonne</option><option value="wenig" selected>Wenig natürliches Licht</option><option value="dunkel">Kaum oder gar kein Tageslicht</option></select>
+        </div>
+        <div class="room-pick" data-raum="arbeit">
+          <label class="room-check"><input type="checkbox" id="raum-arbeit" value="arbeit" onchange="toggleRaum(this)"> Arbeitszimmer</label>
+          <label class="sr-only" for="licht-arbeit">Licht Arbeitszimmer</label>
+          <select id="licht-arbeit" onchange="markDirty()" aria-label="Licht Arbeitszimmer" disabled><option value="sonnig">Sonnig, zeitweise direkte Sonne</option><option value="hell" selected>Hell, aber keine direkte Sonne</option><option value="wenig">Wenig natürliches Licht</option><option value="dunkel">Kaum oder gar kein Tageslicht</option></select>
         </div>
       </div>
-    </div>
-    <div>
-      <label>Saugroboter vorhanden?</label>
-      <div class="toggle-group">
-        <label><input type="radio" name="roboter" value="ja" checked onchange="markDirty()"> Ja</label>
-        <label><input type="radio" name="roboter" value="nein" onchange="markDirty()"> Nein</label>
-      </div>
-    </div>
+    </fieldset>
     <div class="row">
       <div>
-        <label for="lichtWohn">Licht Wohnzimmer</label>
-        <select id="lichtWohn" onchange="markDirty()">
-          <option value="sonnig" selected>Sonnig, z. B. nachmittags lichtdurchflutet</option>
-          <option value="hell">Hell, aber keine direkte Sonne</option>
-          <option value="wenig">Wenig natürliches Licht</option>
-          <option value="dunkel">Kaum oder gar kein Tageslicht</option>
-        </select>
+        <label>Haustiere im Haushalt?</label>
+        <div class="toggle-group">
+          <label><input type="radio" name="tiere" value="ja" onchange="markDirty()"> Ja – für Hunde/Katzen giftige Pflanzen ausblenden</label>
+          <label><input type="radio" name="tiere" value="nein" checked onchange="markDirty()"> Nein</label>
+        </div>
       </div>
       <div>
-        <label for="lichtSchlaf">Licht Schlafzimmer</label>
-        <select id="lichtSchlaf" onchange="markDirty()">
-          <option value="sonnig">Sonnig, z. B. nachmittags lichtdurchflutet</option>
-          <option value="hell" selected>Hell, aber keine direkte Sonne</option>
-          <option value="wenig">Wenig natürliches Licht</option>
-          <option value="dunkel">Kaum oder gar kein Tageslicht</option>
-        </select>
+        <label>Pflegeaufwand</label>
+        <div class="toggle-group">
+          <label><input type="radio" name="pflege" value="wenig" onchange="markDirty()"> Wenig – nur pflegeleichte Pflanzen</label>
+          <label><input type="radio" name="pflege" value="normal" checked onchange="markDirty()"> Normal</label>
+        </div>
       </div>
-    </div>
-    <div>
-      <label for="lichtFlur">Licht Flur</label>
-        <select id="lichtFlur" onchange="markDirty()">
-          <option value="sonnig">Sonnig, z. B. nachmittags lichtdurchflutet</option>
-          <option value="hell">Hell, aber keine direkte Sonne</option>
-          <option value="wenig" selected>Wenig natürliches Licht</option>
-          <option value="dunkel">Kaum oder gar kein Tageslicht</option>
-        </select>
     </div>
     <div class="row">
       <div>
@@ -395,7 +412,7 @@
   <p style="text-align:center; max-width:760px; margin:0 auto 1.2rem;">20 Zimmerpflanzen, sortiert nach ihrer Luftbefeuchtung (💧 1–5, qualitative Einschätzung). <strong>Karte anklicken</strong> öffnet den Wikipedia-Artikel, <strong>Piktogramm anklicken</strong> öffnet den ausführlichen Steckbrief mit allen Infos.</p>
   <div class="teaser" id="plantsTeaser">
     <div class="teaser-icons" id="teaserIcons" aria-label="Top-Pflanzen – Piktogramm öffnet den Steckbrief"></div>
-    <p class="teaser-text" id="teaserText"><strong>20 Pflanzen</strong> mit Steckbrief, Fotos und Filtern nach Licht, Platz und Allergie.</p>
+    <p class="teaser-text" id="teaserText"><strong>20 Pflanzen</strong> mit Steckbrief, Bildern und Filtern nach Licht, Platz, Allergie und Pflege.</p>
     <button type="button" class="toggle-btn" id="plantsToggle" aria-expanded="false" aria-controls="plantsPanel"><span class="lbl">Alle 20 Pflanzen anzeigen</span> <span class="chev" aria-hidden="true">▾</span></button>
   </div>
   <div class="collapse" id="plantsPanel" inert>
@@ -419,6 +436,10 @@
       <button type="button" class="chip" data-f="allergie" data-v="alle" aria-pressed="true">Alle</button>
       <button type="button" class="chip" data-f="allergie" data-v="ok" aria-pressed="false">🤧 Ohne „Vorsicht“</button>
     </div>
+    <div class="filter-group" role="group" aria-label="Pflege"><span>Pflege:</span>
+      <button type="button" class="chip" data-f="pflege" data-v="alle" aria-pressed="true">Alle</button>
+      <button type="button" class="chip" data-f="pflege" data-v="leicht" aria-pressed="false">🪴 Pflegeleicht</button>
+    </div>
   </div>
   <p class="filter-count" id="filterCount" aria-live="polite"></p>
   <div class="plants-grid" id="plantsGrid"></div>
@@ -435,7 +456,7 @@
 
 <section id="inspiration">
   <h2>Inspiration</h2>
-  <p class="inspo-intro">Platzierungsideen für die 5 besten Feuchtigkeitsspender – abgestimmt auf <strong>Fußbodenheizung</strong> und <strong>Saugroboter</strong>: Nichts steht direkt auf dem Boden. Stattdessen offene Ständer mit Einzelbeinen oder hängende Lösungen, damit die Wurzeln nicht überhitzen und der Roboter überall durchkommt.</p>
+  <p class="inspo-intro">Platzierungsideen für die 5 besten Feuchtigkeitsspender – passend für Wohnungen mit <strong>Fußbodenheizung</strong> und <strong>Saugroboter</strong>: Nichts steht direkt auf dem Boden. Stattdessen offene Ständer mit Einzelbeinen oder hängende Lösungen, damit die Wurzeln nicht überhitzen und der Roboter überall durchkommt.</p>
   <div class="plants-grid inspo-grid">
     <div class="card">
       <img class="inspo-img" src="images/inspiration-areca.jpg" alt="Goldfruchtpalme mit feinen Wedeln in weißem Topf auf einem niedrigen schwarzen Metallständer mit vier schlanken Einzelbeinen in einem hellen skandinavischen Wohnzimmer" loading="lazy" width="1152" height="864">
@@ -682,56 +703,98 @@ function updateMap(region, usingCoords) {
   document.getElementById('mapWrap').style.display = 'block';
 }
 
+const RAEUME = { wohn: 'Wohnzimmer', schlaf: 'Schlafzimmer', flur: 'Flur', kueche: 'Küche', bad: 'Bad', arbeit: 'Arbeitszimmer' };
+function toggleRaum(cb) {
+  const box = cb.closest('.room-pick');
+  box.classList.toggle('on', cb.checked);
+  document.getElementById('licht-' + cb.value).disabled = !cb.checked;
+  markDirty();
+}
+
+// Faustregel + transparente Anpassung an die gemessene Luftfeuchte
+function pflanzenAnzahl(qm, rf) {
+  let basis = Math.min(10, Math.max(4, Math.round(qm / 10)));
+  let delta = 0, stufe = 'unbekannt';
+  if (rf !== null) {
+    if (rf < 35) { delta = 2; stufe = 'trocken'; }
+    else if (rf <= 45) { stufe = 'ok'; }
+    else { delta = -2; stufe = 'gut'; }
+  }
+  const mitte = Math.max(2, basis + delta);
+  return { basis, delta, stufe, von: Math.max(1, mitte - 1), bis: mitte + 1 };
+}
+
 function update() {
-  const qm = document.getElementById('qm').value;
+  const qm = Number(document.getElementById('qm').value);
   document.getElementById('qmVal').textContent = qm + ' m²';
-  const fbh = document.querySelector('input[name="fbh"]:checked').value;
-  const roboter = document.querySelector('input[name="roboter"]:checked').value;
-  const lichtWohn = document.getElementById('lichtWohn').value;
-  const lichtSchlaf = document.getElementById('lichtSchlaf').value;
-  const lichtFlur = document.getElementById('lichtFlur').value;
+  const rfRaw = document.getElementById('rf').value.trim();
+  const rfNum = rfRaw === '' ? null : Math.round(Number(rfRaw));
+  const rf = rfNum !== null && rfNum >= 10 && rfNum <= 90 ? rfNum : null;
+  const tiere = document.querySelector('input[name="tiere"]:checked').value === 'ja';
+  const pflegeleicht = document.querySelector('input[name="pflege"]:checked').value === 'wenig';
   const regionInput = (document.getElementById('region').value || 'Stuttgart').trim();
   const usingCoords = !!userCoords && regionInput === STANDORT_LABEL;
   const region = usingCoords ? 'deiner Nähe' : regionInput;
-
-  let anzahl = Math.round(qm / 10);
-  if (anzahl < 4) anzahl = 4;
-  if (anzahl > 10) anzahl = 10;
-
-  let text = `Für deine ~${qm} m² Wohnung empfehlen wir <strong>${anzahl-1}–${anzahl+1} mittelgroße bis große Pflanzen</strong> mit hoher Transpiration.`;
-  if (fbh === 'ja') text += ' Bei Fußbodenheizung: Pflanzen auf Ständer oder Tische stellen (min. 5–8 cm Höhe), damit die Wurzeln nicht zu warm werden.';
-  if (roboter === 'ja') text += ' Bei Saugroboter: genug Höhe darunter lassen, damit er frei fahren kann.';
-
-  document.getElementById('result').innerHTML = '<strong>Empfehlung basierend auf deinen Angaben:</strong><br>' + text;
-
-  // Raum-Empfehlungen: datengetrieben aus der Pflanzen-Datenbank (data/plants.js)
   const platz = document.getElementById('platz').value;
   const allergiker = document.querySelector('input[name="allergie"]:checked').value === 'ja';
+  const opt = { allergiker, tiere, pflegeleicht };
+
+  const n = pflanzenAnzahl(qm, rf);
+  const passend = empfehlungen('alle', platz, opt);
+  const minDrops = n.stufe === 'trocken' ? 4 : 3;
+  const starke = passend.filter(p => p.luftbefeuchtung >= minDrops).slice(0, 5);
+
+  let html = '<strong>Empfehlung basierend auf deinen Angaben:</strong><br>';
+  html += `Für deine ~${qm} m² Wohnung empfehlen wir <strong>${n.von}–${n.bis} mittelgroße bis große Pflanzen</strong> mit hoher Transpiration.`;
+  let warum = `Faustregel: ca. 1 Pflanze pro 10 m², mindestens 4 und höchstens 10 (hier: ${n.basis}).`;
+  if (rf === null) warum += rfRaw !== '' ? ' Die eingegebene Luftfeuchte liegt außerhalb von 10–90 % und wurde ignoriert.' : ' Mit einem Hygrometer-Wert können wir genauer werden.';
+  else if (n.stufe === 'trocken') warum += ` Deine Luftfeuchte von ${rf} % ist niedrig (unter 35 %): +2 Pflanzen, bevorzugt starke Befeuchter (💧 4–5).`;
+  else if (n.stufe === 'ok') warum += ` Deine Luftfeuchte von ${rf} % liegt im mittleren Bereich (35–45 %): keine Anpassung.`;
+  else warum += ` Deine Luftfeuchte von ${rf} % ist bereits gut (über 45 %): −2 Pflanzen – mehr bringt kaum etwas. Über 60 % steigt die Schimmelgefahr.`;
+  html += `<p class="result-note">${warum} Das ist eine <strong>Faustregel</strong>, keine Berechnung.</p>`;
+  if (starke.length) html += `<p style="margin:0.6rem 0 0"><strong>Am meisten bringen für dich:</strong> ${starke.map(p => `${esc(p.kurzname)} (${'💧'.repeat(p.luftbefeuchtung)})`).join(', ')}.</p>`;
+  const filterInfo = [tiere && 'für Hunde/Katzen giftige Pflanzen ausgeblendet', pflegeleicht && 'nur pflegeleichte Pflanzen', allergiker && '„Vorsicht“-Pflanzen für Allergiker ausgeblendet'].filter(Boolean);
+  if (filterInfo.length) html += `<p class="result-note">Berücksichtigt: ${filterInfo.join(' · ')} – ${passend.length} von ${PFLANZEN.length} Pflanzen passen.</p>`;
+  html += `<p class="result-note">Ehrlich gesagt: Pflanzen heben die Luftfeuchte in einer Wohnung meist nur um einige Prozentpunkte (in einer Büro-Studie von Lohr 1992 etwa von 25 auf 30 %). Bei großen Lücken hilft ein Luftbefeuchter deutlich mehr. Ziel im Winter: 40–50 % relative Luftfeuchte – mit einem Hygrometer kontrollieren.</p>`;
+  html += `<p class="result-note">Bei Fußbodenheizung und Saugroboter: Pflanzen auf Ständer mit schlanken Einzelbeinen oder auf Tische und Sideboards stellen (mindestens 5–10 cm Abstand zum Boden). So werden die Wurzeln nicht zu warm, und der Roboter kommt frei darunter durch.</p>`;
+  document.getElementById('result').innerHTML = html;
+
+  // Raum-Empfehlungen: datengetrieben aus der Pflanzen-Datenbank (data/plants.js)
   const lichtInfo = {
     sonnig: { text: 'sonnig, zeitweise direkte Sonne', hinweis: 'Bei praller Mittagssonne empfindliche Pflanzen etwas vom Fenster abrücken.' },
     hell:   { text: 'hell, ohne direkte Sonne', hinweis: '' },
     wenig:  { text: 'wenig natürliches Licht', hinweis: '' },
     dunkel: { text: 'kaum oder gar kein Tageslicht', hinweis: 'Ohne Tageslicht wächst keine Pflanze dauerhaft: eine kleine Pflanzenlampe (LED, ca. 8–12 Std./Tag) einplanen. Am robustesten sind Zamioculcas, Bogenhanf und Efeutute.' }
   };
-  const raum = (name, licht, schlafzimmer) => {
+  const raumHinweis = {
+    schlaf: 'Schlafzimmer: Pflanzen, die als gut geeignet gelten, stehen vorne. Den „Sauerstoff in der Nacht“-Effekt gibt es praktisch nicht – es geht um ruhige, pflegeleichte Pflanzen.',
+    bad: 'Bad: Feuchtigkeitsliebende Pflanzen stehen vorne (mit 💦 markiert). Sukkulenten mögen dauerhaft feuchte Luft weniger. Ohne Fenster nur mit Pflanzenlampe.',
+    kueche: 'Küche: Nicht direkt neben Herd oder Backofen stellen (Hitze, Fettdunst).',
+    arbeit: 'Arbeitszimmer: Nicht direkt über die warme Luft von Rechner oder Heizung stellen.'
+  };
+  const raum = (key, licht) => {
     const info = lichtInfo[licht];
-    const liste = empfehlungen(licht, platz, { allergiker, schlafzimmer });
+    let liste = empfehlungen(licht, platz, { ...opt, schlafzimmer: key === 'schlaf' });
+    if (key === 'schlaf') liste = [...liste].sort((a, b) => (a.schlafzimmer === 'ja' ? 0 : 1) - (b.schlafzimmer === 'ja' ? 0 : 1));
+    if (key === 'bad') liste = [...liste].sort((a, b) => (b.bad_geeignet ? 1 : 0) - (a.bad_geeignet ? 1 : 0));
     const top = liste.slice(0, 8);
     const icons = top.map(p => `
-        <button type="button" class="plant-icon" data-pflanze="${p.id}" aria-label="Steckbrief ${p.kurzname} öffnen"><img src="${p.icon}" alt="" width="64" height="64"><span class="cap">${p.kurzname}</span></button>`).join('');
+        <button type="button" class="plant-icon" data-pflanze="${p.id}" aria-label="Steckbrief ${p.kurzname} öffnen"><img src="${p.icon}" alt="" width="64" height="64"><span class="cap">${p.kurzname}${key === 'bad' && p.bad_geeignet ? ' 💦' : ''}</span></button>`).join('');
     const platzText = platz === 'alle' ? '' : ` · Platz: ${PLATZ_LABEL[platz]}`;
     return `
     <div class="card"><div class="card-body">
-      <h3>${name}</h3>
+      <h3>${RAEUME[key]}</h3>
       <p><strong>Licht:</strong> ${info.text}${platzText}</p>
       ${top.length ? `<div class="plant-icons">${icons}
-      </div>` : '<p class="placeholder">Für diese Kombination passt keine Pflanze aus unserer Liste – probier eine andere Platzierung.</p>'}
+      </div>` : '<p class="placeholder">Für diese Kombination passt keine Pflanze aus unserer Liste – probier eine andere Platzierung oder weniger Filter.</p>'}
       ${liste.length > top.length ? `<p class="room-more">+ ${liste.length - top.length} weitere passende Pflanzen in der Pflanzenliste oben.</p>` : ''}
       ${info.hinweis ? `<p class="room-hint">${info.hinweis}</p>` : ''}
-      <p class="room-more">Sortiert nach Luftbefeuchtung · Piktogramm anklicken für den Steckbrief.</p>
+      ${raumHinweis[key] ? `<p class="room-hint">${raumHinweis[key]}</p>` : ''}
+      <p class="room-more">${key === 'schlaf' ? 'Schlafzimmer-geeignete zuerst, dann' : key === 'bad' ? 'Feuchtigkeitsliebende zuerst, dann' : 'Sortiert'} nach Luftbefeuchtung · Piktogramm anklicken für den Steckbrief.</p>
     </div></div>`;
   };
-  let rooms = raum('Wohnzimmer', lichtWohn, false) + raum('Schlafzimmer', lichtSchlaf, true) + raum('Flur', lichtFlur, false);
+  const gewaehlt = Object.keys(RAEUME).filter(k => document.getElementById('raum-' + k).checked);
+  const rooms = gewaehlt.length ? gewaehlt.map(k => raum(k, document.getElementById('licht-' + k).value)).join('') : '<p class="placeholder">Kein Raum ausgewählt – wähle oben mindestens einen Raum aus.</p>';
   document.getElementById('roomsContent').innerHTML = rooms;
 
   // Local shops based on region
@@ -805,12 +868,14 @@ function empfehlungen(licht, platz, opt = {}) {
     (licht === 'alle' || p.licht[licht]) &&
     (platz === 'alle' || p.standorte[platz]) &&
     !(opt.allergiker && p.allergie_bewertung === 'Vorsicht') &&
-    !(opt.schlafzimmer && p.schlafzimmer === 'nein'));
+    !(opt.schlafzimmer && p.schlafzimmer === 'nein') &&
+    !(opt.tiere && p.giftig_haustiere_kinder !== 'nein') &&
+    !(opt.pflegeleicht && p.pflege_aufwand !== 'leicht'));
 }
 
-const filterState = { licht: 'alle', platz: 'alle', allergie: 'alle' };
+const filterState = { licht: 'alle', platz: 'alle', allergie: 'alle', pflege: 'alle' };
 function renderPlantCards() {
-  const liste = empfehlungen(filterState.licht, filterState.platz, { allergiker: filterState.allergie === 'ok' });
+  const liste = empfehlungen(filterState.licht, filterState.platz, { allergiker: filterState.allergie === 'ok', pflegeleicht: filterState.pflege === 'leicht' });
   document.getElementById('plantsGrid').innerHTML = liste.map(p => `
     <article class="card plant-card">
       <a class="stretched" href="${esc(p.wikipedia_url)}" target="_blank" rel="noopener" aria-label="${esc(p.kurzname)} auf Wikipedia öffnen (neuer Tab)"></a>
@@ -869,7 +934,7 @@ function detailHtml(p) {
       <span class="badge allergie-${p.allergie_bewertung}">${ALLERGIE_ICON[p.allergie_bewertung]} Allergie: ${p.allergie_bewertung}</span>
       <span class="badge">${GIFT[p.giftig_haustiere_kinder] || ''}</span>
       <span class="badge">🛏 Schlafzimmer: ${JA_NEIN[p.schlafzimmer] || p.schlafzimmer}</span>
-      <span class="badge">🪴 Pflege: ${esc(p.pflegeaufwand)}</span>
+      <span class="badge">🪴 Pflege: ${esc(p.pflege_aufwand || p.pflegeaufwand)}</span>
       <span class="badge">💶 ${esc(p.preis_eur)}</span>
     </div>
     <p class="modal-lead">${esc(p.auswahl_begruendung)}</p>
@@ -883,7 +948,7 @@ function detailHtml(p) {
       <div class="detail"><h3><span class="ico" aria-hidden="true">💧</span>Luftbefeuchtung: ${p.luftbefeuchtung}/5</h3>
         <p>${esc(p.luftbefeuchtung_begruendung)}</p><p class="sub">${esc(p.luftbefeuchtung_basis || "Qualitative Einschätzung, keine Messwerte.")}</p></div>
       <div class="detail"><h3><span class="ico" aria-hidden="true">🚿</span>Pflege &amp; Gießen</h3>
-        <p><strong>Pflegeaufwand:</strong> ${esc(p.pflegeaufwand)}</p><p><strong>Wasserbedarf:</strong> ${esc(p.wasserbedarf)}</p></div>
+        <p><strong>Pflegeaufwand:</strong> ${esc(p.pflege_aufwand || p.pflegeaufwand)}${p.pflege_begruendung ? ` – ${esc(p.pflege_begruendung)}` : ''}</p><p><strong>Wasserbedarf:</strong> ${esc(p.wasserbedarf)}</p></div>
       <div class="detail"><h3><span class="ico" aria-hidden="true">🌙</span>Schlafzimmer &amp; Sauerstoff</h3>
         <p><strong>${esc(JA_NEIN[p.schlafzimmer] || p.schlafzimmer)}:</strong> ${esc(p.schlafzimmer_text)}</p></div>
       <div class="detail"><h3><span class="ico" aria-hidden="true">🐾</span>Haustiere &amp; Kinder</h3>
@@ -966,7 +1031,7 @@ plantsToggle.addEventListener('click', () => setPlantsOpen(!plantsPanel.classLis
 document.getElementById('teaserIcons').innerHTML = PFLANZEN.slice(0, 8).map(p =>
   `<button type="button" data-pflanze="${p.id}" title="${esc(p.kurzname)} – Steckbrief" aria-label="Steckbrief ${esc(p.kurzname)} öffnen"><img src="${esc(p.icon)}" alt=""></button>`).join('') +
   `<span class="more">+${PFLANZEN.length - 8}</span>`;
-document.getElementById('teaserText').innerHTML = `<strong>${PFLANZEN.length} Pflanzen</strong>, sortiert nach Luftbefeuchtung – mit Fotos, Steckbrief und Filtern nach Licht, Platz und Allergie.`;
+document.getElementById('teaserText').innerHTML = `<strong>${PFLANZEN.length} Pflanzen</strong>, sortiert nach Luftbefeuchtung – mit Bildern, Steckbrief und Filtern nach Licht, Platz, Allergie und Pflege.`;
 if (location.hash === '#pflanzen-alle') setPlantsOpen(true);
 window.addEventListener('hashchange', () => { if (location.hash === '#pflanzen-alle') setPlantsOpen(true); if (location.hash === '#bildnachweis') document.getElementById('creditsBox').open = true; });
 if (location.hash === '#bildnachweis') document.getElementById('creditsBox').open = true;
