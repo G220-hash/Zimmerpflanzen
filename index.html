@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trockene Luft? Pflanzen helfen! – Dein individueller Zimmerpflanzen-Planer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1b5e20;
+    --green-light: #4caf50;
+    --green-bg: #e8f5e9;
+    --accent: #2e7d32;
+    --text: #1a1a1a;
+    --muted: #555;
+    --bg: #fafafa;
+    --card: #ffffff;
+    --shadow: 0 8px 30px rgba(0,0,0,0.08);
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', system_ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%);
+    color: white;
+    padding: 4rem 1.5rem 5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: var(--bg);
+    border-radius: 50% 50% 0 0;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    margin: 0 0 1rem;
+    font-weight: 700;
+  }
+  header p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.95; }
+  nav {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--green);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  nav a:hover { color: var(--green-light); }
+  section { max-width: 1100px; margin: 0 auto; padding: 4rem 1.5rem; }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .config {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    display: grid;
+    gap: 1.5rem;
+  }
+  .config label { font-weight: 600; display: block; margin-bottom: 0.4rem; }
+  .config input[type="range"], .config select, .config input[type="number"] {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
+  .toggle-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .toggle-group label { font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+  .plants-grid, .rooms-grid, .pots-grid, .stands-grid, .shops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+  .card img { width: 100%; height: 200px; object-fit: cover; }
+  .card-body { padding: 1.2rem; }
+  .card h3 { margin: 0 0 0.5rem; color: var(--green); }
+  .badge { display: inline-block; background: var(--green-bg); color: var(--green); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+  .result-box {
+    background: var(--green-bg);
+    border-left: 4px solid var(--accent);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+  }
+  .tips, .shops { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    background: #f0f0f0;
+  }
+  .cta { display: inline-block; background: var(--accent); color: white; padding: 0.8rem 1.6rem; border-radius: 30px; text-decoration: none; font-weight: 600; margin-top: 1rem; }
+  .cta:hover { background: #1b5e20; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Trockene Winterluft? <br>Pflanzen machen’s besser.</h1>
+  <p>Dein individueller Plan für deine Wohnung – mit selbstbewässernden Töpfen, hoher Transpiration und möglichst wenig Pflegeaufwand. Standort anpassbar.</p>
+</header>
+
+<nav>
+  <a href="#config">Konfiguration</a>
+  <a href="#pflanzen">Pflanzen</a>
+  <a href="#raeume">Räume</a>
+  <a href="#toepfe">Töpfe</a>
+  <a href="#staender">Ständer</a>
+  <a href="#kaufen">Kaufen</a>
+  <a href="#tipps">Tipps</a>
+</nav>
+
+<section id="config">
+  <h2>Deine Wohnung – individuell angepasst</h2>
+  <div class="config">
+    <div class="row">
+      <div>
+        <label for="qm">Wohnungsgröße (m²)</label>
+        <input type="range" id="qm" min="30" max="120" value="60" oninput="update()">
+        <span id="qmVal">60 m²</span>
+      </div>
+      <div>
+        <label for="tempWohl">Wohlfühltemperatur (°C)</label>
+        <input type="number" id="tempWohl" value="23" min="18" max="26" oninput="update()">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="tempEingestellt">Eingestellte Temperatur (°C)</label>
+        <input type="number" id="tempEingestellt" value="22" min="16" max="26" oninput="update()">
+      </div>
+      <div>
+        <label>Fußbodenheizung?</label>
+        <div class="toggle-group">
+          <label><input type="radio" name="fbh" value="ja" checked onchange="update()"> Ja</label>
+          <label><input type="radio" name="fbh" value="nein" onchange="update()"> Nein</label>
+        </div>
+      </div>
+    </div>
+    <div>
+      <label>Saugroboter vorhanden?</label>
+      <div class="toggle-group">
+        <label><input type="radio" name="roboter" value="ja" checked onchange="update()"> Ja</label>
+        <label><input type="radio" name="roboter" value="nein" onchange="update()"> Nein</label>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="lichtWohn">Licht Wohnzimmer</label>
+        <select id="lichtWohn" onchange="update()">
+          <option value="hell">Nachmittags lichtdurchflutet</option>
+          <option value="mittel">Helles indirektes Licht</option>
+          <option value="dunkel">Eher dunkel</option>
+        </select>
+      </div>
+      <div>
+        <label for="lichtSchlaf">Licht Schlafzimmer</label>
+        <select id="lichtSchlaf" onchange="update()">
+          <option value="mittel" selected>Helles bis indirektes Licht</option>
+          <option value="hell">Sehr hell</option>
+          <option value="dunkel">Eher dunkel</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label for="lichtFlur">Licht Flur</label>
+      <select id="lichtFlur" onchange="update()">
+        <option value="dunkel" selected>Relativ dunkel, nur indirekt</option>
+        <option value="mittel">Etwas helleres indirektes Licht</option>
+      </select>
+    </div>
+    <div>
+      <label for="region">Deine Region / Stadt (für lokale Kaufempfehlungen)</label>
+      <input type="text" id="region" value="Stuttgart" placeholder="z.B. Stuttgart, München, Hamburg, Berlin..." oninput="update()">
+    </div>
+  </div>
+  <div class="result-box" id="result">
+    <strong>Empfehlung basierend auf deinen Angaben:</strong><br>
+    Für deine ~60 m² Wohnung empfehlen wir <strong>6–8 mittelgroße bis große Pflanzen</strong> mit hoher Transpiration. Bei Fußbodenheizung und Saugroboter: Pflanzen auf Ständer oder Tische stellen (min. 5–8 cm Höhe).
+  </div>
+</section>
+
+<section id="pflanzen">
+  <h2>Die besten Feuchtigkeits-Spender</h2>
+  <p style="text-align:center; max-width:700px; margin:0 auto 2rem;">Sortiert nach Transpiration und Praxis-Tauglichkeit. Mit selbstbewässernden Töpfen besonders unkompliziert.</p>
+  <div class="plants-grid">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80" alt="Areca Palme">
+      <div class="card-body">
+        <span class="badge">Höchste Transpiration</span>
+        <h3>Areca-Palme</h3>
+        <p>Feingefiederte Wedel, bis ~1 Liter Wasser/Tag bei großer Pflanze. Braucht helles indirektes Licht.</p>
+        <p><strong>Pflege:</strong> Mittel · <strong>Effektiv ab:</strong> 80–100 cm · <strong>Kosten:</strong> 40–100 €</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1528604891270-c2d9c3d1fc0b?auto=format&fit=crop&w=800&q=80" alt="Boston Farn">
+      <div class="card-body">
+        <span class="badge">Sehr hoch</span>
+        <h3>Schwertfarn / Boston-Farn</h3>
+        <p>Dichte Wedel, einer der besten Luftbefeuchter. Mag konstante Feuchte.</p>
+        <p><strong>Pflege:</strong> Mittel · <strong>Effektiv ab:</strong> mittelgroß · <strong>Kosten:</strong> 20–50 €</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1642049671771-8b22a7152bda?auto=format&fit=crop&w=800&q=80" alt="Einblatt">
+      <div class="card-body">
+        <span class="badge">Hoch & anpassungsfähig</span>
+        <h3>Einblatt (Friedenslilie)</h3>
+        <p>Große Blätter + weiße Blüten. Verträgt auch weniger Licht, zeigt Durst durch Hängen.</p>
+        <p><strong>Pflege:</strong> Leicht–mittel · <strong>Effektiv ab:</strong> 40 cm · <strong>Kosten:</strong> 30–55 €</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1534726955665-2cb2d145f2ad?auto=format&fit=crop&w=800&q=80" alt="Efeutute">
+      <div class="card-body">
+        <span class="badge">Sehr pflegeleicht</span>
+        <h3>Efeutute (Pothos)</h3>
+        <p>Extrem robust, wächst auch bei weniger Licht, rankend oder hängend.</p>
+        <p><strong>Pflege:</strong> Sehr leicht · <strong>Effektiv ab:</strong> buschig · <strong>Kosten:</strong> 20–40 €</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1526152880876-59f84a23d871?auto=format&fit=crop&w=800&q=80" alt="Grünlilie">
+      <div class="card-body">
+        <span class="badge">Anfänger-Favorit</span>
+        <h3>Grünlilie (Spider Plant)</h3>
+        <p>Sehr einfach, bildet Kindel, gute Transpiration.</p>
+        <p><strong>Pflege:</strong> Sehr leicht · <strong>Effektiv ab:</strong> volle Pflanze · <strong>Kosten:</strong> 15–35 €</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="raeume">
+  <h2>Empfehlungen pro Raum</h2>
+  <div class="rooms-grid" id="roomsContent">
+    <!-- filled by JS -->
+  </div>
+</section>
+
+<section id="toepfe">
+  <h2>Selbstbewässernde Töpfe</h2>
+  <p>Ideal für hohe Transpiration und Menschen ohne grünen Daumen. Gleichmäßige Feuchte, weniger Gießen, weniger Staunässe-Risiko.</p>
+  <div class="pots-grid">
+    <div class="card">
+      <div class="card-body">
+        <h3>Lechuza Classico / Cubico</h3>
+        <p>Deutsche Qualität, gute Wasserstandsanzeige, verschiedene Größen. Perfekt für Palmen und größere Pflanzen.</p>
+        <a class="cta" href="https://www.lechuza.de/pflanztoepfe/" target="_blank">Bei Lechuza ansehen</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>Elho selbstbewässernd</h3>
+        <p>Günstiger, stylish, viele Farben. Gut für mittlere Pflanzen.</p>
+        <a class="cta" href="https://www.obi.de/suche/elho%20selbstbewässernd" target="_blank">Bei OBI / Elho suchen</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>Amazon / günstige Alternativen</h3>
+        <p>Viele selbstbewässernde Töpfe mit Docht oder Reservoir. Achte auf Größe und Wasserstandsanzeige.</p>
+        <a class="cta" href="https://www.amazon.de/s?k=selbstbewässernder+topf" target="_blank">Auf Amazon suchen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="staender">
+  <h2>Pflanzenständer & kleine Tische</h2>
+  <p>Bei Fußbodenheizung nicht direkt auf den Boden stellen (Wurzeln können zu warm werden). Bei Saugroboter genug Höhe (min. 5–10 cm), damit der Roboter darunter fahren kann.</p>
+  <div class="stands-grid">
+    <div class="card">
+      <div class="card-body">
+        <h3>Wagner Pflanzenständer</h3>
+        <p>Stabile Metallständer, verschiedene Höhen, gut für schwere Töpfe. Oft mit Rollen oder festen Füßen.</p>
+        <a class="cta" href="https://www.amazon.de/s?k=wagner+pflanzenständer" target="_blank">Suchen</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>Hübsch / Design-Ständer</h3>
+        <p>Schöne Holz- oder Metallständer, erhöhen die Pflanze und sehen modern aus.</p>
+        <a class="cta" href="https://www.connox.de/suche?q=pflanzenständer" target="_blank">Bei Connox & Co.</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>Kleine Beistelltische / Podeste</h3>
+        <p>Einfache Holztische oder Podeste mit offenen Beinen. Günstig und praktisch für mehrere kleine Pflanzen.</p>
+        <a class="cta" href="https://www.ikea.com/de/de/search/?q=beistelltisch" target="_blank">Bei IKEA suchen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kaufen">
+  <h2>Wo kaufen?</h2>
+  <div class="shops" id="shopsContent">
+    <h3>Online (Lieferung nach Hause)</h3>
+    <ul>
+      <li><a href="https://www.pflanzen-koelle.de/" target="_blank">Pflanzen-Kölle</a> – große Auswahl, gute Qualität</li>
+      <li><a href="https://www.dehner.de/" target="_blank">Dehner</a></li>
+      <li><a href="https://shop.plantura.garden/" target="_blank">Plantura</a></li>
+      <li><a href="https://www.palmenmann.de/" target="_blank">Palmenmann</a> – stark bei Palmen</li>
+      <li><a href="https://plantmyhome.de/" target="_blank">PlantMyHome</a></li>
+      <li><a href="https://www.amazon.de/s?k=areca+palme" target="_blank">Amazon</a> – schnell, viele Sets</li>
+    </ul>
+    <h3 id="localTitle">Lokal in deiner Region</h3>
+    <ul id="localList">
+      <!-- wird dynamisch gefüllt -->
+    </ul>
+  </div>
+</section>
+
+<section id="tipps">
+  <h2>Wichtige Tipps</h2>
+  <div class="tips">
+    <ul>
+      <li><strong>Schimmelrisiko:</strong> Gering, solange die relative Luftfeuchtigkeit dauerhaft unter ~60 % bleibt. Hygrometer nutzen!</li>
+      <li><strong>Lüften:</strong> Regelmäßig Stoßlüften (morgens & abends).</li>
+      <li><strong>Fußbodenheizung:</strong> Trocknet die Luft stark – Pflanzen wirken dagegen. Töpfe nicht direkt auf den Boden stellen.</li>
+      <li><strong>Anzahl:</strong> 5–8 mittelgroße bis große Pflanzen für spürbaren Effekt in ~60 m².</li>
+      <li>Gruppiere Pflanzen für besseres Mikroklima, aber lass Luftzirkulation zu.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Erstellt als individueller Planer für trockene Winterluft in Stuttgart. Empfehlungen basieren auf aktuellen Erkenntnissen zu Transpiration und Pflege.</p>
+</footer>
+
+<script>
+function update() {
+  const qm = document.getElementById('qm').value;
+  document.getElementById('qmVal').textContent = qm + ' m²';
+  const fbh = document.querySelector('input[name="fbh"]:checked').value;
+  const roboter = document.querySelector('input[name="roboter"]:checked').value;
+  const lichtWohn = document.getElementById('lichtWohn').value;
+  const lichtSchlaf = document.getElementById('lichtSchlaf').value;
+  const lichtFlur = document.getElementById('lichtFlur').value;
+  const region = (document.getElementById('region').value || 'Stuttgart').trim();
+
+  let anzahl = Math.round(qm / 10);
+  if (anzahl < 4) anzahl = 4;
+  if (anzahl > 10) anzahl = 10;
+
+  let text = `Für deine ~${qm} m² Wohnung empfehlen wir <strong>${anzahl-1}–${anzahl+1} mittelgroße bis große Pflanzen</strong> mit hoher Transpiration.`;
+  if (fbh === 'ja') text += ' Bei Fußbodenheizung: Pflanzen auf Ständer oder Tische stellen (min. 5–8 cm Höhe), damit die Wurzeln nicht zu warm werden.';
+  if (roboter === 'ja') text += ' Bei Saugroboter: genug Höhe darunter lassen, damit er frei fahren kann.';
+
+  document.getElementById('result').innerHTML = '<strong>Empfehlung basierend auf deinen Angaben:</strong><br>' + text;
+
+  // Room recommendations
+  let rooms = `
+    <div class="card"><div class="card-body">
+      <h3>Wohnzimmer</h3>
+      <p><strong>Licht:</strong> ${lichtWohn === 'hell' ? 'lichtdurchflutet' : lichtWohn === 'mittel' ? 'helles indirektes' : 'eher dunkel'}</p>
+      <p>${lichtWohn === 'hell' ? 'Areca-Palme, Gummibaum, Schwertfarn' : lichtWohn === 'mittel' ? 'Einblatt, Schwertfarn, Areca (etwas weiter vom Fenster)' : 'Einblatt, Efeutute, Grünlilie'}</p>
+    </div></div>
+    <div class="card"><div class="card-body">
+      <h3>Schlafzimmer</h3>
+      <p><strong>Licht:</strong> ${lichtSchlaf === 'hell' ? 'sehr hell' : lichtSchlaf === 'mittel' ? 'helles bis indirektes' : 'eher dunkel'}</p>
+      <p>${lichtSchlaf !== 'dunkel' ? 'Einblatt, Schwertfarn, Grünlilie' : 'Einblatt, Efeutute'}</p>
+    </div></div>
+    <div class="card"><div class="card-body">
+      <h3>Flur</h3>
+      <p><strong>Licht:</strong> ${lichtFlur === 'dunkel' ? 'relativ dunkel' : 'etwas helleres indirektes'}</p>
+      <p>Efeutute (Top-Wahl), Einblatt, ggf. zweite Efeutute oder Grünlilie</p>
+    </div></div>
+  `;
+  document.getElementById('roomsContent').innerHTML = rooms;
+
+  // Local shops based on region
+  const regionLower = region.toLowerCase();
+  let localHtml = '';
+  let title = `Lokal in der Region ${region}`;
+
+  if (regionLower.includes('stuttgart') || regionLower.includes('stutt')) {
+    localHtml = `
+      <li><strong>Pflanzen-Kölle Stuttgart-Zuffenhausen</strong> – Schwieberdinger Str. 238, 70435 Stuttgart</li>
+      <li><strong>Pflanzen-Kölle Fellbach</strong> – Stuttgarter Str. 59, 70734 Fellbach</li>
+      <li><strong>Dehner Stuttgart-Zuffenhausen</strong> – Schwieberdinger Str. 7</li>
+      <li><strong>Dehner Waiblingen</strong> – Stuttgarter Str. 135, 71332 Waiblingen</li>
+      <li><strong>OBI Märkte</strong> in Stuttgart (Wangen, Feuerbach u. a.)</li>
+    `;
+  } else if (regionLower.includes('münchen') || regionLower.includes('muenchen') || regionLower.includes('munich')) {
+    localHtml = `
+      <li><strong>Pflanzen-Kölle München</strong> (mehrere Filialen, z. B. in Pasing / Obersendling)</li>
+      <li><strong>Dehner München</strong> und Umgebung</li>
+      <li><strong>OBI & Toom</strong> in München und Umland</li>
+      <li>Suche lokal nach „Gartencenter ${region}“ oder „Pflanzen-Kölle ${region}“</li>
+    `;
+  } else if (regionLower.includes('berlin')) {
+    localHtml = `
+      <li><strong>Pflanzen-Kölle Berlin</strong> (z. B. in Spandau / anderen Standorten)</li>
+      <li><strong>Dehner & große Gartencenter</strong> im Berliner Umland</li>
+      <li><strong>OBI, Bauhaus, Toom</strong> in Berlin</li>
+      <li>Viele unabhängige Gärtnereien – einfach nach „Gartencenter Berlin“ suchen</li>
+    `;
+  } else if (regionLower.includes('hamburg')) {
+    localHtml = `
+      <li><strong>Pflanzen-Kölle Hamburg</strong></li>
+      <li><strong>Dehner Hamburg / Umland</strong></li>
+      <li><strong>OBI & Bauhaus</strong> in Hamburg</li>
+      <li>Suche nach „Gartencenter Hamburg“ für weitere Optionen</li>
+    `;
+  } else if (regionLower.includes('köln') || regionLower.includes('koeln') || regionLower.includes('cologne')) {
+    localHtml = `
+      <li><strong>Pflanzen-Kölle Köln / Umgebung</strong></li>
+      <li><strong>Dehner</strong> in der Region</li>
+      <li><strong>OBI, Toom, Bauhaus</strong> in Köln und Umland</li>
+    `;
+  } else {
+    localHtml = `
+      <li>Suche bei <strong>Pflanzen-Kölle</strong>, <strong>Dehner</strong> oder <strong>OBI</strong> nach Standorten in der Nähe von <strong>${region}</strong></li>
+      <li>Große Baumärkte (OBI, Toom, Bauhaus, Hornbach) haben oft eine Pflanzenabteilung</li>
+      <li>Lokale Gärtnereien und Gartencenter findest du über Google Maps mit „Gartencenter ${region}“</li>
+      <li>Online-Shops (siehe oben) liefern in der Regel deutschlandweit</li>
+    `;
+  }
+
+  document.getElementById('localTitle').textContent = title;
+  document.getElementById('localList').innerHTML = localHtml;
+}
+update();
+</script>
+</body>
+</html>
