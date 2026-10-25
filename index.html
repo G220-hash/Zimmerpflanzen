@@ -191,26 +191,30 @@
       <div>
         <label for="lichtWohn">Licht Wohnzimmer</label>
         <select id="lichtWohn" onchange="update()">
-          <option value="hell">Nachmittags lichtdurchflutet</option>
-          <option value="mittel">Helles indirektes Licht</option>
-          <option value="dunkel">Eher dunkel</option>
+          <option value="sonnig" selected>Sonnig, z. B. nachmittags lichtdurchflutet</option>
+          <option value="hell">Hell, aber keine direkte Sonne</option>
+          <option value="wenig">Wenig natürliches Licht</option>
+          <option value="dunkel">Kaum oder gar kein Tageslicht</option>
         </select>
       </div>
       <div>
         <label for="lichtSchlaf">Licht Schlafzimmer</label>
         <select id="lichtSchlaf" onchange="update()">
-          <option value="mittel" selected>Helles bis indirektes Licht</option>
-          <option value="hell">Sehr hell</option>
-          <option value="dunkel">Eher dunkel</option>
+          <option value="sonnig">Sonnig, z. B. nachmittags lichtdurchflutet</option>
+          <option value="hell" selected>Hell, aber keine direkte Sonne</option>
+          <option value="wenig">Wenig natürliches Licht</option>
+          <option value="dunkel">Kaum oder gar kein Tageslicht</option>
         </select>
       </div>
     </div>
     <div>
       <label for="lichtFlur">Licht Flur</label>
-      <select id="lichtFlur" onchange="update()">
-        <option value="dunkel" selected>Relativ dunkel, nur indirekt</option>
-        <option value="mittel">Etwas helleres indirektes Licht</option>
-      </select>
+        <select id="lichtFlur" onchange="update()">
+          <option value="sonnig">Sonnig, z. B. nachmittags lichtdurchflutet</option>
+          <option value="hell">Hell, aber keine direkte Sonne</option>
+          <option value="wenig" selected>Wenig natürliches Licht</option>
+          <option value="dunkel">Kaum oder gar kein Tageslicht</option>
+        </select>
     </div>
     <div>
       <label for="region">Deine Region / Stadt (für lokale Kaufempfehlungen)</label>
@@ -395,24 +399,20 @@ function update() {
 
   document.getElementById('result').innerHTML = '<strong>Empfehlung basierend auf deinen Angaben:</strong><br>' + text;
 
-  // Room recommendations
-  let rooms = `
+  // Room recommendations: same light scale for every room
+  const lichtInfo = {
+    sonnig: { text: 'sonnig, zeitweise direkte Sonne', pflanzen: 'Areca-Palme, Gummibaum, Grünlilie (bei praller Mittagssonne etwas vom Fenster abrücken)' },
+    hell:   { text: 'hell, ohne direkte Sonne', pflanzen: 'Areca-Palme, Schwertfarn, Gummibaum, Einblatt' },
+    wenig:  { text: 'wenig natürliches Licht', pflanzen: 'Einblatt, Efeutute, Grünlilie' },
+    dunkel: { text: 'kaum oder gar kein Tageslicht', pflanzen: 'Efeutute (am robustesten), Einblatt. Ohne Tageslicht wächst keine Pflanze dauerhaft: eine kleine Pflanzenlampe (LED, ca. 8–12 Std./Tag) einplanen.' }
+  };
+  const raum = (name, licht) => `
     <div class="card"><div class="card-body">
-      <h3>Wohnzimmer</h3>
-      <p><strong>Licht:</strong> ${lichtWohn === 'hell' ? 'lichtdurchflutet' : lichtWohn === 'mittel' ? 'helles indirektes' : 'eher dunkel'}</p>
-      <p>${lichtWohn === 'hell' ? 'Areca-Palme, Gummibaum, Schwertfarn' : lichtWohn === 'mittel' ? 'Einblatt, Schwertfarn, Areca (etwas weiter vom Fenster)' : 'Einblatt, Efeutute, Grünlilie'}</p>
-    </div></div>
-    <div class="card"><div class="card-body">
-      <h3>Schlafzimmer</h3>
-      <p><strong>Licht:</strong> ${lichtSchlaf === 'hell' ? 'sehr hell' : lichtSchlaf === 'mittel' ? 'helles bis indirektes' : 'eher dunkel'}</p>
-      <p>${lichtSchlaf !== 'dunkel' ? 'Einblatt, Schwertfarn, Grünlilie' : 'Einblatt, Efeutute'}</p>
-    </div></div>
-    <div class="card"><div class="card-body">
-      <h3>Flur</h3>
-      <p><strong>Licht:</strong> ${lichtFlur === 'dunkel' ? 'relativ dunkel' : 'etwas helleres indirektes'}</p>
-      <p>Efeutute (Top-Wahl), Einblatt, ggf. zweite Efeutute oder Grünlilie</p>
-    </div></div>
-  `;
+      <h3>${name}</h3>
+      <p><strong>Licht:</strong> ${lichtInfo[licht].text}</p>
+      <p>${lichtInfo[licht].pflanzen}</p>
+    </div></div>`;
+  let rooms = raum('Wohnzimmer', lichtWohn) + raum('Schlafzimmer', lichtSchlaf) + raum('Flur', lichtFlur);
   document.getElementById('roomsContent').innerHTML = rooms;
 
   // Local shops based on region
