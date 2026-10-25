@@ -116,6 +116,11 @@
   .plant-link { display: block; color: inherit; text-decoration: none; cursor: pointer; }
   .wiki-hint { display: inline-block; margin-top: 0.4rem; color: var(--accent); font-weight: 600; font-size: 0.95rem; }
   .plant-link:hover .wiki-hint { text-decoration: underline; }
+  .plant-icons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.3rem; margin-top: 0.8rem; }
+  .plant-icon { margin: 0; text-align: center; min-width: 0; }
+  .card .plant-icon img { width: 54px; height: 54px; object-fit: contain; display: block; margin: 0 auto; }
+  .plant-icon figcaption { font-size: 0.72rem; white-space: nowrap; color: var(--green); font-weight: 600; margin-top: 0.2rem; line-height: 1.2; }
+  .room-hint { font-size: 0.9rem; color: #555; margin-top: 0.8rem; }
   .card img { width: 100%; height: 200px; object-fit: cover; }
   .card-body { padding: 1.2rem; }
   .card h3 { margin: 0 0 0.5rem; color: var(--green); }
@@ -464,18 +469,29 @@ function update() {
   document.getElementById('result').innerHTML = '<strong>Empfehlung basierend auf deinen Angaben:</strong><br>' + text;
 
   // Room recommendations: same light scale for every room
-  const lichtInfo = {
-    sonnig: { text: 'sonnig, zeitweise direkte Sonne', pflanzen: 'Areca-Palme, Gummibaum, Grünlilie (bei praller Mittagssonne etwas vom Fenster abrücken)' },
-    hell:   { text: 'hell, ohne direkte Sonne', pflanzen: 'Areca-Palme, Schwertfarn, Gummibaum, Einblatt' },
-    wenig:  { text: 'wenig natürliches Licht', pflanzen: 'Einblatt, Efeutute, Grünlilie' },
-    dunkel: { text: 'kaum oder gar kein Tageslicht', pflanzen: 'Efeutute (am robustesten), Einblatt. Ohne Tageslicht wächst keine Pflanze dauerhaft: eine kleine Pflanzenlampe (LED, ca. 8–12 Std./Tag) einplanen.' }
+  const pflanzenInfo = {
+    areca: 'Areca-Palme', gummibaum: 'Gummibaum', gruenlilie: 'Grünlilie',
+    schwertfarn: 'Schwertfarn', einblatt: 'Einblatt', efeutute: 'Efeutute'
   };
-  const raum = (name, licht) => `
+  const lichtInfo = {
+    sonnig: { text: 'sonnig, zeitweise direkte Sonne', pflanzen: ['areca', 'gummibaum', 'gruenlilie'], hinweis: 'Bei praller Mittagssonne etwas vom Fenster abrücken.' },
+    hell:   { text: 'hell, ohne direkte Sonne', pflanzen: ['areca', 'schwertfarn', 'gummibaum', 'einblatt'], hinweis: '' },
+    wenig:  { text: 'wenig natürliches Licht', pflanzen: ['einblatt', 'efeutute', 'gruenlilie'], hinweis: '' },
+    dunkel: { text: 'kaum oder gar kein Tageslicht', pflanzen: ['efeutute', 'einblatt'], hinweis: 'Efeutute ist am robustesten. Ohne Tageslicht wächst keine Pflanze dauerhaft: eine kleine Pflanzenlampe (LED, ca. 8–12 Std./Tag) einplanen.' }
+  };
+  const raum = (name, licht) => {
+    const info = lichtInfo[licht];
+    const icons = info.pflanzen.map(k => `
+        <figure class="plant-icon"><img src="icons/${k}.svg" alt="Piktogramm ${pflanzenInfo[k]}" width="64" height="64"><figcaption>${pflanzenInfo[k]}</figcaption></figure>`).join('');
+    return `
     <div class="card"><div class="card-body">
       <h3>${name}</h3>
-      <p><strong>Licht:</strong> ${lichtInfo[licht].text}</p>
-      <p>${lichtInfo[licht].pflanzen}</p>
+      <p><strong>Licht:</strong> ${info.text}</p>
+      <div class="plant-icons">${icons}
+      </div>
+      ${info.hinweis ? `<p class="room-hint">${info.hinweis}</p>` : ''}
     </div></div>`;
+  };
   let rooms = raum('Wohnzimmer', lichtWohn) + raum('Schlafzimmer', lichtSchlaf) + raum('Flur', lichtFlur);
   document.getElementById('roomsContent').innerHTML = rooms;
 
