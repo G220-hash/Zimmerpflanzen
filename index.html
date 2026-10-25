@@ -153,6 +153,15 @@
   .placeholder { color: #777; font-style: italic; }
   #mapWrap { margin-top: 1rem; }
   #mapWrap iframe { width: 100%; height: 380px; border: 0; border-radius: var(--radius); }
+  .inspo-intro { text-align: center; max-width: 760px; margin: 0 auto 1rem; }
+  .card img.inspo-img { height: auto; aspect-ratio: 4 / 3; display: block; }
+  .inspo-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.6rem; }
+  .care-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+  .care-grid .card-body p { margin: 0; }
+  .care-grid .card h4 { margin: 0 0 0.4rem; color: var(--green); font-size: 1.05rem; }
+  .care-icon { font-size: 1.6rem; line-height: 1; margin-bottom: 0.4rem; display: block; }
+  .subsection-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--green); text-align: center; margin: 3rem 0 0.5rem; }
+  .tips-note { text-align: center; max-width: 700px; margin: 0 auto; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -166,6 +175,7 @@
   <a href="#config">Konfiguration</a>
   <a href="#pflanzen">Pflanzen</a>
   <a href="#raeume">Räume</a>
+  <a href="#inspiration">Inspiration</a>
   <a href="#toepfe">Töpfe</a>
   <a href="#staender">Ständer</a>
   <a href="#kaufen">Kaufen</a>
@@ -314,6 +324,53 @@
   </div>
 </section>
 
+<section id="inspiration">
+  <h2>Inspiration</h2>
+  <p class="inspo-intro">Platzierungsideen für die 5 besten Feuchtigkeitsspender – abgestimmt auf <strong>Fußbodenheizung</strong> und <strong>Saugroboter</strong>: Nichts steht direkt auf dem Boden. Stattdessen offene Ständer mit Einzelbeinen oder hängende Lösungen, damit die Wurzeln nicht überhitzen und der Roboter überall durchkommt.</p>
+  <div class="plants-grid inspo-grid">
+    <div class="card">
+      <img class="inspo-img" src="images/inspiration-areca.jpg" alt="Goldfruchtpalme mit feinen Wedeln in weißem Topf auf einem niedrigen schwarzen Metallständer mit vier schlanken Einzelbeinen in einem hellen skandinavischen Wohnzimmer" loading="lazy" width="1152" height="864">
+      <div class="card-body">
+        <div class="inspo-tags"><span class="badge">Ständer ca. 35–40 cm</span><span class="badge">Roboter-frei darunter</span></div>
+        <h3>Goldfruchtpalme (Areca)</h3>
+        <p>Auf einem niedrigen, offenen Pflanzenständer mit vier einzelnen, schlanken Metallbeinen (ca. 35–40 cm hoch). Der Topf hat Abstand zur warmen Fußbodenheizung, und der Saugroboter fährt problemlos darunter durch. Wirkt modern und skandinavisch.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="inspo-img" src="images/inspiration-bostonfarn.jpg" alt="Üppiger Boston-Farn in weißem Topf, an einer Makramee-Ampel von der Decke hängend, darunter freier Holzboden" loading="lazy" width="1152" height="864">
+      <div class="card-body">
+        <div class="inspo-tags"><span class="badge">Hängend</span><span class="badge">Boden komplett frei</span></div>
+        <h3>Boston-Farn</h3>
+        <p>Als Hängepflanze: Topf an einem Decken- oder Wandhaken aufhängen, sodass die Wedel frei herunterhängen. So kommt der Farn voll zur Geltung und der Boden bleibt komplett frei für den Roboter.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="inspo-img" src="images/inspiration-einblatt.jpg" alt="Einblatt mit weißen Blüten in weißem Topf auf einem kleinen runden Beistelltisch aus hellem Holz neben einem grauen Sofa" loading="lazy" width="1152" height="864">
+      <div class="card-body">
+        <div class="inspo-tags"><span class="badge">Beistelltisch ca. 40 cm</span><span class="badge">Roboter-frei darunter</span></div>
+        <h3>Einblatt (Friedenslilie)</h3>
+        <p>Auf einem kleinen, runden Beistelltisch aus hellem Holz (ca. 40 cm hoch), zum Beispiel direkt neben dem Sofa. Die weißen Blüten sind auf Augenhöhe im Sitzen, und unter den Tischbeinen bleibt Platz zum Saugen.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="inspo-img" src="images/inspiration-efeutute.jpg" alt="Efeutute mit grün-gelben Blättern und herabhängenden Ranken auf einem runden Holzständer mit Einzelbeinen" loading="lazy" width="1152" height="864">
+      <div class="card-body">
+        <div class="inspo-tags"><span class="badge">Ständer ca. 50–60 cm</span><span class="badge">Roboter-frei darunter</span></div>
+        <h3>Efeutute (Pothos)</h3>
+        <p>Auf einem mittelhohen, offenen Ständer mit Einzelbeinen (ca. 50–60 cm). Die Ranken dürfen locker über den Topfrand herunterhängen – ein lebendiger Blickfang, ohne dem Roboter im Weg zu sein.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="inspo-img" src="images/inspiration-gruenlilie.jpg" alt="Grünlilie mit gestreiften Blättern und hängenden Ablegern auf einem hohen weißen Ständer mit schlanken Einzelbeinen" loading="lazy" width="1152" height="864">
+      <div class="card-body">
+        <div class="inspo-tags"><span class="badge">Ständer ca. 70 cm</span><span class="badge">Roboter-frei darunter</span></div>
+        <h3>Grünlilie (Spider Plant)</h3>
+        <p>Auf einem höheren, offenen Ständer mit Einzelbeinen (ca. 70 cm). So können die Ableger (Kindel) frei herunterhängen und kommen schön zur Geltung, während der Boden darunter frei bleibt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="toepfe">
   <h2>Selbstbewässernde Töpfe</h2>
   <p>Ideal für hohe Transpiration und Menschen ohne grünen Daumen. Gleichmäßige Feuchte, weniger Gießen, weniger Staunässe-Risiko.</p>
@@ -403,6 +460,59 @@
       <li><strong>Anzahl:</strong> 5–8 mittelgroße bis große Pflanzen für spürbaren Effekt in ~60 m².</li>
       <li>Gruppiere Pflanzen für besseres Mikroklima, aber lass Luftzirkulation zu.</li>
     </ul>
+  </div>
+  <h3 class="subsection-title" id="pflege-praxis">Pflege &amp; Praxis</h3>
+  <p class="tips-note">Kleine Routinen, die deine Pflanzen gesund halten – und damit auch ihre Wirkung als Luftbefeuchter.</p>
+  <div class="care-grid">
+    <div class="card">
+      <div class="card-body">
+        <span class="care-icon" aria-hidden="true">🧽</span>
+        <h4>Staub</h4>
+        <p>Blätter regelmäßig mit einem feuchten Tuch abwischen. Saubere Blätter nehmen mehr Licht auf und transpirieren besser – das erhöht den Befeuchtungseffekt.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <span class="care-icon" aria-hidden="true">🌱</span>
+        <h4>Dünger</h4>
+        <p>Im Winter sparsam oder gar nicht düngen. In der Wachstumszeit (Frühjahr bis Herbst) alle 2–4 Wochen mit schwach dosiertem Flüssigdünger.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <span class="care-icon" aria-hidden="true">🐛</span>
+        <h4>Schädlinge</h4>
+        <p>In einer sauberen Wohnung ist das Risiko gering. Bei Bedarf helfen Neemöl oder eine milde Spülmittellösung. Neue Pflanzen am besten erst einige Zeit getrennt von den anderen halten (isolieren).</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <span class="care-icon" aria-hidden="true">🪴</span>
+        <h4>Umtopfen</h4>
+        <p>Wenn Wurzeln aus den Abzugslöchern wachsen oder das Wachstum stockt – meist alle 1–2 Jahre. Vorsichtig umtopfen und keinen zu großen Topf wählen (eine Nummer größer genügt).</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <span class="care-icon" aria-hidden="true">💧</span>
+        <h4>Selbstbewässernde Töpfe</h4>
+        <p>Funktionieren über Kapillarwirkung (Docht bzw. Erde) aus einem Wasserreservoir im Boden des Topfes. Ein guter Preis-Leistungs-Kompromiss sind z. B. Töpfe von T4U. Das Reservoir hält je nach Pflanze und Bedingungen oft 1–3 Wochen – für einen Monat Abwesenheit vorher testen oder größere Modelle bzw. mehrere Lösungen kombinieren.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <span class="care-icon" aria-hidden="true">🔮</span>
+        <h4>Bewässerungskugeln</h4>
+        <p>Eine einfache Ergänzung für 7–14 Tage, aus Glas oder Ton. Die Erde vorher leicht anfeuchten, damit das Wasser gleichmäßig abgegeben wird.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <span class="care-icon" aria-hidden="true">🤧</span>
+        <h4>Allergie</h4>
+        <p>Das Einblatt ist bei einer Allergie auf europäische Gräser in der Regel unproblematisch (keine ausgeprägte Kreuzreaktion bekannt). Im Zweifel ärztlich abklären.</p>
+      </div>
+    </div>
   </div>
 </section>
 
